@@ -1,0 +1,106 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Daftar Peminjaman</title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+    <link rel="stylesheet" href="/stylesheets/output.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom scrollbar for sidebar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #2f855a;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body class="bg-[#f5fef7] min-h-screen flex flex-col">
+    <div class="flex flex-1">
+      <%- include('../partials/asidePetugas') %>
+
+      <div class="flex-1 flex flex-col">
+        <header
+          class="flex justify-end items-center px-8 py-4 border-b border-[#cbd5d0]"
+        >
+          <button
+            aria-label="User profile"
+            class="text-[#276749] text-xl focus:outline-none"
+            type="button"
+          >
+            <i class="fas fa-user-circle"></i>
+          </button>
+        </header>
+
+        <main class="flex-1 p-8">
+          <h2 class="text-[#276749] font-semibold text-lg mb-6">
+            Daftar Peminjaman
+          </h2>
+          <div
+            class="overflow-x-auto rounded-lg shadow-md border border-transparent"
+          >
+            <table class="min-w-full text-xs text-left text-[#4a5568]">
+              <thead
+                class="bg-[#276749] text-[#d1d5db] text-[10px] font-semibold rounded-t-lg"
+              >
+                <tr>
+                  <th class="px-3 py-2 rounded-tl-lg" scope="col">
+                    Id Peminjaman
+                  </th>
+                  <th class="px-3 py-2" scope="col">Nama Mahasiswa</th>
+                  <th class="px-3 py-2" scope="col">Judul Buku</th>
+                  <th class="px-3 py-2" scope="col">Tanggal Peminjaman</th>
+                  <th class="px-3 py-2" scope="col">
+                    Tanggal Wajib Pengembalian
+                  </th>
+                  <th class="px-3 py-2" scope="col">Detail</th>
+                  <th class="px-3 py-2" scope="col">Status</th>
+                  <th class="px-3 py-2 rounded-tr-lg" scope="col">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-[#e5e7eb]">
+                <% datapeminjaman.forEach(peminjaman => { %>
+                <tr>
+                  <td class="px-3 py-2"><%= peminjaman.id_peminjaman %></td>
+                  <td class="px-3 py-2">
+                    <%= peminjaman.Pengguna.nama_lengkap %>
+                  </td>
+                  <td class="px-3 py-2"><%= peminjaman.Buku.judul_buku %></td>
+                  <td class="px-3 py-2">
+                    <%= peminjaman.tanggal_peminjaman.toLocaleDateString() %>
+                  </td>
+                  <td class="px-3 py-2">
+                    <%=
+                    peminjaman.tanggal_wajib_pengembalian.toLocaleDateString()
+                    %>
+                  </td>
+                  <td class="px-3 py-2 text-[#276749] text-center">
+                    <i class="fas fa-info-circle"></i>
+                  </td>
+                  <td class="px-3 py-2 text-[#d69e2e] font-semibold">
+                    <%= peminjaman.status_peminjaman %>
+                  </td>
+                  <td class="px-3 py-2">
+                    <button
+                      class="bg-[#276749] text-[10px] text-white rounded-full px-3 py-1"
+                      type="button"
+                    >
+                      Kembalikan
+                    </button>
+                  </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
