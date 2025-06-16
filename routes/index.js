@@ -47,4 +47,8 @@ router.get('/profil', function(req, res, next) {
   res.render('mahasiswa/profil');  // Render file databuju.ejs
 });
 
+// Route untuk menampilkan Kategori Buku
+router.get('/kategoribuku', function(req, res, next) {
+  res.render('admin/kategoribuku');  // Render file databuju.ejs
+});
 module.exports = router;
