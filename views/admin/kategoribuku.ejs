@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIPEDI - Data Buku</title>
+  <title>SIPEDI - Kategori Buku</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -39,9 +39,9 @@
 
         <main class="flex-1 p-8">
            <div class="flex justify-between items-center mb-6">
-              <h2 class="text-[#276749] font-semibold text-lg mb-6">Data Buku</h2>
+              <h2 class="text-[#276749] font-semibold text-lg mb-6">Kategori Buku</h2>
               <button class="bg-[#276749] text-white py-2 px-4 rounded-lg hover:bg-green-700 ml-4">
-                Tambah Buku
+                Tambah Kategori Buku
           </button>
            </div>
           
@@ -55,33 +55,17 @@
               >
                 <tr>
                   <th class="px-3 py-2 rounded-tl-lg" scope="col">
-                    Id Buku
+                    Id Kategori
                   </th>
-                  <th class="px-3 py-2" scope="col">Judul Buku</th>
-                  <th class="px-3 py-2" scope="col">Jenis Buku</th>
-                  <th class="px-3 py-2" scope="col">Pengarang</th>
-                  <th class="px-3 py-2" scope="col">
-                    Lokasi
-                  </th>
-                  <th class="px-3 py-2" scope="col">Jumlah Stok</th>
-                  <th class="px-3 py-2" scope="col">Detail</th>
-                  <th class="px-3 py-2" scope="col">Status</th>
-                  <th class="px-3 py-2 rounded-tr-lg" scope="col">Aksi</th>
+                  <th class="px-3 py-2" scope="col">Nama Kategori</th>
+                  <th class="px-3 py-2" scope="col">Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                <% databuku.forEach(buku => { %>
+
           <tr>
-            <td class="px-3 py-2"><%= buku.nomor_isbn %></td>
-            <td class="px-3 py-2"><%= buku.judul_buku %></td>
-            <td class="px-3 py-2"><%= buku.Jenis.nama_jenis %></td>
-            <td class="px-3 py-2"><%= buku.pengarang %></td>
-            <td class="px-3 py-2"><%= buku.lokasi_penyimpanan %></td>
-            <td class="px-3 py-2"><%= buku.jumlah_stok %></td>
-            <td class="px-3 py-2 text-blue-500 cursor-pointer"><i class="fas fa-info-circle"></i></td>
-            <td class="px-3 py-2 <%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %>">
-                    <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak Tersedia' %>
-                  </td>
+            <td class="px-3 py-2">123</td>
+            <td class="px-3 py-2">Ilmu Politik</td>
             <td class="px-3 py-2">
               <button class="bg-yellow-400 text-white py-1 px-3 rounded-md hover:bg-yellow-500">
                 <i class="fas fa-pencil-alt"></i>
@@ -91,7 +75,6 @@
               </button>
             </td>
           </tr>
-        <% }); %>
         </tbody>
       </table>
     </div>
