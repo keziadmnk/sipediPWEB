@@ -1,14 +1,18 @@
+const { Sequelize } = require("sequelize");
 const { Buku } = require("../../models/BukuModel");
 const { Peminjaman } = require("../../models/PeminjamanModel");
 const { Pengguna } = require("../../models/PenggunaModel");
 
-const findAllPeminjaman = async (req, res) => {
+const findAllDenda = async (req, res) => {
   try {
-    const datapeminjaman = await Peminjaman.findAll({
+    const datadenda = await Peminjaman.findAll({
       where: {
-        status_peminjaman: "Dipinjam", 
+        status_peminjaman: "Terlambat", 
+        denda: {
+          [Sequelize.Op.gt]: 0, 
+        },
       },
-      
+
       include: [
         {
           model: Pengguna,
@@ -20,11 +24,12 @@ const findAllPeminjaman = async (req, res) => {
         },
       ],
     });
-    res.render("petugas/peminjaman", { datapeminjaman });
+
+    res.render("petugas/denda", { datadenda });
   } catch (error) {
     console.error("Error fetching peminjaman:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-module.exports = findAllPeminjaman;
+module.exports = findAllDenda;

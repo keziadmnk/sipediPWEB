@@ -39,7 +39,7 @@
 
         <main class="flex-1 p-8">
           <h2 class="text-[#276749] font-semibold text-lg mb-6">
-            Daftar Denda yang Telah Dibayar
+            Daftar Pengembalian
           </h2>
           <div
             class="overflow-x-auto rounded-lg shadow-md border border-transparent"
@@ -57,11 +57,12 @@
                   <th class="px-3 py-2" scope="col">Tanggal Peminjaman</th>
                   <th class="px-3 py-2" scope="col">Tanggal Pengembalian</th>
                   <th class="px-3 py-2" scope="col">Detail</th>
+                  <th class="px-3 py-2" scope="col">Status</th>
                   <th class="px-3 py-2 rounded-tr-lg" scope="col">Denda</th>
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-[#e5e7eb]">
-                <% datadenda.forEach(peminjaman => { %>
+                <% datapengembalian.forEach(peminjaman => { %>
                 <tr>
                   <td class="px-3 py-2"><%= peminjaman.id_peminjaman %></td>
                   <td class="px-3 py-2">
@@ -75,10 +76,17 @@
                     <%= peminjaman.tanggal_pengembalian.toLocaleDateString() %>
                   </td>
                   <td class="px-3 py-2 text-[#276749] text-center">
-                    <a href="/detaildenda">
+                    <a href="/detailpengembalian">
                       <i class="fas fa-info-circle"></i>
                     </a>
                   </td>
+
+                  <td
+                    class="px-3 py-2 font-semibold <%= peminjaman.status_peminjaman === 'Dikembalikan' ? 'text-green-500' : peminjaman.status_peminjaman === 'Terlambat' ? 'text-red-500' : 'text-gray-500' %>"
+                  >
+                    <%= peminjaman.status_peminjaman %>
+                  </td>
+
                   <td class="px-3 py-2">
                     Rp<%=
                     (parseFloat(peminjaman.denda).toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g,
