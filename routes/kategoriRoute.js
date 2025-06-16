@@ -1,5 +1,5 @@
 const express = require('express');
-const { tambahKategori } = require('../controllers/admin/KategoriController');
+const { tambahKategori, findAllKategori } = require('../controllers/admin/KategoriController');
 const router = express.Router();
 
 router.get('/tambahkategori', function(req, res, next) {
@@ -7,5 +7,7 @@ router.get('/tambahkategori', function(req, res, next) {
 });
 
 router.post('/tambahkategori', tambahKategori);
+
+router.get('/kategori', findAllKategori);
 
 module.exports=router;

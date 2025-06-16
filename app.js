@@ -31,7 +31,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     console.error("Error syncing database:", error);
 //   });
 
-app.use('/', indexRouter, kategoriRouter);
+app.use('/', indexRouter);
+app.use('/', kategoriRouter);
 app.use('/users', usersRouter);
 
 
