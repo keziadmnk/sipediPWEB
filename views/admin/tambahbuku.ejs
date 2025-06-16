@@ -32,104 +32,137 @@
     <!-- Form Tambah Buku -->
     <div class="bg-white shadow-md rounded-lg p-10">
       <form>
-        <div class="grid grid-cols-2 gap-6">
-          <!-- Judul Buku -->
-          <div>
-            <label for="judul_buku" class="block text-sm font-medium text-gray-700">Judul Buku</label>
-            <input type="text" id="judul_buku" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
-          </div>
+        <div class="grid grid-cols-2 gap-x-10 gap-y-6">
+      <!-- Baris 1 -->
+      <div class="col-span-2">
+        <label for="judul_buku" class="block text-sm font-medium text-gray-700">Judul Buku</label>
+        <input type="text" id="judul_buku" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+      </div>
 
-          <!-- Jenis Buku -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Jenis Buku</label>
-            <div class="mt-1 flex items-center">
-              <input type="radio" id="buku_fisik" name="jenis_buku" value="Buku Fisik" checked class="mr-2">
-              <label for="buku_fisik" class="mr-6">Buku Fisik</label>
-              <input type="radio" id="e_book" name="jenis_buku" value="E-Book">
-              <label for="e_book">E-Book</label>
-            </div>
-          </div>
-
-          <!-- Kategori -->
-          <div>
-            <label for="kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
-            <select id="kategori" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom">
-              <option value="">Pilih Kategori</option>
-              <!-- Option kategori lainnya -->
-            </select>
-          </div>
-
-          <!-- Pengarang -->
-          <div>
-            <label for="pengarang" class="block text-sm font-medium text-gray-700">Pengarang</label>
-            <input type="text" id="pengarang" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
-          </div>
-
-          <!-- Penerbit -->
-          <div>
-            <label for="penerbit" class="block text-sm font-medium text-gray-700">Penerbit</label>
-            <input type="text" id="penerbit" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
-          </div>
-
-          <!-- Lokasi Penyimpanan -->
-          <div>
-            <label for="lokasi_penyimpanan" class="block text-sm font-medium text-gray-700">Lokasi Penyimpanan</label>
-            <select id="lokasi_penyimpanan" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom">
-              <option value="">Pilih Lokasi</option>
-              <!-- Option lokasi penyimpanan -->
-            </select>
-          </div>
-
-          <!-- ISBN -->
-          <div>
-            <label for="isbn" class="block text-sm font-medium text-gray-700">ISBN</label>
-            <input type="text" id="isbn" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
-          </div>
-
-          <!-- Tahun Terbit -->
-          <div>
-            <label for="tahun_terbit" class="block text-sm font-medium text-gray-700">Tahun Terbit</label>
-            <input type="number" id="tahun_terbit" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
-          </div>
-
-          <!-- Jumlah Halaman -->
-          <div>
-            <label for="jumlah_halaman" class="block text-sm font-medium text-gray-700">Jumlah Halaman</label>
-            <input type="number" id="jumlah_halaman" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
-          </div>
-
-          <!-- Jumlah Stok -->
-          <div>
-            <label for="jumlah_stok" class="block text-sm font-medium text-gray-700">Jumlah Stok</label>
-            <input type="number" id="jumlah_stok" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
-          </div>
-
-          <!-- Deskripsi -->
-          <div class="col-span-2">
-            <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
-            <textarea id="deskripsi" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" rows="4"></textarea>
-          </div>
-
-          <!-- Upload PDF -->
-          <div class="col-span-2">
-            <label for="upload_pdf" class="block text-sm font-medium text-gray-700">Upload PDF</label>
-            <input type="file" id="upload_pdf" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
-          </div>
-
-          <!-- Upload Sampul -->
-          <div class="col-span-2">
-            <label for="upload_sampul" class="block text-sm font-medium text-gray-700">Upload Sampul</label>
-            <input type="file" id="upload_sampul" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
-          </div>
+      <!-- Baris 2 -->
+      <div class="col-span-2">
+        <label class="block text-sm font-medium text-gray-700">Jenis Buku</label>
+        <div class="mt-1 flex items-center space-x-6">
+          <input type="checkbox" id="buku_fisik" name="jenis_buku" value="Buku Fisik" checked class="mr-2">
+          <label for="buku_fisik" class="mr-6">Buku Fisik</label>
+          <input type="checkbox" id="e_book" name="jenis_buku" value="E-Book" class="mr-2">
+          <label for="e_book">E-Book</label>
         </div>
+      </div>
 
-        <!-- Buttons -->
+      <!-- Baris 3 -->
+      <div>
+        <label for="kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
+        <select id="kategori" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom">
+          <option disabled selected>Pilih kategori</option>
+          <option>Ilmu Komputer</option>
+          <option>Ekonomi dan Bisnis</option>
+          <option>Teknik</option>
+          <option>Pendidikan</option>
+        </select>
+      </div>
+      <div>
+        <label for="isbn" class="block text-sm font-medium text-gray-700">ISBN</label>
+        <input type="text" id="isbn" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+      </div>
+
+      <!-- Baris 4 -->
+      <div>
+        <label for="pengarang" class="block text-sm font-medium text-gray-700">Pengarang</label>
+        <input type="text" id="pengarang" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+      </div>
+      <div>
+      <label for="tahun_terbit" class="block text-sm font-medium text-gray-700">Tahun Terbit</label>
+      <select 
+      name="tahun_terbit"
+      id="tahun_terbit"
+      class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+      >
+          <% 
+            const currentYear = new Date().getFullYear(); 
+            for (let year = currentYear; year >= 1950; year--) { 
+          %>
+            <option value="<%= year %>"><%= year %></option>
+          <% } %>
+        </select>
+      </div>
+
+
+      <!-- Baris 5 -->
+      <div>
+        <label for="penerbit" class="block text-sm font-medium text-gray-700">Penerbit</label>
+        <input type="text" id="penerbit" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+      </div>
+      <div>
+        <label for="jumlah_halaman" class="block text-sm font-medium text-gray-700">Jumlah Halaman</label>
+        <input type="number" id="jumlah_halaman" min="1" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+      </div>
+
+      <!-- Baris 6 -->
+      <div>
+        <label for="lokasi_penyimpanan" class="block text-sm font-medium text-gray-700">Lokasi Penyimpanan</label>
+        <select id="lokasi_penyimpanan" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom">
+          <option disabled selected>Pilih lokasi</option>
+          <option>American Corner – Sayap Kanan Lt.2</option>
+          <option>Minangkabau Corner Lt. 3</option>
+          <option>Ruang Lokal Konten – Skripsi</option>
+          <option>Ruang Referensi – Sayap Kiri Lantai 2</option>
+          <option>Ruang Sirkulasi 2 – Sayap Kanan Lantai 1</option>
+          <option>Ruang Sirkulasi Utama – Sayap Kiri Lantai 1</option>
+        </select>
+      </div>
+      <div>
+        <label for="jumlah_stok" class="block text-sm font-medium text-gray-700">Jumlah Stok</label>
+        <input type="number" id="jumlah_stok" min="1" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+      </div>
+
+      <!-- Baris 7 -->
+      <div>
+        <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+        <textarea id="deskripsi" rows="5" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"></textarea>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div>
+          <label for="upload_pdf" class="block text-sm font-medium text-gray-700">Upload PDF</label>
+          <input type="file" id="upload_pdf" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+        </div>
+        <div>
+          <label for="upload_sampul" class="block text-sm font-medium text-gray-700">Upload Sampul</label>
+          <input type="file" id="upload_sampul" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+        </div>
+      </div>
+    </div>
+
+        <!-- Tombol -->
         <div class="flex justify-end gap-4 mt-6">
-          <button type="reset" class="bg-gray-300 text-white py-2 px-4 rounded-md hover:bg-gray-400">Batal</button>
+          <button type="reset" class="bg-yellow-400 text-white py-2 px-4 rounded-md hover:bg-yellow-500">Batal</button>
           <button type="submit" class="bg-[#276749] text-white py-2 px-4 rounded-md hover:bg-green-700">Simpan</button>
         </div>
       </form>
     </div>
   </div>
+  <script>
+  const checkboxFisik = document.getElementById('buku_fisik');
+  const checkboxEbook = document.getElementById('e_book');
+  const lokasi = document.getElementById('lokasi_penyimpanan');
+  const uploadPdf = document.getElementById('upload_pdf');
+
+  function updateFormFields() {
+    const isFisik = checkboxFisik.checked;
+    const isEbook = checkboxEbook.checked;
+
+    lokasi.disabled = !isFisik;
+    uploadPdf.disabled = !isEbook;
+
+    lokasi.classList.toggle('bg-gray-100', !isFisik);
+    uploadPdf.classList.toggle('bg-gray-100', !isEbook);
+  }
+
+  checkboxFisik.addEventListener('change', updateFormFields);
+  checkboxEbook.addEventListener('change', updateFormFields);
+
+  updateFormFields(); // Jalankan di awal
+</script>
+
 </body>
 </html>
