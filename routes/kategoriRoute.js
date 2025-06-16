@@ -8,4 +8,4 @@ router.get('/tambahkategori', function(req, res, next) {
 
 router.post('/tambahkategori', tambahKategori);
 
-module.exports=router;
+module.exports = router;

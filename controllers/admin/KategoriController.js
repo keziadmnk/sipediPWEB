@@ -7,8 +7,8 @@ const tambahKategori = async (req, res) => {
     await Kategori.create({
       nama_kategori: kategori,
     });
-    res.redirect("/kategori");
-    
+    res.redirect("/admin/kategori");
+
   } catch (error) {
     console.error("Error adding kategori:", error);
     res.status(500).send("Internal Server Error");
