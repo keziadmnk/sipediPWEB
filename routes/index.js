@@ -2,6 +2,7 @@ var express = require('express');
 const findAllPeminjaman = require('../controllers/petugas/PeminjamanController');
 const findAllPengembalian = require('../controllers/petugas/PengembalianController');
 const findAllDenda = require('../controllers/petugas/DendaController');
+const findAllBuku = require('../controllers/admin/BukuController');
 var router = express.Router();
 
 
