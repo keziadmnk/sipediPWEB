@@ -9,6 +9,12 @@ router.get('/', function(req, res, next) {
 
 router.get('/peminjaman', findAllPeminjaman); 
 
+
+router.get('/detailpeminjaman', function(req, res, next) {
+  res.render('petugas/detailpeminjaman');  // Render file databuju.ejs
+});
+
+
 // Route untuk menampilkan Data Buku
 router.get('/databuku', function(req, res, next) {
   res.render('admin/databuku');  // Render file databuju.ejs
