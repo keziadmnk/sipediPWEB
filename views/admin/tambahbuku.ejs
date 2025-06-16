@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIPEDI - Tambah Buku</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  <style>
+      /* Custom background color with 33% opacity */
+      .bg-custom {
+        background-color: #E9F1ED;
+      }
+  </style>
+  
+</head>
+<body class="bg-green-50 flex ml-56">
+
+  <!-- Sidebar -->
+  <%- include('../partials/asideAdmin') %>
+
+  <!-- Content -->
+  <div class="flex-1 p-12">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-semibold">Tambah Buku</h1>
+    </div>
+
+    <!-- Form Tambah Buku -->
+    <div class="bg-white shadow-md rounded-lg p-10">
+      <form>
+        <div class="grid grid-cols-2 gap-6">
+          <!-- Judul Buku -->
+          <div>
+            <label for="judul_buku" class="block text-sm font-medium text-gray-700">Judul Buku</label>
+            <input type="text" id="judul_buku" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
+          </div>
+
+          <!-- Jenis Buku -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Jenis Buku</label>
+            <div class="mt-1 flex items-center">
+              <input type="radio" id="buku_fisik" name="jenis_buku" value="Buku Fisik" checked class="mr-2">
+              <label for="buku_fisik" class="mr-6">Buku Fisik</label>
+              <input type="radio" id="e_book" name="jenis_buku" value="E-Book">
+              <label for="e_book">E-Book</label>
+            </div>
+          </div>
+
+          <!-- Kategori -->
+          <div>
+            <label for="kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
+            <select id="kategori" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom">
+              <option value="">Pilih Kategori</option>
+              <!-- Option kategori lainnya -->
+            </select>
+          </div>
+
+          <!-- Pengarang -->
+          <div>
+            <label for="pengarang" class="block text-sm font-medium text-gray-700">Pengarang</label>
+            <input type="text" id="pengarang" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
+          </div>
+
+          <!-- Penerbit -->
+          <div>
+            <label for="penerbit" class="block text-sm font-medium text-gray-700">Penerbit</label>
+            <input type="text" id="penerbit" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
+          </div>
+
+          <!-- Lokasi Penyimpanan -->
+          <div>
+            <label for="lokasi_penyimpanan" class="block text-sm font-medium text-gray-700">Lokasi Penyimpanan</label>
+            <select id="lokasi_penyimpanan" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom">
+              <option value="">Pilih Lokasi</option>
+              <!-- Option lokasi penyimpanan -->
+            </select>
+          </div>
+
+          <!-- ISBN -->
+          <div>
+            <label for="isbn" class="block text-sm font-medium text-gray-700">ISBN</label>
+            <input type="text" id="isbn" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
+          </div>
+
+          <!-- Tahun Terbit -->
+          <div>
+            <label for="tahun_terbit" class="block text-sm font-medium text-gray-700">Tahun Terbit</label>
+            <input type="number" id="tahun_terbit" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
+          </div>
+
+          <!-- Jumlah Halaman -->
+          <div>
+            <label for="jumlah_halaman" class="block text-sm font-medium text-gray-700">Jumlah Halaman</label>
+            <input type="number" id="jumlah_halaman" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
+          </div>
+
+          <!-- Jumlah Stok -->
+          <div>
+            <label for="jumlah_stok" class="block text-sm font-medium text-gray-700">Jumlah Stok</label>
+            <input type="number" id="jumlah_stok" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
+          </div>
+
+          <!-- Deskripsi -->
+          <div class="col-span-2">
+            <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+            <textarea id="deskripsi" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" rows="4"></textarea>
+          </div>
+
+          <!-- Upload PDF -->
+          <div class="col-span-2">
+            <label for="upload_pdf" class="block text-sm font-medium text-gray-700">Upload PDF</label>
+            <input type="file" id="upload_pdf" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
+          </div>
+
+          <!-- Upload Sampul -->
+          <div class="col-span-2">
+            <label for="upload_sampul" class="block text-sm font-medium text-gray-700">Upload Sampul</label>
+            <input type="file" id="upload_sampul" class="mt-1 block w-full p-2.5 rounded-md border-gray-300 shadow-sm focus:ring-[#276749] bg-custom" />
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-end gap-4 mt-6">
+          <button type="reset" class="bg-gray-300 text-white py-2 px-4 rounded-md hover:bg-gray-400">Batal</button>
+          <button type="submit" class="bg-[#276749] text-white py-2 px-4 rounded-md hover:bg-green-700">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
