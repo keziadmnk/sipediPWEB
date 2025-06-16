@@ -14,7 +14,7 @@ router.get('/pengembalian', findAllPengembalian);
 router.get('/denda', findAllDenda); 
 
 router.get('/detailpeminjaman', function(req, res, next) {
-  res.render('petugas/detailpeminjaman');  // Render file databuju.ejs
+  res.render('petugas/detailpeminjaman');  
 });
 
 

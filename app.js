@@ -9,6 +9,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var kategoriRouter = require("./routes/kategoriRoute")
 
 var app = express();
 
@@ -29,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     console.error("Error syncing database:", error);
 //   });
 
-app.use('/', indexRouter);
+app.use('/', indexRouter, kategoriRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
