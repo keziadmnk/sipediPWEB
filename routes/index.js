@@ -1,6 +1,7 @@
 var express = require('express');
 const findAllPeminjaman = require('../controllers/petugas/PeminjamanController');
 const findAllPengembalian = require('../controllers/petugas/PengembalianController');
+const findAllDenda = require('../controllers/petugas/DendaController');
 var router = express.Router();
 
 
@@ -10,10 +11,13 @@ router.get('/', function(req, res, next) {
 
 router.get('/peminjaman', findAllPeminjaman); 
 router.get('/pengembalian', findAllPengembalian); 
+router.get('/denda', findAllDenda); 
 
 router.get('/detailpeminjaman', function(req, res, next) {
   res.render('petugas/detailpeminjaman');  // Render file databuju.ejs
 });
+
+
 
 // Route untuk menampilkan Data Buku
 router.get('/databuku', function(req, res, next) {
