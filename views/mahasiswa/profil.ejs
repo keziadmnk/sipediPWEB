@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Perpustakaan</title>
+    <link href="/css/styles.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  <style>
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+    
+</body>
+</html><body class="bg-[#F8FFF6] font-sans">
+  <!-- Header menggunakan partial EJS -->
+  <%- include('../partials/navbarMahasiswa') %>
+
+  <!-- Hero Section -->
+   <main class="mt-20">
+  <section class="relative bg-cover bg-center h-64" style="background-image: url('/images/gedung-perpustakaan.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+      <div class="text-center text-white">
+        <img src="/images/gedung--.jpg"  />
+        <h1 class="text-3xl md:text-4xl font-bold">Perpustakaan</h1>
+        <p class="text-xl md:text-2xl mt-1">Universitas Andalas</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sejarah Section -->
+  <section class="max-w-6xl mx-auto p-6 md:p-10 text-justify">
+    <p class="text-sm md:text-base text-[#003300] leading-relaxed">
+      <span class="font-semibold italic">Perpustakaan Universitas Andalas didirikan</span> pada tahun 1966 di kompleks fakultas kedokteran Unand Jl. Perintis Kemerdekaan Jati. Tahun 1973 perpustakaan fakultas kedokteran digabung dengan perpustakaan pusat, sedangkan perpustakaan fakultas yang berlokasi di kampus Air Tawar menjadi perpustakaan cabang Air Tawar. Pada tahun 1974 perpustakaan berubah status menjadi Direktorat Perpustakaan dan Dokumentasi Unand. Dan tahun 1982 Perpustakaan cabang Air Tawar digabung dengan perpustakaan pusat yang berlokasi di fakultas kedokteran. Pada tahun 1998 terjadi perubahan status perpustakaan menjadi unit pelaksana teknis atau UPT. Pada tahun 1988 perpustakaan pusat pindah ke kampus Unand Limau Manis dan menempati sebagian lantai dua gedung rektorat. Tahun 2002 Perpustakaan pusat pindah ke gedung baru. Dan pada tahun 2015 UPT perpustakaan unand mendapatkan akreditasi perpustakaan nasional Republik Indonesia.
+    </p>
+  </section>
+
+  <!-- Jam Operasional Section -->
+  <section class="bg-[#FDFCDD] py-10">
+    <div class="max-w-6xl mx-auto px-6 md:flex md:items-center md:justify-between">
+      <div class="md:w-1/2">
+        <img src="/images/perpustakaan-rak.png" alt="Rak Buku" class="rounded shadow-md w-full h-auto" />
+      </div>
+      <div class="md:w-1/2 mt-6 md:mt-0 md:pl-10 text-right">
+        <h2 class="text-2xl md:text-3xl font-semibold text-green-800 mb-4">Jam Operasional :</h2>
+        <ul class="text-lg text-green-700 leading-relaxed">
+          <li>Senin – Sabtu : 08.00 – 16.00 WIB</li>
+          <li>Minggu : Tutup</li>
+          <li>Libur Nasional: Tutup</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
