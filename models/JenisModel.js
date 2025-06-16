@@ -3,7 +3,7 @@ const sequelize = require("../config/db");
 
 const Jenis = sequelize.define('Jenis', {
     id_jenis: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(20),
         primaryKey: true,
         autoIncrement: true,
     },

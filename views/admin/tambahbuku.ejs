@@ -31,21 +31,21 @@
 
     <!-- Form Tambah Buku -->
     <div class="bg-white shadow-md rounded-lg p-10">
-      <form>
+      <form action="/tambah-buku" method="POST" enctype="multipart/form-data">
         <div class="grid grid-cols-2 gap-x-10 gap-y-6">
       <!-- Baris 1 -->
       <div class="col-span-2">
         <label for="judul_buku" class="block text-sm font-medium text-gray-700">Judul Buku</label>
-        <input type="text" id="judul_buku" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+        <input type="text" id="judul_buku" name="judul_buku" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
       </div>
 
       <!-- Baris 2 -->
       <div class="col-span-2">
         <label class="block text-sm font-medium text-gray-700">Jenis Buku</label>
         <div class="mt-1 flex items-center space-x-6">
-          <input type="checkbox" id="buku_fisik" name="jenis_buku" value="Buku Fisik" checked class="mr-2">
+          <input type="checkbox" id="buku_fisik" name="jenis_buku[]" value="Buku Fisik" checked class="mr-2">
           <label for="buku_fisik" class="mr-6">Buku Fisik</label>
-          <input type="checkbox" id="e_book" name="jenis_buku" value="E-Book" class="mr-2">
+          <input type="checkbox" id="e_book" name="jenis_buku[]" value="E-Book" class="mr-2">
           <label for="e_book">E-Book</label>
         </div>
       </div>
@@ -63,13 +63,13 @@
       </div>
       <div>
         <label for="isbn" class="block text-sm font-medium text-gray-700">ISBN</label>
-        <input type="text" id="isbn" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+        <input type="text" id="isbn" name="isbn" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
       </div>
 
       <!-- Baris 4 -->
       <div>
         <label for="pengarang" class="block text-sm font-medium text-gray-700">Pengarang</label>
-        <input type="text" id="pengarang" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+        <input type="text" id="pengarang" name="pengarang" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
       </div>
       <div>
       <label for="tahun_terbit" class="block text-sm font-medium text-gray-700">Tahun Terbit</label>
@@ -91,7 +91,7 @@
       <!-- Baris 5 -->
       <div>
         <label for="penerbit" class="block text-sm font-medium text-gray-700">Penerbit</label>
-        <input type="text" id="penerbit" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
+        <input type="text" id="penerbit" name="penerbit" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom" />
       </div>
       <div>
         <label for="jumlah_halaman" class="block text-sm font-medium text-gray-700">Jumlah Halaman</label>
@@ -119,7 +119,7 @@
       <!-- Baris 7 -->
       <div>
         <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
-        <textarea id="deskripsi" rows="5" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"></textarea>
+        <textarea id="deskripsi" rows="5" name="deskripsi" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"></textarea>
       </div>
       <div class="flex flex-col gap-4">
         <div>

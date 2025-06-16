@@ -1,36 +1,36 @@
-const { Buku, Jenis, BukuJenis } = require('../models/relation'); // Sesuaikan path
+// controllers/BukuController.js
+const { Buku } = require("../../models/BukuModel");
+const { Jenis } = require("../../models/JenisModel");
+const { Kategori } = require("../../models/KategoriModel");
 
-module.exports = {
-  showAll: async (req, res) => {
-    const list = await Buku.findAll({
-      include: [{ model: Jenis, through: BukuJenis }]
+const findAllBuku = async (req, res) => {
+  try {
+    const databuku = await Buku.findAll({
+      include: [
+        {
+          model: Jenis,
+          attributes: ["nama_jenis"], // Mengambil jenis buku
+        },
+        {
+          model: Kategori,
+          attributes: ["nama_kategori"], // Mengambil kategori buku
+        },
+      ],
+      attributes: [
+        "nomor_isbn", 
+        "judul_buku", 
+        "pengarang", 
+        "lokasi_penyimpanan", 
+        "jumlah_stok", // Atribut buku yang ingin ditampilkan
+      ],
     });
-    res.render('databuku', { bukuList: list });
-  },
-
-  showForm: async (req, res) => {
-    const jenisList = await Jenis.findAll();
-    res.render('tambahbuku', { jenisList });
-  },
-
-  create: async (req, res) => {
-    const {
-      nomor_isbn, judul_buku, pengarang, penerbit,
-      tahun_terbit, jumlah_halaman,
-      jumlah_stok, lokasi_penyimpanan, deskripsi
-    } = req.body;
-    const jenis = Array.isArray(req.body.jenis_buku)
-      ? req.body.jenis_buku
-      : [req.body.jenis_buku];
-
-    const buku = await Buku.create({
-      nomor_isbn, judul_buku, pengarang, penerbit,
-      tahun_terbit, jumlah_halaman,
-      jumlah_stok, lokasi_penyimpanan, deskripsi
-    });
-
-    await buku.addJenisBuku(jenis); // Sequelize otomatis buat entri di BukuJenis
-
-    res.redirect('/buku');
+    console.log(databuku);
+    // Kirim data ke tampilan 'admin/databuku'
+    res.render('admin/databuku', { databuku });
+  } catch (error) {
+    console.error("Terjadi kesalahan saat mengambil data buku:", error);
+    res.status(500).json({ message: "Terjadi kesalahan pada server" });
   }
 };
+
+module.exports = findAllBuku;
