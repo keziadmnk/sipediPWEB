@@ -21,13 +21,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// sequelize.sync({ alter: true }) 
-//   .then(() => {
-//     console.log("Database & tables have been synced.");
-//   })
-//   .catch((error) => {
-//     console.error("Error syncing database:", error);
-//   });
+sequelize.sync({ alter: true }) 
+  .then(() => {
+    console.log("Database & tables have been synced.");
+  })
+  .catch((error) => {
+    console.error("Error syncing database:", error);
+  });
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
