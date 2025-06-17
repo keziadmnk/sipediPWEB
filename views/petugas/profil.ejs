@@ -1,0 +1,109 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Profil Petugas</title>
+    <link rel="stylesheet" href="/stylesheets/output.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-[#f5fef7] text-[#1f4d2a] min-h-screen flex">
+    <%- include('../partials/asidePetugas') %>
+
+    <main class="flex-1">
+      <%- include('../partials/navpetugas') %>
+
+      <section class="py-16 px-40">
+        <h2 class="text-[#1f4d2a] font-semibold text-2xl mb-6">
+          Profil Petugas
+        </h2>
+        <section
+          class="bg-white rounded-lg shadow-md p-8 max-w-4xl flex flex-col md:flex-row gap-8"
+        >
+          <div
+            class="flex justify-center items-center md:justify-center md:flex-1"
+          >
+            <div
+              class="rounded-full border-2 border-[#1f4d2a] p-1 w-50 h-50 flex items-center justify-center"
+            >
+              <img
+                alt="foto petugas"
+                class="rounded-full w-42 h-42 object-cover"
+                height="160"
+                src="/images/profilpetugas.jpg"
+                width="160"
+              />
+            </div>
+          </div>
+          <form class="flex-1 flex flex-col gap-4 max-w-md">
+            <div>
+              <label class="block text-xs font-semibold mb-1" for="namaLengkap">
+                Nama Lengkap
+              </label>
+              <input
+                class="w-full rounded border border-[#1f4d2a] bg-[#eaf7f0] px-3 py-2 text-xs text-[#1f4d2a]"
+                id="namaLengkap"
+                readonly=""
+                type="text"
+                value="Maudy Ayunda"
+              />
+            </div>
+            <div>
+              <label
+                class="block text-xs font-semibold mb-1"
+                for="nomorIndukPegawai"
+              >
+                Nomor Induk Pegawai
+              </label>
+              <input
+                class="w-full rounded border border-[#1f4d2a] bg-[#eaf7f0] px-3 py-2 text-xs text-[#1f4d2a]"
+                id="nomorIndukPegawai"
+                readonly=""
+                type="text"
+                value="197310051993112002"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold mb-1" for="email">
+                Email
+              </label>
+              <input
+                class="w-full rounded border border-[#1f4d2a] bg-[#eaf7f0] px-3 py-2 text-xs text-[#1f4d2a]"
+                id="email"
+                readonly=""
+                type="text"
+                value="197310051993112002_maudy@pegawai.unand.ac.id"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold mb-1" for="nomorHP">
+                Nomor HP
+              </label>
+              <input
+                class="w-full rounded border border-[#1f4d2a] bg-[#eaf7f0] px-3 py-2 text-xs text-[#1f4d2a]"
+                id="nomorHP"
+                readonly=""
+                type="text"
+                value="081234567890"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold mb-1" for="alamat">
+                Alamat
+              </label>
+              <input
+                class="w-full rounded border border-[#1f4d2a] bg-[#eaf7f0] px-3 py-2 text-xs text-[#1f4d2a]"
+                id="alamat"
+                readonly=""
+                type="text"
+                value="Jalan Kenangan Mantan"
+              />
+            </div>
+          </form>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

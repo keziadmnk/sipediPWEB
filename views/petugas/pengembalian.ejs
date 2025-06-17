@@ -25,17 +25,7 @@
       <%- include('../partials/asidePetugas') %>
 
       <div class="flex-1 flex flex-col">
-        <header
-          class="flex justify-end items-center px-8 py-4 border-b border-[#cbd5d0]"
-        >
-          <button
-            aria-label="User profile"
-            class="text-[#276749] text-xl focus:outline-none"
-            type="button"
-          >
-            <i class="fas fa-user-circle"></i>
-          </button>
-        </header>
+        <%- include('../partials/navpetugas') %>
 
         <main class="flex-1 p-8">
           <h2 class="text-[#276749] font-semibold text-lg mb-6">
@@ -58,7 +48,7 @@
                   <th class="px-3 py-2" scope="col">Tanggal Pengembalian</th>
                   <th class="px-3 py-2" scope="col">Detail</th>
                   <th class="px-3 py-2" scope="col">Status</th>
-                  <th class="px-3 py-2 rounded-tr-lg" scope="col">Denda</th>
+                  <!-- <th class="px-3 py-2 rounded-tr-lg" scope="col">Denda</th> -->
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-[#e5e7eb]">
@@ -87,11 +77,11 @@
                     <%= peminjaman.status_peminjaman %>
                   </td>
 
-                  <td class="px-3 py-2">
+                  <!-- <td class="px-3 py-2">
                     Rp<%=
                     (parseFloat(peminjaman.denda).toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g,
                     '.') %>
-                  </td>
+                  </td> -->
                 </tr>
                 <% }); %>
               </tbody>

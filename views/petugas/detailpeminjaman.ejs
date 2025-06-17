@@ -25,23 +25,11 @@
     </style>
   </head>
   <body class="bg-[#f5fef7] min-h-screen flex">
-    <!-- Sidebar -->
     <%- include('../partials/asidePetugas') %>
-    <!-- Main content -->
+
     <main class="flex-1 flex flex-col">
-      <!-- Top bar -->
-      <header
-          class="flex justify-end items-center px-8 py-3 border-b border-[#cbd5d0]"
-        >
-          <button
-            aria-label="User profile"
-            class="text-[#276749] text-xl focus:outline-none"
-            type="button"
-          >
-            <i class="fas fa-user-circle"></i>
-          </button>
-        </header>
-      <!-- Content area -->
+      <%- include('../partials/navpetugas') %>
+
       <section class="flex-1 p-6">
         <div
           class="bg-white rounded-lg shadow-md p-6 max-w-5xl mx-auto"
@@ -62,7 +50,6 @@
           <form
             class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 text-[#2f6f4e] text-sm font-semibold"
           >
-            <!-- Informasi Mahasiswa -->
             <div>
               <h2 class="mb-4 text-[#2f6f4e] font-bold text-sm">
                 Informasi Mahasiswa
@@ -113,7 +100,7 @@
                 />
               </div>
             </div>
-            <!-- Informasi Buku -->
+   
             <div>
               <h2 class="mb-4 text-[#2f6f4e] font-bold text-sm">
                 Informasi Buku
