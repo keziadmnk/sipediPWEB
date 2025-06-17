@@ -7,9 +7,18 @@ router.get('/dashboard', authenticate, (req, res) => {
   res.render('mahasiswa/dashboard'); 
 });
 
+router.get('/akun', authenticate, (req, res) => {
+  res.render('mahasiswa/akun'); 
+});
+
 // Route untuk halaman profil mahasiswa
 router.get('/profil', authenticate, function(req, res, next) {
   res.render('mahasiswa/profil'); // Pastikan ada file EJS untuk profil mahasiswa
+});
+
+
+router.get('/formpeminjaman', authenticate, function(req, res, next) {
+  res.render('mahasiswa/formpeminjaman'); // Pastikan ada file EJS untuk profil mahasiswa
 });
 
 module.exports = router;
