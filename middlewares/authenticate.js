@@ -1,11 +1,50 @@
-const authenticate = (req, res, next) => {
-  // Check if the user is authenticated
-  if (req.isAuthenticated()) {
-    return next(); // User is authenticated, proceed to the next middleware or route handler
-  }
-  
-  // If not authenticated, redirect to the login page
-  res.redirect('/login');
-}
+const jwt = require('jsonwebtoken');
 
-module.exports = authenticate;
+// Middleware umum untuk autentikasi
+const authenticate = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.redirect('/auth');
+  }
+
+  jwt.verify(token, 'secretkey', (err, decoded) => {
+    if (err) {
+      res.clearCookie('token');
+      return res.redirect('/auth');
+    }
+
+    req.user = decoded;
+    next();
+  });
+};
+
+// Middleware untuk mengecek role tertentu
+const authorize = (allowedRoles) => {
+  return (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.redirect('/auth');
+    }
+
+    jwt.verify(token, 'secretkey', (err, decoded) => {
+      if (err) {
+        res.clearCookie('token');
+        return res.redirect('/auth');
+      }
+
+      req.user = decoded;
+
+      // Cek apakah role user termasuk dalam allowedRoles
+      if (!allowedRoles.includes(decoded.role.toLowerCase())) {
+        return res.status(403).render('error', { 
+          message: 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.',
+          error: { status: 403 }
+        });
+      }
+
+      next();
+    });
+  };
+};
+
+module.exports = { authenticate, authorize };

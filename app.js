@@ -12,6 +12,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var kategoriRouter = require("./routes/kategoriRoute")
 var petugasRouter = require('./routes/PetugasRoute')
+var authRouter = require('./routes/authRoute');
+const { authenticate, authorize } = require('./middlewares/authenticate');
 
 var app = express();
 
@@ -32,11 +34,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     console.error("Error syncing database:", error);
 //   });
 
-app.use('/', indexRouter);
-app.use('/admin', kategoriRouter);
-app.use('/petugas', petugasRouter);
-app.use('/users', usersRouter);
+app.use('/', authRouter);
+app.use('/admin', authorize(['admin']), kategoriRouter);
+app.use('/petugas', authorize(['petugas', 'admin']), petugasRouter);
 
+
+app.get('/dashboard', authenticate, (req, res) => {
+  const role = req.user.role.toLowerCase();
+  switch (role) {
+    case 'admin':
+      return res.redirect('/admin/dashboard');
+    case 'petugas':
+      return res.redirect('/petugas/dashboard');
+    case 'mahasiswa':
+      return res.redirect('/mahasiswa/dashboard');
+    default:
+      return res.render('dashboard/default', { user: req.user });
+  }
+});
+
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
