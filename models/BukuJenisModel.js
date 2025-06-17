@@ -7,7 +7,7 @@ const BukuJenis = sequelize.define('BukuJenis', {
         primaryKey: true
     },
     id_jenis: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.INTEGER,
         primaryKey: true
     }
 }, {

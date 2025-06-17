@@ -46,7 +46,14 @@ const Buku = sequelize.define('Buku', {
         type: DataTypes.STRING(255),
         allowNull: true,
     },
-
+    kategori_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'kategori',
+            key: 'id_kategori'
+        }
+    }
 }, {
     tableName: 'buku',
     timestamps: false,
