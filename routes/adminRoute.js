@@ -13,6 +13,11 @@ router.get('/tambahkategori', function(req, res, next) {
   res.render('admin/tambahkategori');
 });
 
+router.get('/detailbuku', function(req, res, next) {
+  res.render('admin/detailbuku');
+});
+
+
 router.post('/tambahkategori', tambahKategori);
 
 router.get('/kategori', findAllKategori);
