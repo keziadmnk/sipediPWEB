@@ -1,6 +1,6 @@
 const express = require('express');
 var router = express.Router();
-const { tambahKategori, findAllKategori } = require('../controllers/admin/KategoriController');
+const { tambahKategori, findAllKategori, showTambahBuku } = require('../controllers/admin/KategoriController');
 const { authenticate } = require('../middlewares/authenticate');
 const findAllBuku = require('../controllers/admin/BukuController');
 
@@ -19,9 +19,7 @@ router.get('/kategori', findAllKategori);
 
 router.get('/databuku', findAllBuku);
 
-router.get('/tambahbuku', function(req, res, next) {
-  res.render('admin/tambahbuku');
-});
+router.get('/tambahbuku', showTambahBuku);
 
 module.exports = router;
 

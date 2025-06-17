@@ -27,4 +27,16 @@ const findAllKategori = async (req, res) => {
   }
 };
 
-module.exports = { tambahKategori, findAllKategori}
+const showTambahBuku = async (req, res) => {
+  try {
+    // Mengambil semua data kategori dari database
+    const kategori = await Kategori.findAll();
+    
+    // Render halaman tambah buku dengan data kategori
+    res.render('admin/tambahbuku', { kategori });
+  } catch (error) {
+    console.error("Error fetching kategori:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports = { tambahKategori, findAllKategori, showTambahBuku}

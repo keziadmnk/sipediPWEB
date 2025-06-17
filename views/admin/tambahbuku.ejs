@@ -53,12 +53,15 @@
       <!-- Baris 3 -->
       <div>
         <label for="kategori" class="block text-sm font-medium text-gray-700">Kategori</label>
-        <select id="kategori" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom">
+        <select id="kategori" name="kategori" class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom">
           <option disabled selected>Pilih kategori</option>
-          <option>Ilmu Komputer</option>
-          <option>Ekonomi dan Bisnis</option>
-          <option>Teknik</option>
-          <option>Pendidikan</option>
+           <% if (typeof kategori !== 'undefined' && kategori.length > 0) { %>
+          <% kategori.forEach(function(item) { %>
+        <option value="<%= item.id %>"><%= item.nama_kategori %></option>
+        <% }); %>
+    <% } else { %>
+      <option disabled>Tidak ada kategori tersedia</option>
+    <% } %>
         </select>
       </div>
       <div>
@@ -135,7 +138,7 @@
 
         <!-- Tombol -->
         <div class="flex justify-end gap-4 mt-6">
-          <button type="reset" class="bg-yellow-400 text-white py-2 px-4 rounded-md hover:bg-yellow-500">Batal</button>
+          <button type="reset" class="bg-yellow-400 text-white py-2 px-4 rounded-md hover:bg-yellow-500"><a href="/admin/databuku">Batal</a></button>
           <button type="submit" class="bg-[#276749] text-white py-2 px-4 rounded-md hover:bg-green-700">Simpan</button>
         </div>
       </form>
