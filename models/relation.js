@@ -21,6 +21,6 @@ Jenis.belongsToMany(Buku, { through: BukuJenis, foreignKey: 'id_jenis' });
 
 
 module.exports = {
-  Buku, Peminjaman, Pengguna, Kategori, Role, BukuKategori, Jenis,
+  Buku, Peminjaman, Pengguna, Kategori, Role, BukuKategori, Jenis, BukuJenis
 };
 

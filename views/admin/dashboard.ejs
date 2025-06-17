@@ -5,47 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Mahasiswa</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    
   </head>
-  <body class="bg-[#f0f9f4]">
+  <body class="bg-[#f5fef7] min-h-screen flex flex-col ml-56">
+    <div class="flex flex-1">
+      <%- include('../partials/asideAdmin') %>
+    <div class="flex-1 flex flex-col">
 
-    <!-- Sidebar -->
-    <div class="flex">
-      <div class="bg-[#2f855a] w-64 h-screen p-5">
-        <h1 class="text-white text-2xl font-semibold mb-8">SIPEDI</h1>
-        <ul>
-          <li class="mb-4">
-            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Dashboard</a>
-          </li>
-          <li class="mb-4">
-            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Koleksi Buku</a>
-          </li>
-          <li class="mb-4">
-            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Profil</a>
-          </li>
-          <li class="mb-4">
-            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Pengaturan</a>
-          </li>
-        </ul>
-      </div>
+    
 
-      <!-- Main content -->
-      <main class="flex-1 p-8">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-3xl font-semibold">Dashboard Mahasiswa</h2>
-          <button
-            class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-            onclick="window.location.href='/logout';"
+      <main class="flex-1 flex flex-col">
+      <%- include('../partials/navpetugas') %>
+
+      <section class="p-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- card 1 -->
+        <div class="bg-white shadow-md rounded-md p-6 flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-full bg-[#b38aff] flex items-center justify-center"
           >
-            Logout
-          </button>
+            <img
+              alt="Purple circle with book and plus icon"
+              class="w-6 h-6"
+              height="24"
+              src="https://storage.googleapis.com/a1aa/image/d2ae2ec4-7c2c-44ae-5240-19082be3863f.jpg"
+              width="24"
+            />
+          </div>
+          <div>
+            <p class="text-xs text-[#2f6f4e] mb-1">Data Petugas</p>
+            <p class="text-[#2f6f4e] font-semibold text-lg">3
+            </p>
+          </div>
         </div>
-
-        <!-- Welcome message -->
-        <div class="bg-white p-6 rounded-md shadow-md">
-          <h3 class="text-xl font-semibold mb-4">Selamat Datang, Mahasiswa!</h3>
-          <p class="text-gray-700">Ini adalah halaman dashboard kamu. Kamu bisa mengakses berbagai informasi terkait koleksi buku dan profil kamu.</p>
+        <!-- Card 2 -->
+        <div class="bg-white shadow-md rounded-md p-6 flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-full bg-[#f0e86a] flex items-center justify-center"
+          >
+            <img
+              alt="Yellow circle with book and clock icon"
+              class="w-6 h-6"
+              height="24"
+              src="https://storage.googleapis.com/a1aa/image/62065b47-e103-4d81-3260-7299339ecf6b.jpg"
+              width="24"
+            />
+          </div>
+          <div>
+            <p class="text-xs text-[#2f6f4e] mb-1">Data Mahasiswa</p>
+            <p class="text-[#2f6f4e] font-semibold text-lg">3
+            </p>
+          </div>
         </div>
-      </main>
+        <!-- Card 3 -->
+        <div class="bg-white shadow-md rounded-md p-6 flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-full bg-[#b9f0d9] flex items-center justify-center"
+          >
+            <img
+              alt="Light green circle with book and checkmark icon"
+              class="w-6 h-6"
+              height="24"
+              src="https://storage.googleapis.com/a1aa/image/cdc80fa1-b5e4-416f-ecff-f22226cca265.jpg"
+              width="24"
+            />
+          </div>
+          <div>
+            <p class="text-xs text-[#2f6f4e] mb-1">Data Buku</p>
+            <p class="text-[#2f6f4e] font-semibold text-lg">3
+            </p>
+          </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="bg-white shadow-md rounded-md p-6 flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-full bg-[#ff4c4c] flex items-center justify-center"
+          >
+            <img
+              alt="Red circle with book and exclamation mark icon"
+              class="w-6 h-6"
+              height="24"
+              src="https://storage.googleapis.com/a1aa/image/c5ab7be3-31e9-465d-32b4-37396760c3ee.jpg"
+              width="24"
+            />
+          </div>
+          <div>
+            <p class="text-xs text-[#2f6f4e] mb-1">Kategori Buku</p>
+            <p class="text-[#2f6f4e] font-semibold text-lg">3
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
     </div>
 
   </body>

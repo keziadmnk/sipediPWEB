@@ -4,7 +4,7 @@ const { authenticate } = require('../middlewares/authenticate');
 var router = express.Router();
 
 
-router.get('/databuku', findAllBuku);
+
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
