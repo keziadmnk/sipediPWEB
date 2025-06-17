@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Mahasiswa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#f0f9f4]">
+
+    <!-- Sidebar -->
+    <div class="flex">
+      <div class="bg-[#2f855a] w-64 h-screen p-5">
+        <h1 class="text-white text-2xl font-semibold mb-8">SIPEDI</h1>
+        <ul>
+          <li class="mb-4">
+            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Dashboard</a>
+          </li>
+          <li class="mb-4">
+            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Koleksi Buku</a>
+          </li>
+          <li class="mb-4">
+            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Profil</a>
+          </li>
+          <li class="mb-4">
+            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Pengaturan</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main content -->
+      <main class="flex-1 p-8">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-3xl font-semibold">Dashboard Mahasiswa</h2>
+          <button
+            class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+            onclick="window.location.href='/logout';"
+          >
+            Logout
+          </button>
+        </div>
+
+        <!-- Welcome message -->
+        <div class="bg-white p-6 rounded-md shadow-md">
+          <h3 class="text-xl font-semibold mb-4">Selamat Datang, Mahasiswa!</h3>
+          <p class="text-gray-700">Ini adalah halaman dashboard kamu. Kamu bisa mengakses berbagai informasi terkait koleksi buku dan profil kamu.</p>
+        </div>
+      </main>
+    </div>
+
+  </body>
+</html>
