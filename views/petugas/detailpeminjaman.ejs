@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Profil Mahasiswa - SIPEDI</title>
+    <title>SIPEDI</title>
     <link rel="stylesheet" href="/stylesheets/output.css" />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -79,7 +79,7 @@
                   id="nama-lengkap"
                   readonly=""
                   type="text"
-                  value="Kezia Valerina Damanik"
+                  value="<%= datapeminjaman.Pengguna.nama_lengkap %>"
                 />
               </div>
               <div class="mb-4">
@@ -109,7 +109,7 @@
                   id="email"
                   readonly=""
                   type="email"
-                  value="kezia@gmail.com"
+                  value="<%= datapeminjaman.Pengguna.email %>"
                 />
               </div>
             </div>
@@ -130,7 +130,7 @@
                   id="judul-buku"
                   readonly=""
                   type="text"
-                  value="Dasar-Dasar Penguasaan Pemrograman Web"
+                  value="<%= datapeminjaman.Buku.judul_buku %>"
                 />
               </div>
               <div class="mb-4">
@@ -145,7 +145,7 @@
                   id="pengarang"
                   readonly=""
                   type="text"
-                  value="Agusriandi"
+                  value="<%= datapeminjaman.Buku.pengarang %>"
                 />
               </div>
               <div>
@@ -160,7 +160,7 @@
                   id="nomor-isbn"
                   readonly=""
                   type="text"
-                  value="978-602-453-905-4"
+                  value="<%= datapeminjaman.Buku.nomor_isbn %>"
                 />
               </div>
             </div>
@@ -183,7 +183,7 @@
                   id="tanggal-pinjam"
                   readonly=""
                   type="text"
-                  value="04-06-2025"
+                  value="<%= datapeminjaman.tanggal_peminjaman.toLocaleDateString() %>"
                 />
               </div>
               <div class="mb-4">
@@ -198,7 +198,7 @@
                   id="tanggal-maksimal"
                   readonly=""
                   type="text"
-                  value="07-06-2025"
+                  value="<%= datapeminjaman.tanggal_wajib_pengembalian.toLocaleDateString() %>"
                 />
               </div>
               <div>
