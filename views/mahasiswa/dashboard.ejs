@@ -1,52 +1,227 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Mahasiswa</title>
+    <title>Profil Perpustakaan</title>
+    <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    </style>
   </head>
-  <body class="bg-[#f0f9f4]">
+  <body></body>
+</html>
+<body class="bg-[#F8FFF6] font-sans">
+  <!-- Header menggunakan partial EJS -->
+  <%- include('../partials/navbarMahasiswa') %>
 
-    <!-- Sidebar -->
-    <div class="flex">
-      <div class="bg-[#2f855a] w-64 h-screen p-5">
-        <h1 class="text-white text-2xl font-semibold mb-8">SIPEDI</h1>
-        <ul>
-          <li class="mb-4">
-            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Dashboard</a>
+  <!-- Hero Section -->
+  <main class="mt-20">
+    <!-- Hero Image -->
+    <div class="relative w-full overflow-hidden">
+      <img
+        alt="Library bookshelves with books, blurred background with green overlay"
+        class="w-full object-cover object-center opacity-70"
+        height="180"
+        src="/images/mahasiswa-dashboard1.png"
+        style="max-height: 180px"
+        width="1200"
+      />
+    </div>
+
+    <section class="px-4 sm:px-6 md:px-10 lg:px-16 py-6">
+      <h2 class="text-[#2f5d40] font-semibold text-sm mb-4 select-none">
+        Rekomendasi Untuk Anda
+      </h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+        <div class="bg-white p-2 shadow-sm">
+          <img
+            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
+            class="w-full h-[160px] object-cover"
+            height="160"
+            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
+            width="120"
+          />
+          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
+            Dasar dasar Penguasaan Pemrograman Web
+          </p>
+          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
+        </div>
+        <div class="bg-white p-2 shadow-sm">
+          <img
+            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
+            class="w-full h-[160px] object-cover"
+            height="160"
+            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
+            width="120"
+          />
+          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
+            Dasar dasar Penguasaan Pemrograman Web
+          </p>
+          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
+        </div>
+        <div class="bg-white p-2 shadow-sm">
+          <img
+            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
+            class="w-full h-[160px] object-cover"
+            height="160"
+            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
+            width="120"
+          />
+          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
+            Dasar dasar Penguasaan Pemrograman Web
+          </p>
+          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
+        </div>
+        <div class="bg-white p-2 shadow-sm">
+          <img
+            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
+            class="w-full h-[160px] object-cover"
+            height="160"
+            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
+            width="120"
+          />
+          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
+            Dasar dasar Penguasaan Pemrograman Web
+          </p>
+          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
+        </div>
+        <div class="bg-white p-2 shadow-sm">
+          <img
+            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
+            class="w-full h-[160px] object-cover"
+            height="160"
+            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
+            width="120"
+          />
+          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
+            Dasar dasar Penguasaan Pemrograman Web
+          </p>
+          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
+        </div>
+        <div class="bg-white p-2 shadow-sm">
+          <img
+            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
+            class="w-full h-[160px] object-cover"
+            height="160"
+            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
+            width="120"
+          />
+          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
+            Dasar dasar Penguasaan Pemrograman Web
+          </p>
+          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
+        </div>
+      </div>
+    </section>
+    <!-- Categories Section -->
+    <section
+      class="px-4 sm:px-6 md:px-10 lg:px-16 grid grid-cols-1 md:grid-cols-2 gap-2"
+    >
+      <div class="relative group cursor-pointer">
+        <img
+          alt="Parliament hall with many seats and people, representing politics"
+          class="w-full h-[180px] object-cover"
+          height="180"
+          src="https://storage.googleapis.com/a1aa/image/d596bb1e-3bcd-424d-f2be-9f1229544c3e.jpg"
+          width="600"
+        />
+        <div
+          class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center"
+        >
+          <h3 class="text-white text-xl font-normal select-none">Politik</h3>
+        </div>
+      </div>
+      <div class="relative group cursor-pointer">
+        <img
+          alt="Technology devices like laptop, tablet, and smartphone with digital data icons floating"
+          class="w-full h-[180px] object-cover"
+          height="180"
+          src="https://storage.googleapis.com/a1aa/image/75ee8e4f-ae7c-4537-4108-d8c0ad847613.jpg"
+          width="600"
+        />
+        <div
+          class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center"
+        >
+          <h3 class="text-white text-xl font-normal select-none">Teknologi</h3>
+        </div>
+      </div>
+    </section>
+
+    <div
+      class="flex flex-col sm:flex-row items-center justify-center gap-6 my-20"
+    >
+      <img
+        alt="Logo of Perpustakaan Universitas Andalas with green and yellow emblem"
+        height="150"
+        src="/images/logo-unand.png"
+        width="300"
+      />
+      <p
+        class="text-right text-[10px] sm:text-[12px] text-green-900 max-w-[900px]"
+      >
+        <span class="font-semibold italic">
+          Perpustakaan Universitas Andalas
+        </span>
+        hadir sebagai pusat pengetahuan yang mendukung proses pendidikan,
+        penelitian, dan pengabdian masyarakat. Dengan koleksi digital yang terus
+        berkembang dan layanan informasi
+        <span class="font-semibold"> berbasis teknologi </span>
+        , kami berkomitmen memberikan akses informasi yang mudah, cepat, dan
+        terpercaya bagi seluruh sivitas akademika.
+        <br />
+        <a
+          class="text-orange-500 text-[10px] sm:text-[12px] font-normal"
+          href="#"
+        >
+          Lihat Selengkapnya
+        </a>
+      </p>
+    </div>
+    <!-- Video embed -->
+    <div class="mb-10 px-4 sm:px-0">
+  <iframe
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen=""
+    class="rounded"
+    frameborder="0"
+    height="480"
+    src="https://www.youtube.com/embed/_k3wmGUG_0Y?si=xcsygl_U-wlcxj0U"
+    title="FASILITAS PERPUSTAKAAN UNIVERSITAS ANDALAS"
+    width="100%"
+  >
+  </iframe>
+</div>
+
+    <!-- Footer -->
+    <footer
+      class="bg-[#2f5d40] text-yellow-300 mt-6 px-4 sm:px-6 md:px-10 lg:px-16 py-6"
+    >
+      <div
+        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+      >
+        <p class="text-sm select-none">© 2024 SIPEDI. All rights reserved.</p>
+        <ul class="flex space-x-6 text-sm font-semibold">
+          <li>
+            <a class="hover:underline" href="#"> Privacy Policy </a>
           </li>
-          <li class="mb-4">
-            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Koleksi Buku</a>
+          <li>
+            <a class="hover:underline" href="#"> Terms of Service </a>
           </li>
-          <li class="mb-4">
-            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Profil</a>
-          </li>
-          <li class="mb-4">
-            <a href="#" class="text-white hover:bg-[#2e5e42] px-4 py-2 rounded-md block">Pengaturan</a>
+          <li>
+            <a class="hover:underline" href="#"> Contact </a>
           </li>
         </ul>
       </div>
-
-      <!-- Main content -->
-      <main class="flex-1 p-8">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-3xl font-semibold">Dashboard Mahasiswa</h2>
-          <button
-            class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-            onclick="window.location.href='/logout';"
-          >
-            Logout
-          </button>
-        </div>
-
-        <!-- Welcome message -->
-        <div class="bg-white p-6 rounded-md shadow-md">
-          <h3 class="text-xl font-semibold mb-4">Selamat Datang, Mahasiswa!</h3>
-          <p class="text-gray-700">Ini adalah halaman dashboard kamu. Kamu bisa mengakses berbagai informasi terkait koleksi buku dan profil kamu.</p>
-        </div>
-      </main>
-    </div>
-
-  </body>
-</html>
+    </footer>
+  </main>
+</body>
