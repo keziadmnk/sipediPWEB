@@ -1,5 +1,6 @@
 var express = require('express');
 const { authenticate } = require('../middlewares/authenticate'); // Middleware untuk autentikasi
+const { showKatalogBuku } = require('../controllers/admin/KategoriController');
 var router = express.Router();
 
 // Route untuk dashboard mahasiswa
@@ -16,9 +17,8 @@ router.get('/profil', authenticate, function(req, res, next) {
   res.render('mahasiswa/profil'); // Pastikan ada file EJS untuk profil mahasiswa
 });
 
-router.get('/koleksibuku', authenticate, function(req, res, next) {
-  res.render('mahasiswa/koleksibuku'); // Pastikan ada file EJS untuk profil mahasiswa
-});
+router.get('/koleksibuku', authenticate, showKatalogBuku);
+
 
 router.get('/formpeminjaman', authenticate, function(req, res, next) {
   res.render('mahasiswa/formpeminjaman'); // Pastikan ada file EJS untuk profil mahasiswa

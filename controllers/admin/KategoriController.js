@@ -1,3 +1,4 @@
+const { Buku } = require("../../models/BukuModel");
 const { Kategori } = require("../../models/KategoriModel");
 
 const tambahKategori = async (req, res) => {
@@ -39,4 +40,25 @@ const showTambahBuku = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-module.exports = { tambahKategori, findAllKategori, showTambahBuku}
+
+const showKatalogBuku = async (req, res) => {
+  try {
+    // Mengambil semua data kategori dari database untuk sidebar
+    const kategori = await Kategori.findAll();
+    
+    // Mengambil semua data buku (jika diperlukan)
+    const buku = await Buku.findAll({
+      include: [{
+        model: Kategori,
+        as: 'kategori'
+      }]
+    });
+    
+    // Render halaman katalog-buku dengan data kategori dan buku
+    res.render('mahasiswa/koleksibuku', { kategori, buku });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+module.exports = { tambahKategori, findAllKategori, showTambahBuku, showKatalogBuku}
