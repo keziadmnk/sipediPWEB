@@ -15,6 +15,7 @@ var adminRoute = require("./routes/adminRoute")
 var petugasRouter = require('./routes/PetugasRoute')
 var authRouter = require('./routes/authRoute');
 const { authenticate, authorize } = require('./middlewares/authenticate');
+const session = require('express-session');
 
 var app = express();
 
@@ -34,6 +35,17 @@ sequelize.sync({ alter: true })
   .catch((error) => {
     console.error("Error syncing database:", error);
   });
+
+// Konfigurasi session
+app.use(session({
+  secret: 'your-secret-key', // Ganti dengan secret key yang aman
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    secure: false, // Set true jika menggunakan HTTPS
+    maxAge: 24 * 60 * 60 * 1000 // 24 jam
+  }
+}));
 
 app.use('/', authRouter);
 app.use('/admin', authorize(['admin']), adminRoute);

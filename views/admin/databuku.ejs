@@ -72,7 +72,15 @@
           <tr>
             <td class="px-3 py-2"><%= buku.nomor_isbn %></td>
             <td class="px-3 py-2"><%= buku.judul_buku %></td>
-            <td class="px-3 py-2"><%= buku.Jenis.nama_jenis %></td>
+            <td class="px-3 py-2">
+              <% if (buku.jenis && buku.jenis.length > 0) { %>
+                <% buku.jenis.forEach((jenis, index) => { %>
+                  <%= jenis.nama_jenis %><% if (index < buku.jenis.length - 1) { %>, <% } %>
+                <% }); %>
+              <% } else { %>
+                <span class="text-gray-400">-</span>
+              <% } %>
+            </td>
             <td class="px-3 py-2"><%= buku.pengarang %></td>
             <td class="px-3 py-2"><%= buku.lokasi_penyimpanan %></td>
             <td class="px-3 py-2"><%= buku.jumlah_stok %></td>

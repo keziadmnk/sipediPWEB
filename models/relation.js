@@ -13,12 +13,33 @@ Pengguna.belongsTo(Role, { foreignKey: 'id_role' });
 Buku.hasMany(Peminjaman, { foreignKey: 'nomor_isbn' });
 Peminjaman.belongsTo(Pengguna, { foreignKey: 'id_pengguna' });
 Peminjaman.belongsTo(Buku, { foreignKey: 'nomor_isbn' });
-Buku.belongsTo(Kategori, { foreignKey: 'id_kategori' });
-Kategori.hasMany(Buku, { foreignKey: 'id_kategori' });
-Buku.belongsToMany(Jenis, { through: BukuJenis, foreignKey: 'nomor_isbn' });
-Jenis.belongsToMany(Buku, { through: BukuJenis, foreignKey: 'id_jenis' });
+
+Buku.belongsTo(Kategori, {
+    foreignKey: 'id_kategori',
+    as: 'kategori'
+});
+
+Kategori.hasMany(Buku, {
+    foreignKey: 'id_kategori',
+    as: 'buku'
+});
+
+
+Buku.belongsToMany(Jenis, {
+    through: BukuJenis,
+    foreignKey: 'nomor_isbn',
+    otherKey: 'id_jenis',
+    as: 'jenis'
+});
+Jenis.belongsToMany(Buku, {
+    through: BukuJenis,
+    foreignKey: 'id_jenis',
+    otherKey: 'nomor_isbn',
+    as: 'buku'
+});
+
 
 
 module.exports = {
-  Buku, Peminjaman, Pengguna, Kategori, Role, Jenis,
+  Buku, Peminjaman, Pengguna, Kategori, Role, Jenis, BukuJenis
 };
