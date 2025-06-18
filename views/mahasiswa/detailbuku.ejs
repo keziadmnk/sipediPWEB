@@ -64,7 +64,8 @@
             <% } %>
           </li>
         </ul>
-
+        
+        
         <!-- Tombol Aksi -->
         <div class="flex gap-4 mb-6">
           <button class="bg-[#276749] text-white px-4 py-2 rounded-lg hover:bg-green-700">Pinjam</button>
@@ -74,7 +75,7 @@
             const isEbook = jenisList.includes("e-book") || jenisList.includes("ebook");
           %>
           <% if (isEbook && buku.upload_pdf) { %>
-            <a href="<%= buku.upload_pdf %>" target="_blank" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+            <a href="/uploads/pdf/<%= buku.upload_pdf %>" target="_blank" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
               Download PDF
             </a>
           <% } else { %>
