@@ -1,7 +1,7 @@
 var express = require('express');
 const { authenticate } = require('../middlewares/authenticate'); // Middleware untuk autentikasi
 const { showKatalogBuku} = require('../controllers/admin/KategoriController');
-const { detailBuku } = require('../controllers/mahasiswa/tampilBukuController');
+const { detailBuku, showKatalogByKategori } = require('../controllers/mahasiswa/tampilBukuController');
 var router = express.Router();
 
 router.get('/dashboard', authenticate, (req, res) => {

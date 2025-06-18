@@ -43,21 +43,29 @@ const showTambahBuku = async (req, res) => {
 
 const showKatalogBuku = async (req, res) => {
   try {
-    // Mengambil semua data kategori dari database untuk sidebar
+    const selectedKategori = req.query.kategori || null;
     const kategori = await Kategori.findAll();
-    
-    // Mengambil semua data buku (jika diperlukan)
-    const buku = await Buku.findAll({
-      include: [{
-        model: Kategori,
-        as: 'kategori'
-      }]
+
+    let buku;
+    if (selectedKategori) {
+      buku = await Buku.findAll({
+        where: { id_kategori: selectedKategori },
+        include: [{ model: Kategori, as: 'kategori' }]
+      });
+    } else {
+      buku = await Buku.findAll({
+        include: [{ model: Kategori, as: 'kategori' }]
+      });
+    }
+
+    res.render("mahasiswa/koleksibuku", {
+      kategori,
+      buku,
+      selectedKategori: parseInt(selectedKategori)
     });
-    
-    // Render halaman katalog-buku dengan data kategori dan buku
-    res.render('mahasiswa/koleksibuku', { kategori, buku });
+
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching katalog:", error);
     res.status(500).send("Internal Server Error");
   }
 };
