@@ -39,7 +39,7 @@
                 class="bg-[#276749] text-[10px] font-semibold rounded-t-lg text-white"
               >
                 <tr>
-                  <th class="px-3 py-2 rounded-tl-lg" scope="col">
+                  <th class="px-3 py-3 rounded-tl-lg" scope="col">
                     Id Peminjaman
                   </th>
                   <th class="px-3 py-2" scope="col">Nama Mahasiswa</th>
@@ -74,7 +74,7 @@
                   </td>
 
                   <td
-                    class="px-3 py-2 font-semibold <%= peminjaman.status_peminjaman === 'Dikembalikan' ? 'text-green-500' : peminjaman.status_peminjaman === 'Terlambat' ? 'text-red-500' : 'text-gray-500' %>"
+                    class="px-3 py-3 font-semibold <%= peminjaman.status_peminjaman === 'Dikembalikan' ? 'text-green-500' : peminjaman.status_peminjaman === 'Terlambat' ? 'text-red-500' : 'text-gray-500' %>"
                   >
                     <%= peminjaman.status_peminjaman %>
                   </td>
