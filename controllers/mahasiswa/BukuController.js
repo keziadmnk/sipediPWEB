@@ -49,3 +49,4 @@ exports.getDetailBuku = async (req, res) => {
     // Logika untuk menampilkan halaman detailbuku.ejs
     // contoh: res.render('mahasiswa/detailbuku', { ...data... });
 };
+
