@@ -2,6 +2,8 @@ const { Buku } = require("../../models/BukuModel");
 const { Peminjaman } = require("../../models/PeminjamanModel");
 const { Pengguna } = require("../../models/PenggunaModel");
 
+
+
 const findAllPeminjaman = async (req, res) => {
   try {
     const datapeminjaman = await Peminjaman.findAll({
@@ -39,7 +41,7 @@ const findDetailPeminjaman = async (req, res) => {
         },
         {
           model: Buku,
-          attributes: ["nomor_isbn", "judul_buku", "pengarang"],
+          attributes: ["nomor_isbn", "judul_buku", "pengarang", "lokasi_penyimpanan"],
         },
       ],
     });
