@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Peminjaman } = require("../../models/PeminjamanModel");
 
 const findStatusStatistik = async (req, res) => {
@@ -7,8 +8,16 @@ const findStatusStatistik = async (req, res) => {
       where: { status_peminjaman: "Dipinjam" },
     });
     const totaldikembalikan = await Peminjaman.count({
-      where: { status_peminjaman: "Dikembalikan" },
-    });
+  where: {
+    status_peminjaman: {
+      [Op.or]: ["Dikembalikan", "Terlambat"]
+    },
+    tanggal_pengembalian: {
+      [Op.ne]: null // sudah ada tanggal pengembalian
+    }
+  }
+});
+
     const totalterlambat = await Peminjaman.count({
       where: { status_peminjaman: "Terlambat" },
     });
