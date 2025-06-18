@@ -29,13 +29,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-sequelize.sync({ alter: true }) 
-  .then(() => {
-    console.log("Database & tables have been synced.");
-  })
-  .catch((error) => {
-    console.error("Error syncing database:", error);
-  });
+// sequelize.sync({ alter: true }) 
+//   .then(() => {
+//     console.log("Database & tables have been synced.");
+//   })
+//   .catch((error) => {
+//     console.error("Error syncing database:", error);
+//   });
 
 // Konfigurasi session
 app.use(session({

@@ -7,9 +7,9 @@ const findAllDenda = async (req, res) => {
   try {
     const datadenda = await Peminjaman.findAll({
       where: {
-        status_peminjaman: "Terlambat", 
+        status_peminjaman: "Terlambat",
         denda: {
-          [Sequelize.Op.gt]: 0, 
+          [Sequelize.Op.gt]: 0,
         },
       },
 
@@ -32,4 +32,36 @@ const findAllDenda = async (req, res) => {
   }
 };
 
-module.exports = findAllDenda;
+const findDetailDenda = async (req, res) => {
+  try {
+    const { id_peminjaman } = req.params;
+    const datadenda = await Peminjaman.findOne({
+      where: { id_peminjaman: id_peminjaman },
+      include: [
+        {
+          model: Pengguna,
+          attributes: ["id_pengguna", "nama_lengkap", "email"],
+        },
+        {
+          model: Buku,
+          attributes: [
+            "nomor_isbn",
+            "judul_buku",
+            "pengarang",
+            "lokasi_penyimpanan",
+          ],
+        },
+      ],
+    });
+    if (!datadenda) {
+      return res.status(404).send("Data Denda tidak ditemukan");
+    }
+    console.log(datadenda);
+    res.render("petugas/detaildenda", { datadenda });
+  } catch (error) {
+    console.error("Error fetching detail denda:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = {findAllDenda, findDetailDenda};

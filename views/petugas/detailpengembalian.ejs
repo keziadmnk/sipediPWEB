@@ -68,7 +68,7 @@
                   id="nama-lengkap"
                   readonly=""
                   type="text"
-                  value="<%= datapeminjaman.Pengguna.nama_lengkap %>"
+                  value="<%= datapengembalian.Pengguna.nama_lengkap %>"
                 />
               </div>
               <div class="mb-4">
@@ -83,7 +83,7 @@
                   id="nomor-induk"
                   readonly=""
                   type="text"
-                  value="<%= datapeminjaman.Pengguna.id_pengguna %>"
+                  value="<%= datapengembalian.Pengguna.id_pengguna %>"
                 />
               </div>
               <div>
@@ -98,7 +98,7 @@
                   id="email"
                   readonly=""
                   type="email"
-                  value="<%= datapeminjaman.Pengguna.email %>"
+                  value="<%= datapengembalian.Pengguna.email %>"
                 />
               </div>
             </div>
@@ -119,7 +119,7 @@
                   id="judul-buku"
                   readonly=""
                   type="text"
-                  value="<%= datapeminjaman.Buku.judul_buku %>"
+                  value="<%= datapengembalian.Buku.judul_buku %>"
                 />
               </div>
               <div class="mb-4">
@@ -134,7 +134,7 @@
                   id="pengarang"
                   readonly=""
                   type="text"
-                  value="<%= datapeminjaman.Buku.pengarang %>"
+                  value="<%= datapengembalian.Buku.pengarang %>"
                 />
               </div>
               <div>
@@ -149,7 +149,7 @@
                   id="nomor-isbn"
                   readonly=""
                   type="text"
-                  value="<%= datapeminjaman.Buku.nomor_isbn %>"
+                  value="<%= datapengembalian.Buku.nomor_isbn %>"
                 />
               </div>
             </div>
@@ -173,7 +173,7 @@
                   id="tanggal-pinjam"
                   readonly=""
                   type="text"
-                  value="<%= datapeminjaman.tanggal_peminjaman.toLocaleDateString() %>"
+                  value="<%= datapengembalian.tanggal_peminjaman.toLocaleDateString() %>"
                 />
               </div>
               <div class="mb-4">
@@ -188,7 +188,7 @@
                   id="tanggal-maksimal"
                   readonly=""
                   type="text"
-                  value="<%= datapeminjaman.tanggal_wajib_pengembalian.toLocaleDateString() %>"
+                  value="<%= datapengembalian.tanggal_wajib_pengembalian.toLocaleDateString() %>"
                 />
               </div>
               <div class="mb-4">
@@ -203,7 +203,7 @@
                   id="lokasi-buku"
                   readonly=""
                   type="text"
-                  value="<%= datapeminjaman.Buku.lokasi_penyimpanan %>"
+                  value="<%= datapengembalian.Buku.lokasi_penyimpanan %>"
                 />
               </div>
               <div>
