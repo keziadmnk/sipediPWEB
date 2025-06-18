@@ -34,6 +34,26 @@ const Buku = sequelize.define('Buku', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    lokasi_penyimpanan: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+    },
+    upload_pdf: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+    },
+    upload_sampul: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+    },
+    id_kategori: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'kategori',
+            key: 'id_kategori'
+        }
+    }
 }, {
     tableName: 'buku',
     timestamps: false,

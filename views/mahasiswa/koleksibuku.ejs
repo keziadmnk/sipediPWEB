@@ -1,16 +1,12 @@
-<!-- views/katalog-buku.ejs -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Koleksi Buku - SIPEDI</title>
-  <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-      rel="stylesheet"
-    />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <style>
     .line-clamp-2 {
       display: -webkit-box;
@@ -19,153 +15,87 @@
     }
   </style>
 </head>
+
 <body class="bg-[#F8FFF6] font-sans">
-  
-  <!-- Include Navbar -->
+  <!-- Navbar -->
   <%- include('../partials/navbarMahasiswa') %>
+
+  <!-- Konten Utama -->
   <main class="mt-20">
-  <div class="flex min-h-screen">
-    <!-- Sidebar Kategori -->
-    <aside class="w-64 bg-white shadow-sm p-6">
-      <h3 class="text-sm font-semibold text-gray-700 mb-6">Kategori</h3>
-      <ul class="space-y-3 text-sm">
-        <li><a href="#" class="text-green-600 hover:text-green-700 block py-2">Karya Ilmiah</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Ilmu Komputer</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Ekonomi dan Bisnis</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Teknik</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Pendidikan</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Sains dan Matematika</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Hukum</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Kesehatan dan Kedokteran</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Ilmu Sosial dan Politik</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Bahasa dan Sastra</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Agama dan Filsafat</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Arsitektur dan Desain</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Pertanian dan Peternakan</a></li>
-        <li><a href="#" class="text-gray-600 hover:text-green-600 block py-2">Majalah dan Jurnal</a></li>
-      </ul>
-    </aside>
+    <div class="flex min-h-screen">
+      <!-- Sidebar Kategori -->
+      <aside class="w-64 bg-white shadow-sm p-6">
+        <h3 class="text-sm font-semibold text-gray-700 mb-6">Kategori</h3>
+        <ul class="space-y-3 text-sm">
+           <li>
+    <a href="/mahasiswa/koleksibuku"
+       class="block py-2 <%= !selectedKategori ? 'text-green-600 font-semibold' : 'text-gray-600 hover:text-green-600' %>">
+      Semua
+    </a>
+  </li>
+          <% if (kategori && kategori.length > 0) { %>
+            <% kategori.forEach(item => { %>
+              <li>
+                <a href="/mahasiswa/koleksibuku?kategori=<%= item.id_kategori %>"
+                class="block py-2 <%= selectedKategori == item.id_kategori ? 'text-green-600 font-semibold' : 'text-gray-600 hover:text-green-600' %>">
+                <%= item.nama_kategori %>
+              </a>
+              </li>
+            <% }) %>
+          <% } else { %>
+            <li><span class="text-gray-400 block py-2">Tidak ada kategori</span></li>
+          <% } %>
+        </ul>
+      </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <!-- Search Bar -->
-      <div class="mb-6">
-        <div class="max-w-md ml-auto">
-          <input 
-            type="text" 
-            placeholder="Cari buku..." 
-            class="text-sm w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-          >
-        </div>
-      </div>
-
-      <!-- Book Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-sm">
-        
-        <!-- Book Card 1 -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 ">
-          <div class="aspect-[3/4] ">
-            <img 
-              src="/images/coverbuku.jpeg" 
-              alt="Dasar dasar Penguasaan Pemrograman Web" 
-              class="w-full h-full object-cover"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+      <!-- Main Content -->
+      <main class="flex-1 p-6">
+        <!-- Search Bar (kosong dulu) -->
+        <div class="mb-6">
+          <div class="max-w-md ml-auto">
+            <input 
+              type="text" 
+              placeholder="Cari buku..." 
+              class="text-sm w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
             >
           </div>
-          <div class="p-4">
-            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">Dasar dasar Penguasaan Pemrograman Web</h3>
-            <p class="text-sm text-gray-500">Agustriadi</p>
-          </div>
         </div>
 
-        <!-- Book Card 2 -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 ">
-          <div class="aspect-[3/4] ">
-            <img 
-              src="/images/coverbuku.jpeg" 
-              alt="Dasar dasar Penguasaan Pemrograman Web" 
-              class="w-full h-full object-cover"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
-            >
-          </div>
-          <div class="p-4">
-            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">Dasar dasar Penguasaan Pemrograman Web</h3>
-            <p class="text-sm text-gray-500">Agustriadi</p>
-          </div>
+        <!-- Grid Buku -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-sm">
+          <% if (buku && buku.length > 0) { %>
+            <% buku.forEach(b => { %>
+              <a href="/mahasiswa/detailbuku/<%= b.nomor_isbn %>" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 block">
+                <div class="aspect-[3/4]">
+                  <img 
+                    src="/uploads/covers/<%= b.upload_sampul %>" 
+                    alt="<%= b.judul_buku %>" 
+                    class="w-full h-full object-cover"
+                    onerror="this.src='/images/placeholder-book.png'">
+                </div>
+                <div class="p-4">
+                  <h3 class="font-medium text-gray-800 mb-1 line-clamp-2"><%= b.judul_buku %></h3>
+                  <p class="text-sm text-gray-500"><%= b.pengarang %></p>
+                </div>
+              </a>
+            <% }) %>
+          <% } else { %>
+            <p class="col-span-full text-center text-gray-400">Tidak ada buku ditemukan untuk kategori ini.</p>
+          <% } %>
         </div>
 
-        <!-- Book Card 3 -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 ">
-          <div class="aspect-[3/4] ">
-            <img 
-              src="/images/coverbuku.jpeg" 
-              alt="Dasar dasar Penguasaan Pemrograman Web" 
-              class="w-full h-full object-cover"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
-            >
-          </div>
-          <div class="p-4">
-            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">Dasar dasar Penguasaan Pemrograman Web</h3>
-            <p class="text-sm text-gray-500">Agustriadi</p>
-          </div>
+        <!-- Pagination Placeholder -->
+        <div class="mt-8 flex justify-center text-sm">
+          <nav class="flex space-x-2">
+            <button class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Previous</button>
+            <button class="px-3 py-2 bg-green-600 text-white rounded-md">1</button>
+            <button class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">2</button>
+            <button class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">3</button>
+            <button class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Next</button>
+          </nav>
         </div>
-
-        <!-- Book Card 4 -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 ">
-          <div class="aspect-[3/4] ">
-            <img 
-              src="/images/coverbuku.jpeg" 
-              alt="Dasar dasar Penguasaan Pemrograman Web" 
-              class="w-full h-full object-cover"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
-            >
-          </div>
-          <div class="p-4">
-            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">Dasar dasar Penguasaan Pemrograman Web</h3>
-            <p class="text-sm text-gray-500">Agustriadi</p>
-          </div>
-        </div>
-
-          <!-- Book Card 5 -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 ">
-          <div class="aspect-[3/4] ">
-            <img 
-              src="/images/coverbuku.jpeg" 
-              alt="Dasar dasar Penguasaan Pemrograman Web" 
-              class="w-full h-full object-cover"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
-            >
-          </div>
-          <div class="p-4">
-            <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">Dasar dasar Penguasaan Pemrograman Web</h3>
-            <p class="text-sm text-gray-500">Agustriadi</p>
-          </div>
-        </div>
-        
-        <!-- Tambahkan lebih banyak book cards sesuai kebutuhan -->
-        
-      </div>
-
-      <!-- Pagination -->
-      <div class="mt-8 flex justify-center text-sm">
-        <nav class="flex space-x-2">
-          <button class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
-            Previous
-          </button>
-          <button class="px-3 py-2 bg-green-600 text-white rounded-md">1</button>
-          <button class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">2</button>
-          <button class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">3</button>
-          <button class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
-            Next
-          </button>
-        </nav>
-      </div>
-
-    </main>
-  </div>
-
-
+      </main>
+    </div>
   </main>
-
 </body>
 </html>

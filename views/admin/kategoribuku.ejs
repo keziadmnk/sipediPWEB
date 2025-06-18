@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIPEDI - Kategori Buku</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  <style>
+      /* Custom scrollbar for sidebar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #2f855a;
+        border-radius: 3px;
+      }
+  </style>
+  </head>
+  <body class="bg-[#f5fef7] min-h-screen flex flex-col ml-56">
+    <div class="flex flex-1">
+      <%- include('../partials/asideAdmin') %>
+
+      <div class="flex-1 flex flex-col">
+        <header
+          class="flex justify-end items-center px-8 py-4 border-b border-[#cbd5d0]"
+        >
+          <button
+            aria-label="User profile"
+            class="text-[#276749] text-xl focus:outline-none"
+            type="button"
+          >
+            <i class="fas fa-user-circle"></i>
+          </button>
+        </header>
+
+        <main class="flex-1 p-8">
+           <div class="flex justify-between items-center mb-6">
+              <h2 class="text-[#276749] font-semibold text-lg mb-6">Kategori Buku</h2>
+              <button class="bg-[#276749] text-white py-2 px-4 rounded-lg hover:bg-green-700 ml-4 text-sm"><a href="/admin/tambahkategori">Tambah Kategori Buku</a>
+                
+          </button>
+           </div>
+          
+
+          <div
+            class="overflow-x-auto rounded-lg shadow-md border border-transparent"
+          >
+            <table class="min-w-full text-xs text-left text-[#4a5568]">
+              <thead
+                class="bg-[#276749] text-[#d1d5db] text-[10px] font-semibold rounded-t-lg"
+              >
+                <tr>
+                  <th class="px-3 py-2 rounded-tl-lg" scope="col">
+                    Id Kategori
+                  </th>
+                  <th class="px-3 py-2" scope="col">Nama Kategori</th>
+                  <th class="px-3 py-2" scope="col">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% kategori.forEach(kategori => { %>
+          <tr>
+            <td class="px-3 py-2"><%= kategori.id_kategori %></td>
+            <td class="px-3 py-2"><%= kategori.nama_kategori %></td>
+            <td class="px-3 py-2">
+              <button class="bg-yellow-400 text-white py-1 px-3 rounded-md hover:bg-yellow-500">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <button class="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

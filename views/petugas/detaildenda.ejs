@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="eng">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SIPEDI</title>
+    <link rel="stylesheet" href="/stylesheets/output.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #2f855a;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body class="bg-[#f5fef7] min-h-screen flex">
+    <%- include('../partials/asidePetugas') %>
+
+    <main class="flex-1 flex flex-col">
+      <%- include('../partials/navpetugas') %>
+
+      <section class="flex-1 p-4">
+        <div
+          class="bg-white rounded-lg shadow-md p-6 max-w-5xl mx-auto"
+          style="min-width: 320px"
+        >
+          <div
+            class="flex items-center mb-4 text-[#2f6f4e] font-semibold text-lg"
+          >
+            <a href="/petugas/peminjaman" aria-label="Back">
+              <button
+                aria-label="Back"
+                class="mr-3 text-[#2f6f4e] hover:text-[#1f4b2f]"
+              >
+                <i class="fas fa-arrow-left"> </i>
+              </button>
+            </a>
+            Detail Peminjaman
+          </div>
+          <hr class="border-[#2f6f4e] mb-6" />
+          <form
+            class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 text-[#2f6f4e] text-sm font-semibold"
+          >
+            <div>
+              <h2 class="mb-4 text-[#2f6f4e] font-bold text-sm">
+                Informasi Mahasiswa
+              </h2>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="nama-lengkap"
+                >
+                  Nama Lengkap
+                </label>
+                <input
+                  class="w-full rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="nama-lengkap"
+                  readonly=""
+                  type="text"
+                  value="<%= datadenda.Pengguna.nama_lengkap %>"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="nomor-induk"
+                >
+                  Nomor Induk Mahasiswa
+                </label>
+                <input
+                  class="w-full rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="nomor-induk"
+                  readonly=""
+                  type="text"
+                  value="<%= datadenda.Pengguna.id_pengguna %>"
+                />
+              </div>
+              <div>
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="email"
+                >
+                  Email
+                </label>
+                <input
+                  class="w-full rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="email"
+                  readonly=""
+                  type="email"
+                  value="<%= datadenda.Pengguna.email %>"
+                />
+              </div>
+            </div>
+
+            <div>
+              <h2 class="mb-4 text-[#2f6f4e] font-bold text-sm">
+                Informasi Buku
+              </h2>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="judul-buku"
+                >
+                  Judul Buku
+                </label>
+                <input
+                  class="w-full rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="judul-buku"
+                  readonly=""
+                  type="text"
+                  value="<%= datadenda.Buku.judul_buku %>"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="pengarang"
+                >
+                  Pengarang
+                </label>
+                <input
+                  class="w-full rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="pengarang"
+                  readonly=""
+                  type="text"
+                  value="<%= datadenda.Buku.pengarang %>"
+                />
+              </div>
+              <div>
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="nomor-isbn"
+                >
+                  Nomor ISBN
+                </label>
+                <input
+                  class="w-full rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="nomor-isbn"
+                  readonly=""
+                  type="text"
+                  value="<%= datadenda.Buku.nomor_isbn %>"
+                />
+              </div>
+            </div>
+
+            <!-- Informasi Peminjaman -->
+            <div>
+              <h2
+                class="mb-4 text-[#2f6f4e] font-bold text-sm col-span-full md:col-span-1"
+              >
+                Informasi Peminjaman
+              </h2>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="tanggal-pinjam"
+                >
+                  Tanggal Pinjam
+                </label>
+                <input
+                  class="w-48 rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="tanggal-pinjam"
+                  readonly=""
+                  type="text"
+                  value="<%= datadenda.tanggal_peminjaman.toLocaleDateString() %>"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="tanggal-maksimal"
+                >
+                  Tanggal Maksimal Pengembalian
+                </label>
+                <input
+                  class="w-48 rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="tanggal-maksimal"
+                  readonly=""
+                  type="text"
+                  value="<%= datadenda.tanggal_wajib_pengembalian.toLocaleDateString() %>"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="lokasi-buku"
+                >
+                  Lokasi Buku
+                </label>
+                <input
+                  class="w-48 rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="lokasi-buku"
+                  readonly=""
+                  type="text"
+                  value="<%= datadenda.Buku.lokasi_penyimpanan %>"
+                />
+              </div>
+              <div>
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="lokasi-buku"
+                >
+                  Total Denda
+                </label>
+                <input
+                  class="w-48 rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="lokasi-buku"
+                  readonly=""
+                  type="text"
+                  value="Rp5000"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

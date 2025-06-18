@@ -3,8 +3,8 @@ const { Peminjaman } = require("./PeminjamanModel");
 const { Pengguna } = require("./PenggunaModel");
 const { Role } = require("./RoleModel");  
 const { Kategori } = require("./KategoriModel");
-const { BukuKategori } = require("./BukuKategoriModel");
-
+const { Jenis } = require("./JenisModel");
+const { BukuJenis } = require("./BukuJenisModel");
 
 
 Role.hasMany(Pengguna, { foreignKey: 'id_role' });
@@ -13,11 +13,33 @@ Pengguna.belongsTo(Role, { foreignKey: 'id_role' });
 Buku.hasMany(Peminjaman, { foreignKey: 'nomor_isbn' });
 Peminjaman.belongsTo(Pengguna, { foreignKey: 'id_pengguna' });
 Peminjaman.belongsTo(Buku, { foreignKey: 'nomor_isbn' });
-Buku.belongsToMany(Kategori, { through: BukuKategori, foreignKey: 'nomor_isbn' });
-Kategori.belongsToMany(Buku, { through: BukuKategori, foreignKey: 'id_kategori' });
+
+Buku.belongsTo(Kategori, {
+    foreignKey: 'id_kategori',
+    as: 'kategori'
+});
+
+Kategori.hasMany(Buku, {
+    foreignKey: 'id_kategori',
+    as: 'buku'
+});
+
+
+Buku.belongsToMany(Jenis, {
+    through: BukuJenis,
+    foreignKey: 'nomor_isbn',
+    otherKey: 'id_jenis',
+    as: 'jenis'
+});
+Jenis.belongsToMany(Buku, {
+    through: BukuJenis,
+    foreignKey: 'id_jenis',
+    otherKey: 'nomor_isbn',
+    as: 'buku'
+});
+
 
 
 module.exports = {
-  Buku, Peminjaman, Pengguna, Kategori, Role, BukuKategori
+  Buku, Peminjaman, Pengguna, Kategori, Role, Jenis, BukuJenis
 };
-

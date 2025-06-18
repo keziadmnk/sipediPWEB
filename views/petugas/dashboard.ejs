@@ -1,0 +1,106 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>SIPEDI</title>
+    <link rel="stylesheet" href="/stylesheets/output.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-[#f5fef7] min-h-screen flex">
+    <%- include('../partials/asidePetugas') %>
+
+    <main class="flex-1 flex flex-col">
+      <%- include('../partials/navpetugas') %>
+
+      <section
+        class="p-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
+        <!-- card 1 -->
+        <a href="/petugas/dashboard" class="block">
+          <!-- card 1 -->
+          <div
+            class="bg-white shadow-md rounded-md p-6 flex items-center gap-4 hover:bg-[#f0fdf4] cursor-pointer transition"
+          >
+            <div
+              class="w-16 h-16 rounded-full bg-[#b38aff] flex items-center justify-center"
+            >
+              <img
+                alt="Purple circle with book and plus icon"
+                class="w-6 h-6"
+                height="24"
+                src="https://storage.googleapis.com/a1aa/image/d2ae2ec4-7c2c-44ae-5240-19082be3863f.jpg"
+                width="24"
+              />
+            </div>
+            <div>
+              <p class="text-xs text-[#2f6f4e] mb-1">Total Peminjaman</p>
+              <p class="text-[#2f6f4e] font-semibold text-lg">
+                <%= totalpeminjaman %>
+              </p>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2: Total Sedang Dipinjam -->
+        <a href="/petugas/peminjaman" class="block">
+          <div
+            class="bg-white shadow-md rounded-md p-6 flex items-center gap-4 hover:bg-[#f0fdf4] cursor-pointer transition"
+          >
+            <div
+              class="w-16 h-16 rounded-full bg-[#f0e86a] flex items-center justify-center"
+            >
+              <i class="fas fa-book-reader text-2xl"></i>
+            </div>
+            <div>
+              <p class="text-xs text-[#2f6f4e] mb-1">Total Sedang Dipinjam</p>
+              <p class="text-[#2f6f4e] font-semibold text-lg">
+                <%= totaldipinjam %>
+              </p>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3: Total Pengembalian -->
+        <a href="/petugas/pengembalian" class="block">
+          <div
+            class="bg-white shadow-md rounded-md p-6 flex items-center gap-4 hover:bg-[#f0fdf4] cursor-pointer transition"
+          >
+            <div
+              class="w-16 h-16 rounded-full bg-[#b9f0d9] flex items-center justify-center"
+            >
+              <i class="fas fa-undo-alt text-2xl"></i>
+            </div>
+            <div>
+              <p class="text-xs text-[#2f6f4e] mb-1">Total Pengembalian</p>
+              <p class="text-[#2f6f4e] font-semibold text-lg">
+                <%= totaldikembalikan %>
+              </p>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 4: Total Terlambat -->
+        <a href="/petugas/denda" class="block">
+          <div
+            class="bg-white shadow-md rounded-md p-6 flex items-center gap-4 hover:bg-[#f0fdf4] cursor-pointer transition"
+          >
+            <div
+              class="w-16 h-16 rounded-full bg-[#ff4c4c] flex items-center justify-center"
+            >
+              <i class="fas fa-exclamation-triangle text-2xl"></i>
+            </div>
+            <div>
+              <p class="text-xs text-[#2f6f4e] mb-1">Total Terlambat</p>
+              <p class="text-[#2f6f4e] font-semibold text-lg">
+                <%= totalterlambat %>
+              </p>
+            </div>
+          </div>
+        </a>
+      </section>
+    </main>
+  </body>
+</html>
