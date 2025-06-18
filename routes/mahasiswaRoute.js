@@ -1,5 +1,6 @@
 var express = require('express');
-const { authenticate } = require('../middlewares/authenticate');
+const { authenticate } = require('../middlewares/authenticate'); // Middleware untuk autentikasi
+const { showKatalogBuku } = require('../controllers/admin/KategoriController');
 var router = express.Router();
 
 router.get('/dashboard', authenticate, (req, res) => {
@@ -15,9 +16,8 @@ router.get('/profil', authenticate, function(req, res, next) {
   res.render('mahasiswa/profil'); 
 });
 
-router.get('/koleksibuku', authenticate, function(req, res, next) {
-  res.render('mahasiswa/koleksibuku'); 
-});
+router.get('/koleksibuku', authenticate, showKatalogBuku);
+
 
 router.get('/formpeminjaman', authenticate, function(req, res, next) {
   res.render('mahasiswa/formpeminjaman'); 

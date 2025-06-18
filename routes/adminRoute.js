@@ -4,6 +4,7 @@ const {
   tambahKategori,
   findAllKategori,
   showTambahBuku,
+  showKatalogBuku,
 } = require("../controllers/admin/KategoriController");
 const { authenticate } = require("../middlewares/authenticate");
 const {
@@ -28,6 +29,7 @@ router.get("/kategori", findAllKategori);
 router.get("/databuku", findAllBuku);
 
 router.get("/tambahbuku", showTambahBuku);
+
 
 router.post(
   "/tambahbuku",
