@@ -16,6 +16,9 @@ router.get('/profil', authenticate, function(req, res, next) {
   res.render('mahasiswa/profil'); // Pastikan ada file EJS untuk profil mahasiswa
 });
 
+router.get('/koleksibuku', authenticate, function(req, res, next) {
+  res.render('mahasiswa/koleksibuku'); // Pastikan ada file EJS untuk profil mahasiswa
+});
 
 router.get('/formpeminjaman', authenticate, function(req, res, next) {
   res.render('mahasiswa/formpeminjaman'); // Pastikan ada file EJS untuk profil mahasiswa

@@ -84,7 +84,13 @@
             <td class="px-3 py-2"><%= buku.pengarang %></td>
             <td class="px-3 py-2"><%= buku.lokasi_penyimpanan %></td>
             <td class="px-3 py-2"><%= buku.jumlah_stok %></td>
-            <td class="px-3 py-2 text-blue-500 cursor-pointer"><i class="fas fa-info-circle"></i></td>
+            <td class="px-3 py-2 text-[#276749] text-center">
+                    <a
+                      href="/admin/detailbuku/"
+                    >
+                      <i class="fas fa-info-circle"></i>
+                    </a>
+                  </td>
             <td class="px-3 py-2 <%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %>">
                     <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak Tersedia' %>
                   </td>
