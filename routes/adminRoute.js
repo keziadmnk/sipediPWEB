@@ -10,6 +10,7 @@ const { authenticate } = require("../middlewares/authenticate");
 const {
   findAllBuku,
   tambahBuku,
+  showDetailBukuAdmin,
 } = require("../controllers/admin/BukuController");
 // Import upload middleware
 const { uploadFields } = require("../middlewares/upload");
@@ -21,6 +22,12 @@ router.get("/dashboard", authenticate, (req, res) => {
 router.get("/tambahkategori", function (req, res, next) {
   res.render("admin/tambahkategori");
 });
+
+router.get('/detailbuku', authenticate, function(req, res, next) {
+  res.render('admin/detailbuku'); // Pastikan ada file EJS untuk profil mahasiswa
+});
+
+router.get("/detailbuku/:nomor_isbn", showDetailBukuAdmin);
 
 router.post("/tambahkategori", tambahKategori);
 

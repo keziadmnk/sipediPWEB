@@ -97,9 +97,9 @@
           <div class="grid grid-cols-3 px-4 py-2">
             <div><%= buku.nomor_isbn %></div>
             <div class="<%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %> font-semibold">
-              <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Habis' %>
+              <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak tersedia' %>
             </div>
-            <div><%= buku.lokasi_penyimpanan || 'Tidak diketahui' %></div>
+            <div><%= buku.lokasi_penyimpanan || '-' %></div>
           </div>
         </div>
       </div>

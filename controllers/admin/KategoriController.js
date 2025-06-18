@@ -1,5 +1,6 @@
 const { Buku } = require("../../models/BukuModel");
 const { Kategori } = require("../../models/KategoriModel");
+const { Op } = require("sequelize");
 
 const tambahKategori = async (req, res) => {
   try {
@@ -44,24 +45,30 @@ const showTambahBuku = async (req, res) => {
 const showKatalogBuku = async (req, res) => {
   try {
     const selectedKategori = req.query.kategori || null;
+    const searchQuery = req.query.q || null;
     const kategori = await Kategori.findAll();
 
-    let buku;
-    if (selectedKategori) {
-      buku = await Buku.findAll({
-        where: { id_kategori: selectedKategori },
-        include: [{ model: Kategori, as: 'kategori' }]
-      });
-    } else {
-      buku = await Buku.findAll({
-        include: [{ model: Kategori, as: 'kategori' }]
-      });
+     const whereClause = {};
+     if (selectedKategori) {
+      whereClause.id_kategori = selectedKategori;
     }
+
+    if (searchQuery) {
+      whereClause.judul_buku = {
+        [Op.like]: `%${searchQuery}%`
+      };
+    }
+
+    const buku = await Buku.findAll({
+      where: whereClause,
+      include: [{ model: Kategori, as: 'kategori' }]
+    });
 
     res.render("mahasiswa/koleksibuku", {
       kategori,
       buku,
-      selectedKategori: parseInt(selectedKategori)
+      selectedKategori: selectedKategori ? parseInt(selectedKategori) : null,
+      searchQuery
     });
 
   } catch (error) {
@@ -69,6 +76,5 @@ const showKatalogBuku = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
 
 module.exports = { tambahKategori, findAllKategori, showTambahBuku, showKatalogBuku}
