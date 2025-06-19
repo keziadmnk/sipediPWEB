@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Riwayat Peminjaman</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- SweetAlert2 untuk modal -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body class="bg-[#f7fcf2] min-h-screen">
+    <%- include('../partials/navbarMahasiswa') %>
+
+    <main class="px-6 py-32 max-w-7xl mx-auto">
+      <div
+        class="flex items-center space-x-3 mb-6 text-[#2f5d3f] font-semibold text-lg"
+      >
+        <i
+          class="fas fa-arrow-left cursor-pointer"
+          onclick="history.back()"
+        ></i>
+        <h1>Riwayat Peminjaman</h1>
+      </div>
+
+      <% if (riwayatPeminjaman && riwayatPeminjaman.length > 0) { %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <thead class="bg-[#2f5d3f] text-[#FDFCDD] text-xs font-semibold">
+            <tr>
+              <th class="py-3 px-3 text-left rounded-tl-lg">No</th>
+              <th class="py-3 px-3 text-left">ISBN</th>
+              <th class="py-3 px-3 text-left">Judul Buku</th>
+              <th class="py-3 px-3 text-center">Tanggal Peminjaman</th>
+              <th class="py-3 px-3 text-center">Tanggal Wajib Pengembalian</th>
+              <th class="py-3 px-3 text-center">Tanggal Pengembalian</th>
+              <th class="py-3 px-3 text-center">Detail</th>
+              <th class="py-3 px-3 text-center rounded-tr-lg">Status</th>
+            </tr>
+          </thead>
+          <tbody class="text-xs text-[#2f5d3f]">
+            <% riwayatPeminjaman.forEach((item, index) => { %>
+            <tr class="border-b border-gray-200 hover:bg-gray-50">
+              <td class="py-3 px-3"><%= item.no %></td>
+              <td class="py-3 px-3"><%= item.nomor_isbn %></td>
+              <td class="py-3 px-3 max-w-[180px]">
+                <div class="truncate" title="<%= item.judul_buku %>">
+                  <%= item.judul_buku %>
+                </div>
+              </td>
+              <td class="py-3 px-3 text-center">
+                <%= item.tanggal_peminjaman %>
+              </td>
+              <td class="py-3 px-3 text-center">
+                <%= item.tanggal_wajib_pengembalian %>
+              </td>
+              <td class="py-3 px-3 text-center">
+                <%= item.tanggal_pengembalian %>
+              </td>
+              <td class="py-3 px-3 text-center">
+                <i
+                  class="fas fa-info-circle text-[#2f5d3f] cursor-pointer hover:text-blue-600 transition-colors"
+                  onclick="showDetail(<%= item.id_peminjaman %>)"
+                  title="Lihat Detail"
+                ></i>
+              </td>
+              <td class="py-3 px-3 text-center font-bold">
+                <% if (item.status_peminjaman === 'Dikembalikan') { %>
+                <span class="text-[#2f5d3f]">Dikembalikan</span>
+                <% } else if (item.status_peminjaman === 'Terlambat') { %>
+                <span class="text-red-600">Terlambat</span>
+                <% } else if (item.status_peminjaman === 'Dipinjam') { %>
+                <span class="text-yellow-600">Dipinjam</span>
+                <% } %>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <% } else { %>
+      <div class="bg-white shadow-md rounded-lg p-8 text-center">
+        <div class="mb-4">
+          <i class="fas fa-book-open text-6xl text-gray-300"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-600 mb-2">
+          Belum Ada Riwayat Peminjaman
+        </h3>
+        <p class="text-gray-500 mb-4">
+          Anda belum pernah meminjam buku. Mulai jelajahi koleksi buku kami!
+        </p>
+        <a
+          href="/mahasiswa/dashboard"
+          class="inline-flex items-center px-4 py-2 bg-[#2f5d3f] text-white rounded-md hover:bg-[#1f4d2f] transition-colors"
+        >
+          <i class="fas fa-arrow-left mr-2"></i>
+          Kembali ke Dashboard
+        </a>
+      </div>
+      <% } %>
+    </main>
+
+    <script>
+      // Fungsi untuk menampilkan detail peminjaman
+      async function showDetail(idPeminjaman) {
+        try {
+          const response = await fetch(
+            `/mahasiswa/detail-peminjaman/${idPeminjaman}`
+          );
+          const result = await response.json();
+
+          if (result.success) {
+            const data = result.data;
+
+            // Tentukan warna status
+            let statusColor = "#2f5d3f";
+            let statusBg = "#f0f9f0";
+            if (data.status_peminjaman === "Terlambat") {
+              statusColor = "#dc2626";
+              statusBg = "#fef2f2";
+            } else if (data.status_peminjaman === "Dipinjam") {
+              statusColor = "#d97706";
+              statusBg = "#fffbeb";
+            }
+
+            // Format denda
+            const dendaFormatted = new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              minimumFractionDigits: 0,
+            }).format(data.denda);
+
+            Swal.fire({
+              title: "Detail Peminjaman",
+              html: `
+              <div class="text-left space-y-3">
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <strong>ID Peminjaman:</strong><br>
+                    <span class="text-gray-600">${data.id_peminjaman}</span>
+                  </div>
+                  <div>
+                    <strong>ISBN:</strong><br>
+                    <span class="text-gray-600">${data.nomor_isbn}</span>
+                  </div>
+                </div>
+                
+                <div>
+                  <strong>Judul Buku:</strong><br>
+                  <span class="text-gray-600">${data.judul_buku}</span>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <strong>Pengarang:</strong><br>
+                    <span class="text-gray-600">${data.pengarang || "-"}</span>
+                  </div>
+                  <div>
+                    <strong>Penerbit:</strong><br>
+                    <span class="text-gray-600">${data.penerbit || "-"}</span>
+                  </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <strong>Tahun Terbit:</strong><br>
+                    <span class="text-gray-600">${
+                      data.tahun_terbit || "-"
+                    }</span>
+                  </div>
+                  <div>
+                    <strong>Peminjam:</strong><br>
+                    <span class="text-gray-600">${data.nama_peminjam}</span>
+                  </div>
+                </div>
+                
+                <hr class="my-4">
+                
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <strong>Tanggal Peminjaman:</strong><br>
+                    <span class="text-gray-600">${
+                      data.tanggal_peminjaman
+                    }</span>
+                  </div>
+                  <div>
+                    <strong>Wajib Dikembalikan:</strong><br>
+                    <span class="text-gray-600">${
+                      data.tanggal_wajib_pengembalian
+                    }</span>
+                  </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <strong>Tanggal Pengembalian:</strong><br>
+                    <span class="text-gray-600">${
+                      data.tanggal_pengembalian || "Belum dikembalikan"
+                    }</span>
+                  </div>
+                  <div>
+                    <strong>Status:</strong><br>
+                    <span class="px-2 py-1 rounded text-xs font-medium" 
+                          style="color: ${statusColor}; background-color: ${statusBg};">
+                      ${data.status_peminjaman}
+                    </span>
+                  </div>
+                </div>
+                
+                ${
+                  data.denda > 0
+                    ? `
+                <div class="bg-red-50 border border-red-200 rounded p-3 mt-4">
+                  <strong class="text-red-800">Denda:</strong><br>
+                  <span class="text-red-600 text-lg font-semibold">${dendaFormatted}</span>
+                </div>
+                `
+                    : ""
+                }
+              </div>
+            `,
+              width: "600px",
+              confirmButtonText: "Tutup",
+              confirmButtonColor: "#2f5d3f",
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Gagal",
+              text: result.message,
+              confirmButtonColor: "#2f5d3f",
+            });
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Terjadi Kesalahan",
+            text: "Gagal mengambil detail peminjaman",
+            confirmButtonColor: "#2f5d3f",
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

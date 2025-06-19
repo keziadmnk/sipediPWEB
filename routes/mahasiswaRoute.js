@@ -3,6 +3,7 @@ const { authenticate } = require('../middlewares/authenticate'); // Middleware u
 const { showKatalogBuku} = require('../controllers/admin/KategoriController');
 const { detailBuku } = require('../controllers/mahasiswa/tampilBukuController');
 const { showFormPeminjaman, prosesPeminjaman } = require('../controllers/mahasiswa/PeminjamanController');
+const { showRiwayatPeminjaman, getDetailPeminjaman } = require('../controllers/mahasiswa/RiwayatController');
 var router = express.Router();
 
 router.get('/dashboard', authenticate, (req, res) => {
@@ -18,6 +19,10 @@ router.get('/profil', authenticate, function(req, res, next) {
   res.render('mahasiswa/profil'); 
 });
 
+router.get('/riwayatpeminjaman', function(req, res, next) {
+  res.render('mahasiswa/riwayatpeminjaman'); 
+});
+
 router.get('/koleksibuku', authenticate, showKatalogBuku);
 
 
@@ -31,4 +36,6 @@ router.get('/detailbuku', authenticate, function(req, res, next) {
 
 router.get('/detailbuku/:nomor_isbn', detailBuku);
 
+// router.get('/riwayat-peminjaman', showRiwayatPeminjaman);
+// router.get('/detail-peminjaman/:id_peminjaman', getDetailPeminjaman);
 module.exports = router;

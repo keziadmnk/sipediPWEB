@@ -31,6 +31,13 @@
       <div id="alert" class="mb-4 hidden"></div>
 
       <form id="formPeminjaman" class="flex flex-col md:flex-row md:space-x-20">
+        <!-- Hidden field untuk nomor ISBN -->
+        <input
+          type="hidden"
+          name="nomor_isbn"
+          value="<%= buku ? buku.nomor_isbn : '' %>"
+        />
+
         <section class="flex-1">
           <h2
             class="text-[#2f6f4e] font-semibold text-base border-b border-[#2f6f4e] pb-1 mb-6"
@@ -92,13 +99,6 @@
           >
             Informasi Buku
           </h2>
-
-          <!-- Hidden input untuk ISBN -->
-          <input
-            type="hidden"
-            name="nomor_isbn"
-            value="<%= buku ? buku.nomor_isbn : '' %>"
-          />
 
           <div class="mb-5">
             <label
@@ -216,7 +216,23 @@
           btnPinjam.disabled = true;
           btnPinjam.textContent = "Memproses...";
 
-          const formData = new FormData(this);
+          // Ambil data dari form secara manual
+          const nomor_isbn = document.querySelector(
+            'input[name="nomor_isbn"]'
+          ).value;
+          const tanggal_peminjaman = document.querySelector(
+            'input[name="tanggal_peminjaman"]'
+          ).value;
+
+          // Debug: Log data yang akan dikirim
+          console.log("Data yang akan dikirim:");
+          console.log("nomor_isbn:", nomor_isbn);
+          console.log("tanggal_peminjaman:", tanggal_peminjaman);
+
+          // Buat form data secara manual
+          const formData = new FormData();
+          formData.append("nomor_isbn", nomor_isbn);
+          formData.append("tanggal_peminjaman", tanggal_peminjaman);
 
           try {
             const response = await fetch("/mahasiswa/formpeminjaman", {
