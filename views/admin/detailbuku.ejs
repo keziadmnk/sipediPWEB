@@ -36,54 +36,54 @@
       <!-- Baris 1 -->
       <div class="col-span-2">
         <label for="judul_buku" class="block text-xs font-semibold text-[#2f6f4e] mb-1">Judul Buku</label>
-        <input type="text" id="judul_buku" name="judul_buku" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
+        <input type="text" id="judul_buku" name="judul_buku" value="<%= databuku.judul_buku %>" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
       </div>
 
       <!-- Baris 2 -->
       <div class="col-span-2">
         <label for="jenis_buku" class="block text-xs font-semibold text-[#2f6f4e] mb-1">Jenis Buku</label>
-        <input type="text" id="jenis_buku" name="jenis_buku" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
+        <input type="text" id="jenis_buku" name="jenis_buku" readonly value="<%= databuku.jenis.map(j => j.nama_jenis).join(', ') %>"  class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
       </div>
 
       <!-- Baris 3 -->
       <div>
         <label for="kategori" class="block text-xs font-semibold text-[#2f6f4e] mb-1">Kategori</label>
-        <input type="text" id="kategori" name="kategori" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
+        <input type="text" id="kategori" name="kategori" readonly value="<%= databuku.kategori?.nama_kategori || 'Tidak ada' %>" class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
       </div>
       <div>
         <label for="isbn" class="block text-xs font-semibold text-[#2f6f4e] mb-1">ISBN</label>
-        <input type="text" id="isbn" name="isbn" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
+        <input type="text" id="isbn" name="isbn" readonly value="<%= databuku.nomor_isbn %>" class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
       </div>
 
       <!-- Baris 4 -->
       <div>
         <label for="pengarang" class="block text-xs font-semibold text-[#2f6f4e] mb-1">Pengarang</label>
-        <input type="text" id="pengarang" name="pengarang" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
+        <input type="text" id="pengarang" name="pengarang" readonly value="<%= databuku.pengarang %>" class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
       </div>
       <div>
         <label for="tahun_terbit" class="block text-xs font-semibold text-[#2f6f4e] mb-1">Tahun Terbit</label>
-        <input type="text" id="tahun_terbit" name="tahun_terbit" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
+        <input type="text" id="tahun_terbit" name="tahun_terbit" readonly value="<%= databuku.tahun_terbit %>" class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
       </div>
 
       <!-- Baris 5 -->
       <div>
         <label for="penerbit" class="block text-xs font-semibold text-[#2f6f4e] mb-1">Penerbit</label>
-        <input type="text" id="penerbit" name="penerbit" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
+        <input type="text" id="penerbit" name="penerbit" readonly value="<%= databuku.penerbit %>" class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
       </div>
       <div>
-        <label for="jumlah_halaman" class="block text-xs font-semibold text-[#2f6f4e]">Jumlah Halaman</label>
-        <input type="number" id="jumlah_halaman" name="jumlah_halaman" min="1" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
+        <label for="jumlah_halaman" class="block text-xs font-semibold text-[#2f6f4e] mb-1">Jumlah Halaman</label>
+        <input type="number" id="jumlah_halaman" name="jumlah_halaman" min="1" rreadonly value="<%= databuku.jumlah_halaman %>" class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
       </div>
 
       <!-- Baris 6 -->
       <div>
         <label for="lokasi_penyimpanan" class="block text-xs font-semibold text-[#2f6f4e] mb-1">Lokasi Penyimpanan</label>
-        <input gtype="text" id="lokasi_penyimpanan" name="lokasi_penyimpanan" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"/>
+        <input gtype="text" id="lokasi_penyimpanan" name="lokasi_penyimpanan" readonly value="<%= databuku.lokasi_penyimpanan || '' %>" class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"/>
           
       </div>
       <div>
         <label for="jumlah_stok" class="block text-xs font-semibold text-[#2f6f4e] mb-1">Jumlah Stok</label>
-        <input type="number" id="jumlah_stok" name="jumlah_stok" min="1" readonly class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
+        <input type="number" id="jumlah_stok" name="jumlah_stok" min="1" readonly value="<%= databuku.jumlah_stok %>" class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]" />
       </div>
     </div>
   </form>

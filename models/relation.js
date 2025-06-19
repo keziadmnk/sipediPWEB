@@ -33,6 +33,7 @@ Buku.belongsToMany(Jenis, {
 });
 Jenis.belongsToMany(Buku, {
     through: BukuJenis,
+    as: 'jenis',
     foreignKey: 'id_jenis',
     otherKey: 'nomor_isbn',
     as: 'buku'

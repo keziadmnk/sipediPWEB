@@ -24,4 +24,28 @@ const detailBuku = async (req, res) => {
   }
 };
 
+
+
+
+// const showKatalogByKategori = async (req, res) => {
+//   try {
+//     const { id_kategori } = req.params;
+//     const kategori = await Kategori.findAll();
+
+//     const buku = await Buku.findAll({
+//       where: { id_kategori },
+//       include: [{ model: Kategori, as: 'kategori' }]
+//     });
+
+//     res.render("mahasiswa/koleksibuku", {
+//       kategori,
+//       buku,
+//       selectedKategori: parseInt(id_kategori)
+//     });
+//   } catch (error) {
+//     console.error("Error:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
 module.exports = { detailBuku}

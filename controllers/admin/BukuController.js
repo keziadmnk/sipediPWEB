@@ -148,7 +148,29 @@ const tambahBuku = async (req, res) => {
   }
 };
 
+const showDetailBukuAdmin = async (req, res) => {
+  try {
+    const { nomor_isbn } = req.params;
+
+    const databuku = await Buku.findByPk(nomor_isbn, {
+      include: [
+        { model: Kategori, as: "kategori" },
+        { model: Jenis, as: "jenis" }
+      ]
+    });
+
+    if (!databuku) return res.status(404).send("Buku tidak ditemukan");
+
+    res.render("admin/detailbuku", { databuku});
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
 module.exports = {
   findAllBuku,
-  tambahBuku
+  tambahBuku,
+  showDetailBukuAdmin
 };

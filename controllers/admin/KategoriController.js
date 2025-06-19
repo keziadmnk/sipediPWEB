@@ -1,5 +1,6 @@
 const { Buku } = require("../../models/BukuModel");
 const { Kategori } = require("../../models/KategoriModel");
+const { Op } = require("sequelize");
 
 const tambahKategori = async (req, res) => {
   try {
@@ -43,24 +44,37 @@ const showTambahBuku = async (req, res) => {
 
 const showKatalogBuku = async (req, res) => {
   try {
-    // Mengambil semua data kategori dari database untuk sidebar
+    const selectedKategori = req.query.kategori || null;
+    const searchQuery = req.query.q || null;
     const kategori = await Kategori.findAll();
-    
-    // Mengambil semua data buku (jika diperlukan)
+
+     const whereClause = {};
+     if (selectedKategori) {
+      whereClause.id_kategori = selectedKategori;
+    }
+
+    if (searchQuery) {
+      whereClause.judul_buku = {
+        [Op.like]: `%${searchQuery}%`
+      };
+    }
+
     const buku = await Buku.findAll({
-      include: [{
-        model: Kategori,
-        as: 'kategori'
-      }]
+      where: whereClause,
+      include: [{ model: Kategori, as: 'kategori' }]
     });
-    
-    // Render halaman katalog-buku dengan data kategori dan buku
-    res.render('mahasiswa/koleksibuku', { kategori, buku });
+
+    res.render("mahasiswa/koleksibuku", {
+      kategori,
+      buku,
+      selectedKategori: selectedKategori ? parseInt(selectedKategori) : null,
+      searchQuery
+    });
+
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching katalog:", error);
     res.status(500).send("Internal Server Error");
   }
 };
-
 
 module.exports = { tambahKategori, findAllKategori, showTambahBuku, showKatalogBuku}

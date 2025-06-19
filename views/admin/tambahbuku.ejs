@@ -225,14 +225,13 @@
               <label
                 for="jumlah_stok"
                 class="block text-sm font-medium text-gray-700"
-                >Jumlah Stok *</label
+                >Jumlah Stok </label
               >
               <input
                 type="number"
                 id="jumlah_stok"
                 name="jumlah_stok"
                 min="1"
-                required
                 class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
               />
             </div>
@@ -309,6 +308,7 @@
       const checkboxFisik = document.getElementById("buku_fisik");
       const checkboxEbook = document.getElementById("e_book");
       const lokasi = document.getElementById("lokasi_penyimpanan");
+      const jumlah_stok = document.getElementById("jumlah_stok");
       const uploadPdf = document.getElementById("upload_pdf");
 
       function updateFormFields() {
@@ -316,13 +316,16 @@
         const isEbook = checkboxEbook.checked;
 
         lokasi.disabled = !isFisik;
+        jumlah_stok.disabled = !isFisik;
         uploadPdf.disabled = !isEbook;
 
         lokasi.classList.toggle("bg-gray-100", !isFisik);
+        jumlah_stok.classList.toggle("bg-gray-100", !isFisik);
         uploadPdf.classList.toggle("bg-gray-100", !isEbook);
 
         // Reset values when disabled
         if (!isFisik) lokasi.value = "";
+        if (!isFisik) jumlah_stok.value = "";
         if (!isEbook) uploadPdf.value = "";
       }
 
@@ -338,7 +341,6 @@
           "penerbit",
           "tahun_terbit",
           "jumlah_halaman",
-          "jumlah_stok",
         ];
         let hasError = false;
 
