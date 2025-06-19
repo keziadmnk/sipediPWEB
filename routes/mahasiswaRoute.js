@@ -2,6 +2,7 @@ var express = require('express');
 const { authenticate } = require('../middlewares/authenticate'); // Middleware untuk autentikasi
 const { showKatalogBuku} = require('../controllers/admin/KategoriController');
 const { detailBuku } = require('../controllers/mahasiswa/tampilBukuController');
+const { showFormPeminjaman, prosesPeminjaman } = require('../controllers/mahasiswa/PeminjamanController');
 var router = express.Router();
 
 router.get('/dashboard', authenticate, (req, res) => {
@@ -20,9 +21,9 @@ router.get('/profil', authenticate, function(req, res, next) {
 router.get('/koleksibuku', authenticate, showKatalogBuku);
 
 
-router.get('/formpeminjaman', authenticate, function(req, res, next) {
-  res.render('mahasiswa/formpeminjaman'); 
-});
+router.get('/formpeminjaman', authenticate, showFormPeminjaman);
+
+router.post('/formpeminjaman', authenticate, prosesPeminjaman);
 
 router.get('/detailbuku', authenticate, function(req, res, next) {
   res.render('mahasiswa/detailbuku'); // Pastikan ada file EJS untuk profil mahasiswa
