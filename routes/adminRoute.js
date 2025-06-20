@@ -1,5 +1,6 @@
 const express = require("express");
 var router = express.Router();
+
 const {
   tambahKategori,
   findAllKategori,
@@ -38,7 +39,12 @@ router.get("/databuku", findAllBuku);
 
 router.get("/tambahbuku", showTambahBuku);
 
-router.delete('/admin/buku/:nomor_isbn'); 
+// Route untuk menghapus buku - perbaiki route path
+router.delete('/buku/:nomor_isbn', authenticate, hapusBuku);
+
+// Alternative route jika ingin menggunakan POST method
+router.post('/hapusbuku/:nomor_isbn', authenticate, hapusBuku);
+
 
 router.post(
   "/tambahbuku",

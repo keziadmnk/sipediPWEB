@@ -98,7 +98,11 @@
               <button class="bg-yellow-400 text-white py-1 px-3 rounded-md hover:bg-yellow-500">
                 <i class="fas fa-pencil-alt"></i>
               </button>
-              <button class="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700">
+              <button 
+              class="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700 btn-hapus"
+              data-isbn="<%= buku.nomor_isbn %>"
+              data-judul="<%= buku.judul_buku %>"
+              >
                 <i class="fas fa-trash"></i>
               </button>
             </td>
@@ -107,7 +111,51 @@
         </tbody>
       </table>
     </div>
-  </div>
+  
+
+
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let isbnToDelete = '';
+
+    // Event listener untuk tombol hapus
+    document.querySelectorAll('.btn-hapus').forEach(button => {
+      button.addEventListener('click', function() {
+        isbnToDelete = this.getAttribute('data-isbn');
+        const judul = this.getAttribute('data-judul');
+
+        // Tampilkan konfirmasi hapus
+        const confirmDelete = confirm(`Apakah Anda yakin ingin menghapus buku "${judul}"?`);
+        if (confirmDelete) {
+          // Kirim request hapus menggunakan fetch API
+          fetch(`/admin/buku/${isbnToDelete}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              // Tampilkan pesan sukses dan reload halaman
+              alert('Buku berhasil dihapus!');
+              location.reload();
+            } else {
+              // Tampilkan pesan error
+              alert('Gagal menghapus buku: ' + data.message);
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menghapus buku');
+          });
+        }
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
