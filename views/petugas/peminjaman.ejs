@@ -80,12 +80,14 @@
                     <%= peminjaman.status_peminjaman %>
                   </td>
                   <td class="px-3 py-3">
-                      <button onclick=""
-                        class="bg-[#276749] text-[10px] text-white rounded-full px-3 py-1"
-                        type="button"
-                      >
-                        Kembalikan
-                      </button>
+                      <form action="/petugas/peminjaman/kembalikan/<%= peminjaman.id_peminjaman %>" method="POST">
+                        <button
+                          class="bg-[#276749] text-[10px] text-white rounded-full px-3 py-1"
+                          type="submit"
+                        >
+                          Kembalikan
+                        </button>
+                      </form>
                   </td>
                 </tr>
                 <% }); %>

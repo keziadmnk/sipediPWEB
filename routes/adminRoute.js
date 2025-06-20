@@ -13,6 +13,8 @@ const {
   tambahBuku,
   showDetailBukuAdmin,
   hapusBuku,
+  showEditBuku,
+  updateBuku
 } = require("../controllers/admin/BukuController");
 
 // Import upload middleware
@@ -75,5 +77,9 @@ router.post("/tambahpetugas", authenticate, tambahPetugas);
 
 router.get('/tambahmahasiswa', authenticate, showTambahMahasiswaForm); // Route to show the add student form
 router.post('/tambahmahasiswa', authenticate, tambahMahasiswa); // Route to process the add student form submission
+
+// Route edit buku
+router.get('/editbuku/:nomor_isbn', authenticate, showEditBuku);
+router.post('/editbuku/:nomor_isbn', authenticate, uploadFields, updateBuku);
 
 module.exports = router;

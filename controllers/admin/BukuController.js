@@ -248,12 +248,124 @@ const hapusBuku = async (req, res) => {
   }
 };
 
+// Tampilkan form edit buku
+const showEditBuku = async (req, res) => {
+  try {
+    const { nomor_isbn } = req.params;
+    // Ambil data buku beserta relasi
+    const databuku = await Buku.findByPk(nomor_isbn, {
+      include: [
+        { model: Kategori, as: "kategori" },
+        { model: Jenis, as: "jenis" }
+      ]
+    });
+    if (!databuku) return res.status(404).send("Buku tidak ditemukan");
+    // Ambil semua kategori untuk dropdown
+    const kategori = await Kategori.findAll();
+    // Ambil semua jenis untuk checkbox
+    const semuaJenis = await Jenis.findAll();
+    res.render("admin/editbuku", { databuku, kategori, semuaJenis });
+  } catch (error) {
+    console.error("Error showEditBuku:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
+// Proses update buku
+const updateBuku = async (req, res) => {
+  try {
+    const { nomor_isbn } = req.params;
+    const {
+      judul_buku,
+      isbn,
+      pengarang,
+      penerbit,
+      tahun_terbit,
+      jumlah_halaman,
+      lokasi_penyimpanan,
+      jumlah_stok,
+      deskripsi,
+      kategori,
+      jenis_buku = []
+    } = req.body;
 
+    // Validasi data required
+    if (!judul_buku || !isbn || !pengarang || !penerbit || !tahun_terbit || !jumlah_halaman || !jumlah_stok) {
+      req.session.message = {
+        type: 'error',
+        text: 'Semua field wajib harus diisi'
+      };
+      return res.redirect(`/admin/editbuku/${nomor_isbn}`);
+    }
+
+    // Cari buku lama
+    const buku = await Buku.findByPk(nomor_isbn);
+    if (!buku) {
+      req.session.message = {
+        type: 'error',
+        text: 'Buku tidak ditemukan'
+      };
+      return res.redirect('/admin/databuku');
+    }
+
+    // Update data buku
+    await buku.update({
+      nomor_isbn: isbn, // jika ingin bisa update ISBN
+      judul_buku,
+      pengarang,
+      penerbit,
+      tahun_terbit: parseInt(tahun_terbit),
+      jumlah_halaman: parseInt(jumlah_halaman),
+      jumlah_stok: parseInt(jumlah_stok),
+      deskripsi,
+      lokasi_penyimpanan,
+      id_kategori: kategori ? parseInt(kategori) : null,
+      // File upload
+      upload_pdf: req.files?.upload_pdf?.[0]?.filename || buku.upload_pdf,
+      upload_sampul: req.files?.upload_sampul?.[0]?.filename || buku.upload_sampul
+    });
+
+    // Update relasi jenis (many-to-many)
+    // 1. Hapus semua relasi lama
+    await BukuJenis.destroy({ where: { nomor_isbn: nomor_isbn } });
+    // 2. Tambahkan relasi baru
+    if (jenis_buku && jenis_buku.length > 0) {
+      const jenisIds = [];
+      for (const jenisNama of Array.isArray(jenis_buku) ? jenis_buku : [jenis_buku]) {
+        let jenis = await Jenis.findOne({ where: { nama_jenis: jenisNama } });
+        if (!jenis) {
+          jenis = await Jenis.create({ nama_jenis: jenisNama });
+        }
+        jenisIds.push(jenis.id_jenis);
+      }
+      for (const jenisId of jenisIds) {
+        await BukuJenis.create({
+          nomor_isbn: isbn,
+          id_jenis: jenisId
+        });
+      }
+    }
+
+    req.session.message = {
+      type: 'success',
+      text: 'Buku berhasil diupdate!'
+    };
+    res.redirect('/admin/databuku');
+  } catch (error) {
+    console.error("Error updateBuku:", error);
+    req.session.message = {
+      type: 'error',
+      text: 'Gagal update buku: ' + error.message
+    };
+    res.redirect(`/admin/editbuku/${req.params.nomor_isbn}`);
+  }
+};
 
 module.exports = {
   findAllBuku,
   tambahBuku,
   showDetailBukuAdmin,
-  hapusBuku
+  hapusBuku,
+  showEditBuku,
+  updateBuku
 };
