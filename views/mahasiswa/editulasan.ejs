@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Ulasan untuk <%= buku.judul_buku %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        .rating {
+            display: inline-block;
+            border: none;
+        }
+        .rating > input { display: none; }
+        .rating > label {
+            float: right;
+            cursor: pointer;
+            color: #d1d5db; /* gray-300 */
+            font-size: 2.5rem; /* Ukuran bintang */
+            transition: color 0.2s;
+        }
+        .rating > input:checked ~ label,
+        .rating:not(:checked) > label:hover,
+        .rating:not(:checked) > label:hover ~ label {
+            color: #facc15; /* yellow-400 */
+        }
+        .rating > input:checked + label:hover,
+        .rating > input:checked ~ label:hover,
+        .rating > label:hover ~ input:checked ~ label,
+        .rating > input:checked ~ label:hover ~ label {
+            color: #fde047; /* yellow-300 */
+        }
+        /* Gaya untuk modal */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="bg-[#e9f5e3] font-sans">
+
+    <%- include('../partials/navbarMahasiswa') %>
+    <main class="max-w-3xl mx-auto p-8 mt-28">
+        <div class="bg-[#F8FFF6] p-8 rounded-2xl shadow-lg">
+            <a href="/buku/<%= buku.nomor_isbn %>/ulasan" class="text-2xl text-gray-600 hover:text-gray-900">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+
+            <h1 class="text-center text-3xl font-bold text-gray-800 mt-4 mb-2">PERBARUI ULASAN ANDA</h1>
+            <h2 class="text-center text-xl text-gray-600 mb-8">untuk "<%= buku.judul_buku %>"</h2>
+            
+            <%# Bagian Rating & Ulasan Sebelumnya %>
+            <div class="bg-[#eaf7f0] p-6 rounded-lg mb-8 shadow-sm">
+                <p class="font-semibold text-gray-700 mb-2">Rating sebelumnya</p>
+                <div class="text-yellow-400 text-2xl mb-4">
+                    <% for(let i = 1; i <= 5; i++) { %>
+                        <% if(i <= ulasan.rating) { %>
+                            <i class="fas fa-star"></i>
+                        <% } else { %>
+                            <i class="far fa-star"></i>
+                        <% } %>
+                    <% } %>
+                </div>
+                <p class="text-gray-700 leading-relaxed"><%= ulasan.isi_ulasan %></p>
+            </div>
+
+            <form id="editUlasanForm" action="/buku/<%= buku.nomor_isbn %>/ulasan/<%= ulasan.id_ulasan %>/edit" method="POST">
+                <div class="mb-6">
+                    <p class="font-semibold text-gray-700 mb-2">
+                        <%= user.nama %>
+                    </p>
+                    <div class="border rounded-lg p-4">
+                        <p class="text-center text-gray-500 mb-2">Silahkan beri rating baru</p>
+                        <div class="flex justify-center">
+                             <fieldset class="rating">
+                                <input type="radio" id="star5" name="rating" value="5" <%= ulasan.rating == 5 ? 'checked' : '' %> /><label for="star5" title="Luar biasa!"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star4" name="rating" value="4" <%= ulasan.rating == 4 ? 'checked' : '' %> /><label for="star4" title="Bagus"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star3" name="rating" value="3" <%= ulasan.rating == 3 ? 'checked' : '' %> /><label for="star3" title="Cukup"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star2" name="rating" value="2" <%= ulasan.rating == 2 ? 'checked' : '' %> /><label for="star2" title="Kurang"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star1" name="rating" value="1" <%= ulasan.rating == 1 ? 'checked' : '' %> /><label for="star1" title="Buruk"><i class="fas fa-star"></i></label>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                     <textarea name="isi_ulasan" rows="8" class="w-full border rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Tulis ulasan baru disini..."><%= ulasan.isi_ulasan %></textarea>
+                </div>
+
+                <div class="flex justify-center gap-4">
+                    <a href="/buku/<%= buku.nomor_isbn %>/ulasan" class="bg-gray-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-gray-600">
+                        Batal
+                    </a>
+                    <button type="submit" class="bg-[#418163] text-white font-semibold px-6 py-2 rounded-lg hover:bg-green-800">
+                        Posting
+                    </button>
+                </div>
+            </form>
+
+            <%# Form Hapus Ulasan - Pemicu Modal %>
+            <div class="text-center mt-4">
+                <button id="deleteButton" type="button" class="bg-red-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-700">
+                    Hapus
+                </button>
+            </div>
+            
+            <%# Form DELETE sebenarnya yang akan disubmit via JS %>
+            <form id="deleteUlasanForm" action="/buku/<%= buku.nomor_isbn %>/ulasan/<%= ulasan.id_ulasan %>/delete" method="POST" class="hidden"></form>
+        </div>
+    </main>
+
+    <%# Custom Confirmation Modal %>
+    <div id="customConfirmModal" class="fixed inset-0 hidden modal-overlay z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full text-center">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Konfirmasi Penghapusan</h3>
+            <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus ulasan ini?</p>
+            <div class="flex justify-center gap-4">
+                <button id="modalCancelBtn" class="bg-gray-200 text-gray-800 font-semibold px-6 py-2 rounded-lg hover:bg-gray-300">
+                    Batal
+                </button>
+                <button id="modalConfirmBtn" class="bg-red-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-700">
+                    Oke, Hapus
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButton = document.getElementById('deleteButton');
+            const deleteUlasanForm = document.getElementById('deleteUlasanForm');
+            const customConfirmModal = document.getElementById('customConfirmModal');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+
+            // Fungsi untuk menampilkan modal
+            function showModal() {
+                customConfirmModal.classList.remove('hidden');
+            }
+
+            // Fungsi untuk menyembunyikan modal
+            function hideModal() {
+                customConfirmModal.classList.add('hidden');
+            }
+
+            // Ketika tombol "Hapus" diklik (yang memicu modal)
+            if (deleteButton) {
+                deleteButton.addEventListener('click', showModal);
+            }
+
+            // Ketika tombol "Oke, Hapus" di modal diklik
+            if (modalConfirmBtn) {
+                modalConfirmBtn.addEventListener('click', function() {
+                    hideModal(); // Sembunyikan modal
+                    deleteUlasanForm.submit(); // Submit form penghapusan
+                });
+            }
+
+            // Ketika tombol "Batal" di modal diklik
+            if (modalCancelBtn) {
+                modalCancelBtn.addEventListener('click', hideModal);
+            }
+
+            // Klik di luar modal untuk menutup (opsional, jika Anda mau)
+            customConfirmModal.addEventListener('click', function(event) {
+                if (event.target === customConfirmModal) {
+                    hideModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
