@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIPEDI - Tambah Kategori</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        .bg-custom {
+            background-color: #e9f1ed;
+        }
+    </style>
+</head>
+
+<body class="bg-green-50 flex ml-56">
+    <%- include('../partials/asideAdmin') %>
+
+        <div class="flex-1 p-12">
+
+            <section class="flex-1 p-8">
+                <h2 class="text-[#2f6f4e] font-semibold text-lg mb-6 select-none">
+                    Tambah Petugas
+                </h2>
+                <form action="/admin/tambahpetugas" method="POST" autocomplete="off" class="bg-white rounded-lg p-8 max-w-4xl drop-shadow-md" novalidate="">
+                    <div class="mb-6">
+                        <label class="block text-[#2f6f4e] font-semibold text-xs mb-2 select-none" for="nama">
+                            Nama Lengkap Petugas
+                        </label>
+                        <input
+                            class="w-full bg-[#e6f1e9] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                            id="nama" name="nama_lengkap" type="text" />
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-6">
+                        <div>
+                            <label class="block text-[#2f6f4e] font-semibold text-xs mb-2 select-none" for="nip">
+                                NIP
+                            </label>
+                            <input
+                                class="w-full bg-[#e6f1e9] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                                id="nip" name="username" type="text" />
+                        </div>
+                        <div>
+                            <label class="block text-[#2f6f4e] font-semibold text-xs mb-2 select-none" for="email">
+                                Email
+                            </label>
+                            <input
+                                class="w-full bg-[#e6f1e9] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                                id="email" name="email" type="email" />
+                        </div>
+                        <div>
+                            <label class="block text-[#2f6f4e] font-semibold text-xs mb-2 select-none" for="hp">
+                                Nomor HP
+                            </label>
+                            <input
+                                class="w-full bg-[#e6f1e9] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                                id="hp" name="nomor_hp" type="text" />
+                        </div>
+                        <div>
+                            <label class="block text-[#2f6f4e] font-semibold text-xs mb-2 select-none" for="alamat">
+                                Alamat
+                            </label>
+                            <input
+                                class="w-full bg-[#e6f1e9] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                                id="alamat" name="alamat" type="text" />
+                        </div>
+                    </div>
+                    <div class="mb-6 max-w-md">
+                        <label class="block text-[#2f6f4e] font-semibold text-xs mb-2 select-none" for="password">
+                            Buat Password
+                        </label>
+                        <input
+                            class="w-full bg-[#e6f1e9] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                            id="password" name="password" type="password" />
+                    </div>
+                    <div class="mb-10 max-w-md">
+                        <label class="block text-[#2f6f4e] font-semibold text-xs mb-2 select-none" for="password2">
+                            Ketik Ulang Password
+                        </label>
+                        <input
+                            class="w-full bg-[#e6f1e9] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                            id="password2" name="password2" type="password" />
+                    </div>
+                    <div class="flex gap-6">
+                        <button
+                            class="bg-[#eac75a] text-white text-xs font-semibold rounded-md py-2 px-6 select-none hover:bg-[#d4b94a] transition-colors"
+                            type="button">
+                            Batal
+                        </button>
+                        <button
+                            class="bg-[#4f8564] text-white text-xs font-semibold rounded-md py-2 px-6 select-none hover:bg-[#3e6a4f] transition-colors"
+                            type="submit">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </div>
+</body>
+
+</html>

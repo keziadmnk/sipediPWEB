@@ -18,7 +18,7 @@ const {
 // Import upload middleware
 const { uploadFields } = require("../middlewares/upload");
 const { findAllMahasiswa } = require("../controllers/admin/MahasiswaController");
-const { findAllPetugas } = require("../controllers/admin/PetugasController");
+const { findAllPetugas, tambahPetugas } = require("../controllers/admin/PetugasController");
 
 // const adminController = require('../controllers/admin/adminController');
 
@@ -66,5 +66,11 @@ router.post(
 router.get("/datamahasiswa", authenticate, findAllMahasiswa);
 
 router.get("/datapetugas", authenticate, findAllPetugas);
+
+router.get("/tambahpetugas", authenticate, (req, res) => {
+  res.render("admin/tambahpetugas");
+});
+
+router.post("/tambahpetugas", authenticate, tambahPetugas);
 
 module.exports = router;
