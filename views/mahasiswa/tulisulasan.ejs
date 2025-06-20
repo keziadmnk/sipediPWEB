@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tulis Ulasan</title>
+    <title>Tulis Ulasan untuk <%= buku.judul_buku %></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
@@ -37,15 +37,18 @@
     <%- include('../partials/navbarMahasiswa') %>
     <main class="max-w-3xl mx-auto p-8 mt-28">
         <div class="bg-[#F8FFF6] p-8 rounded-2xl shadow-lg">
-            <a href="/buku/<%= buku.id %>/ulasan" class="text-2xl text-gray-600 hover:text-gray-900">
+            <a href="/buku/<%= buku.nomor_isbn %>/ulasan" class="text-2xl text-gray-600 hover:text-gray-900">
                 <i class="fas fa-arrow-left"></i>
             </a>
 
-            <h1 class="text-center text-3xl font-bold text-gray-800 mt-4 mb-8">TULIS ULASAN ANDA</h1>
+            <h1 class="text-center text-3xl font-bold text-gray-800 mt-4 mb-2">TULIS ULASAN ANDA</h1>
+            <h2 class="text-center text-xl text-gray-600 mb-8">untuk "<%= buku.judul_buku %>"</h2>
             
-            <form action="/buku/<%= buku.id %>/ulasan" method="POST">
+            <form action="/buku/<%= buku.nomor_isbn %>/ulasan" method="POST">
                 <div class="mb-6">
-                    <p class="font-semibold text-gray-700 mb-2">Kezia Valerina Damanik</p> <%# Ganti dengan nama user yang login %>
+                    <p class="font-semibold text-gray-700 mb-2">
+                        <%= user.nama %>
+                    </p>
                     <div class="border rounded-lg p-4">
                         <p class="text-center text-gray-500 mb-2">Silahkan beri rating</p>
                         <div class="flex justify-center">
@@ -61,7 +64,7 @@
                 </div>
 
                 <div class="mb-8">
-                     <textarea name="komentar" rows="8" class="w-full border rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Tulis ulasan disini..."></textarea>
+                     <textarea name="isi_ulasan" rows="8" class="w-full border rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Tulis ulasan disini..."></textarea>
                 </div>
 
                 <div class="text-center">

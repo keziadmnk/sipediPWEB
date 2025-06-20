@@ -1,45 +1,40 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIPEDI - Tambah Buku</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIPEDI - Edit Buku</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-    <style>
+  <style>
       /* Custom background color with 33% opacity */
       .bg-custom {
-        background-color: #e9f1ed;
+        background-color: #E9F1ED;
       }
-    </style>
-  </head>
-  <body class="bg-green-50 flex ml-56">
-    <!-- Sidebar -->
-    <%- include('../partials/asideAdmin') %>
+  </style>
+  
+</head>
+<body class="bg-green-50 flex ml-56">
 
-    <!-- Content -->
-    <div class="flex-1 p-12">
-      <!-- Header -->
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-semibold">Tambah Buku</h1>
-      </div>
+  <!-- Sidebar -->
+  <%- include('../partials/asideAdmin') %>
 
-      <!-- Alert Messages -->
-      <% if (typeof message !== 'undefined' && message) { %>
-      <div
-        class="mb-4 p-4 rounded-md <%= message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>"
-      >
-        <%= message.text %>
-      </div>
-      <% } %>
+  <!-- Content -->
+  <div class="flex-1 p-12">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-semibold">Edit Buku</h1>
+    </div>
 
-      <!-- Form Tambah Buku -->
+    <!-- Form Edit Buku -->
+    <div class="bg-white shadow-md rounded-lg p-10">
+       <!-- Form Tambah Buku -->
       <div class="bg-white shadow-md rounded-lg p-10">
         <form
-          action="/admin/tambahbuku"
+          action="/admin/editbuku/<%= databuku.nomor_isbn %>"
           method="POST"
           enctype="multipart/form-data"
         >
@@ -48,7 +43,7 @@
             <div class="col-span-2">
               <label
                 for="judul_buku"
-                class="block text-sm font-medium text-gray-700 mb-1"
+                class="block text-sm font-medium text-gray-700 mt-1"
                 >Judul Buku *</label
               >
               <input
@@ -56,33 +51,28 @@
                 id="judul_buku"
                 name="judul_buku"
                 required
-                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]""
+                value="<%= databuku.judul_buku %>"
               />
             </div>
 
             <!-- Baris 2 -->
             <div class="col-span-2">
-              <label class="block text-sm font-medium text-gray-700 mb-1"
+              <label class="block text-sm font-medium text-gray-700 mt-1"
                 >Jenis Buku</label
               >
               <div class="mt-1 flex items-center space-x-6">
-                <input
-                  type="checkbox"
-                  id="buku_fisik"
-                  name="jenis_buku[]"
-                  value="Buku Fisik"
-                  checked
-                  class="mr-2"
-                />
-                <label for="buku_fisik" class="mr-6">Buku Fisik</label>
-                <input
-                  type="checkbox"
-                  id="e_book"
-                  name="jenis_buku[]"
-                  value="E-Book"
-                  class="mr-2"
-                />
-                <label for="e_book">E-Book</label>
+                <% semuaJenis.forEach(function(jenis) { %>
+                  <input
+                    type="checkbox"
+                    id="jenis_<%= jenis.nama_jenis.replace(/\s/g, '_') %>"
+                    name="jenis_buku[]"
+                    value="<%= jenis.nama_jenis %>"
+                    class="mr-2"
+                    <%= databuku.jenis && databuku.jenis.some(j => j.nama_jenis === jenis.nama_jenis) ? 'checked' : '' %>
+                  />
+                  <label for="jenis_<%= jenis.nama_jenis.replace(/\s/g, '_') %>" class="mr-6"><%= jenis.nama_jenis %></label>
+                <% }); %>
               </div>
             </div>
 
@@ -90,27 +80,22 @@
             <div>
               <label
                 for="kategori"
-                class="block text-sm font-medium text-gray-700 mb-1"
+                class="block text-sm font-medium text-gray-700 mt-1"
                 >Kategori</label
               >
               <select
                 id="kategori"
                 name="kategori"
-                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]""
               >
                 <option value="">Pilih kategori</option>
-                <% if (typeof kategori !== 'undefined' && kategori.length > 0) {
-                %> <% kategori.forEach(function(item) { %>
-                <option value="<%= item.id_kategori %>">
-                  <%= item.nama_kategori %>
-                </option>
-                <% }); %> <% } else { %>
-                <option disabled>Tidak ada kategori tersedia</option>
-                <% } %>
+                <% kategori.forEach(function(item) { %>
+                  <option value="<%= item.id_kategori %>" <%= databuku.kategori && databuku.kategori.id_kategori === item.id_kategori ? 'selected' : '' %>><%= item.nama_kategori %></option>
+                <% }); %>
               </select>
             </div>
             <div>
-              <label for="isbn" class="block text-sm font-medium text-gray-700 mb-1"
+              <label for="isbn" class="block text-sm font-medium text-gray-700 mt-1"
                 >ISBN *</label
               >
               <input
@@ -118,7 +103,8 @@
                 id="isbn"
                 name="isbn"
                 required
-                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]""
+                value="<%= databuku.nomor_isbn %>"
               />
             </div>
 
@@ -126,7 +112,7 @@
             <div>
               <label
                 for="pengarang"
-                class="block text-sm font-medium text-gray-700 mb-1"
+                class="block text-sm font-medium text-gray-700 mt-1"
                 >Pengarang *</label
               >
               <input
@@ -134,25 +120,26 @@
                 id="pengarang"
                 name="pengarang"
                 required
-                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]""
+                value="<%= databuku.pengarang %>"
               />
             </div>
             <div>
               <label
                 for="tahun_terbit"
-                class="block text-sm font-medium text-gray-700 mb-1"
+                class="block text-sm font-medium text-gray-700 mt-1"
                 >Tahun Terbit *</label
               >
               <select
                 name="tahun_terbit"
                 id="tahun_terbit"
                 required
-                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]""
               >
                 <option value="">Pilih tahun</option>
                 <% const currentYear = new Date().getFullYear(); for (let year =
                 currentYear; year >= 1950; year--) { %>
-                <option value="<%= year %>"><%= year %></option>
+                <option value="<%= year %>" <%= databuku.tahun_terbit == year ? 'selected' : '' %>><%= year %></option>
                 <% } %>
               </select>
             </div>
@@ -161,7 +148,7 @@
             <div>
               <label
                 for="penerbit"
-                class="block text-sm font-medium text-gray-700 mb-1"
+                class="block text-sm font-medium text-gray-700 mt-1"
                 >Penerbit *</label
               >
               <input
@@ -169,13 +156,14 @@
                 id="penerbit"
                 name="penerbit"
                 required
-                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]""
+                value="<%= databuku.penerbit %>"
               />
             </div>
             <div>
               <label
                 for="jumlah_halaman"
-                class="block text-sm font-medium text-gray-700 mb-1"
+                class="block text-sm font-medium text-gray-700 mt-1"
                 >Jumlah Halaman *</label
               >
               <input
@@ -184,7 +172,8 @@
                 name="jumlah_halaman"
                 min="1"
                 required
-                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]""
+                value="<%= databuku.jumlah_halaman %>"
               />
             </div>
 
@@ -192,7 +181,7 @@
             <div>
               <label
                 for="lokasi_penyimpanan"
-                class="block text-sm font-medium text-gray-700 mb-1"
+                class="block text-sm font-medium text-gray-700 mt-1"
                 >Lokasi Penyimpanan</label
               >
               <select
@@ -201,30 +190,18 @@
                 class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
               >
                 <option value="">Pilih lokasi</option>
-                <option value="American Corner – Sayap Kanan Lt.2">
-                  American Corner – Sayap Kanan Lt.2
-                </option>
-                <option value="Minangkabau Corner Lt. 3">
-                  Minangkabau Corner Lt. 3
-                </option>
-                <option value="Ruang Lokal Konten – Skripsi">
-                  Ruang Lokal Konten – Skripsi
-                </option>
-                <option value="Ruang Referensi – Sayap Kiri Lantai 2">
-                  Ruang Referensi – Sayap Kiri Lantai 2
-                </option>
-                <option value="Ruang Sirkulasi 2 – Sayap Kanan Lantai 1">
-                  Ruang Sirkulasi 2 – Sayap Kanan Lantai 1
-                </option>
-                <option value="Ruang Sirkulasi Utama – Sayap Kiri Lantai 1">
-                  Ruang Sirkulasi Utama – Sayap Kiri Lantai 1
-                </option>
+                <option value="American Corner – Sayap Kanan Lt.2" <%= databuku.lokasi_penyimpanan === 'American Corner – Sayap Kanan Lt.2' ? 'selected' : '' %>>American Corner – Sayap Kanan Lt.2</option>
+                <option value="Minangkabau Corner Lt. 3" <%= databuku.lokasi_penyimpanan === 'Minangkabau Corner Lt. 3' ? 'selected' : '' %>>Minangkabau Corner Lt. 3</option>
+                <option value="Ruang Lokal Konten – Skripsi" <%= databuku.lokasi_penyimpanan === 'Ruang Lokal Konten – Skripsi' ? 'selected' : '' %>>Ruang Lokal Konten – Skripsi</option>
+                <option value="Ruang Referensi – Sayap Kiri Lantai 2" <%= databuku.lokasi_penyimpanan === 'Ruang Referensi – Sayap Kiri Lantai 2' ? 'selected' : '' %>>Ruang Referensi – Sayap Kiri Lantai 2</option>
+                <option value="Ruang Sirkulasi 2 – Sayap Kanan Lantai 1" <%= databuku.lokasi_penyimpanan === 'Ruang Sirkulasi 2 – Sayap Kanan Lantai 1' ? 'selected' : '' %>>Ruang Sirkulasi 2 – Sayap Kanan Lantai 1</option>
+                <option value="Ruang Sirkulasi Utama – Sayap Kiri Lantai 1" <%= databuku.lokasi_penyimpanan === 'Ruang Sirkulasi Utama – Sayap Kiri Lantai 1' ? 'selected' : '' %>>Ruang Sirkulasi Utama – Sayap Kiri Lantai 1</option>
               </select>
             </div>
             <div>
               <label
                 for="jumlah_stok"
-                class="block text-sm font-medium text-gray-700 mb-1"
+                class="block text-sm font-medium text-gray-700 mt-1"
                 >Jumlah Stok </label
               >
               <input
@@ -232,7 +209,8 @@
                 id="jumlah_stok"
                 name="jumlah_stok"
                 min="1"
-                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]""
+                value="<%= databuku.jumlah_stok %>"
               />
             </div>
 
@@ -240,21 +218,21 @@
             <div>
               <label
                 for="deskripsi"
-                class="block text-sm font-medium text-gray-700 mb-1"
+                class="block text-sm font-medium text-gray-700 mt-1"
                 >Deskripsi</label
               >
               <textarea
                 id="deskripsi"
                 rows="5"
                 name="deskripsi"
-                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
-              ></textarea>
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]""
+              ><%= databuku.deskripsi || '' %></textarea>
             </div>
             <div class="flex flex-col gap-4">
               <div>
                 <label
                   for="upload_pdf"
-                  class="block text-sm font-medium text-gray-700 mb-1"
+                  class="block text-sm font-medium text-gray-700 mt-1"
                   >Upload PDF</label
                 >
                 <input
@@ -262,14 +240,17 @@
                   id="upload_pdf"
                   name="upload_pdf"
                   accept=".pdf"
-                  class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                  class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]""
                 />
+                <% if (databuku.upload_pdf) { %>
+                  <div class="text-xs text-gray-500 mt-1">File saat ini: <%= databuku.upload_pdf %></div>
+                <% } %>
                 <small class="text-gray-500">Format: PDF, Max: 10MB</small>
               </div>
               <div>
                 <label
                   for="upload_sampul"
-                  class="block text-sm font-medium text-gray-700 mb-1"
+                  class="block text-sm font-medium text-gray-700 mt-1"
                   >Upload Sampul</label
                 >
                 <input
@@ -279,6 +260,9 @@
                   accept="image/*"
                   class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
                 />
+                <% if (databuku.upload_sampul) { %>
+                  <div class="text-xs text-gray-500 mt-1">File saat ini: <%= databuku.upload_sampul %></div>
+                <% } %>
                 <small class="text-gray-500"
                   >Format: JPG, PNG, GIF, Max: 10MB</small
                 >
@@ -301,10 +285,9 @@
             </button>
           </div>
         </form>
-      </div>
     </div>
-
-    <script>
+ 
+  <script>
       const checkboxFisik = document.getElementById("buku_fisik");
       const checkboxEbook = document.getElementById("e_book");
       const lokasi = document.getElementById("lokasi_penyimpanan");
@@ -362,5 +345,5 @@
 
       updateFormFields(); // Jalankan di awal
     </script>
-  </body>
+</body>
 </html>

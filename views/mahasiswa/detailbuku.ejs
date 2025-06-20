@@ -20,13 +20,10 @@
   </head>
 
   <body class="bg-[#F8FFF6] font-sans">
-    <!-- Navbar -->
     <%- include('../partials/navbarMahasiswa') %>
 
-    <!-- Konten -->
     <main class="max-w-6xl mx-auto p-6 bg-white mt-28 rounded-lg shadow-md">
       <div class="grid md:grid-cols-3 gap-8">
-        <!-- Gambar Buku -->
         <div>
           <img
             src="/uploads/covers/<%= buku.upload_sampul %>"
@@ -36,25 +33,21 @@
           />
         </div>
 
-        <!-- Info Buku -->
         <div class="md:col-span-2">
           <h1 class="text-2xl font-bold text-gray-800 mb-2">
             <%= buku.judul_buku %>
           </h1>
           <p class="text-gray-600 mb-1"><%= buku.pengarang %></p>
 
-          <!-- Rating Dummy -->
           <div class="flex items-center mb-3">
             <div class="text-yellow-400 text-xl">★★★★☆</div>
             <span class="ml-2 text-gray-700 font-semibold">4.0</span>
           </div>
 
-          <!-- Deskripsi -->
           <p class="text-gray-700 mb-4 text-sm leading-relaxed">
             <%= buku.deskripsi || "Tidak ada deskripsi untuk buku ini." %>
           </p>
 
-          <!-- Detail Buku -->
           <ul class="text-sm text-gray-700 space-y-1 mb-6">
             <li><strong>Judul:</strong> <%= buku.judul_buku %></li>
             <li><strong>Pengarang:</strong> <%= buku.pengarang %></li>
@@ -76,7 +69,6 @@
             </li>
           </ul>
 
-          <!-- Tombol Aksi -->
           <div class="flex gap-4 mb-6">
             <% if (buku.jumlah_stok > 0) { %>
             <button
@@ -86,21 +78,19 @@
               Pinjam
             </button>
             <% } else { %>
-              Tidak tersedia
+            <button
+              class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg cursor-not-allowed"
+              disabled
+            >
+              Tidak Tersedia
+            </button>
             <% } %>
-          </li>
-        </ul>
-        
-        
-        <!-- Tombol Aksi -->
-        <div class="flex gap-4 mb-6">
-          <button class="bg-[#276749] text-white px-4 py-2 rounded-lg hover:bg-green-700">Pinjam</button>
 
-          <% 
-            const jenisList = buku.jenis.map(j => j.nama_jenis.toLowerCase());
-            const isEbook = jenisList.includes("e-book") || jenisList.includes("ebook");
-          %>
-          <% if (isEbook && buku.upload_pdf) { %>
+            <%
+              const jenisList = buku.jenis.map(j => j.nama_jenis.toLowerCase());
+              const isEbook = jenisList.includes("e-book") || jenisList.includes("ebook");
+            %>
+            <% if (isEbook && buku.upload_pdf) { %>
             <a href="/uploads/pdf/<%= buku.upload_pdf %>" target="_blank" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
               Download PDF
             </a>
@@ -113,18 +103,22 @@
             </button>
             <% } %>
 
-            <button
-              class="bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-500"
-            >
-              Lihat Ulasan
-            </button>
+            <a href="/buku/<%= buku.nomor_isbn %>/ulasan" class="bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-500">Lihat Ulasan</a>
           </div>
-          <div class="grid grid-cols-3 px-4 py-2">
-            <div><%= buku.nomor_isbn %></div>
-            <div class="<%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %> font-semibold">
-              <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak tersedia' %>
+
+          <div class="border border-[#b4c9be] rounded-lg overflow-hidden text-sm">
+            <div class="grid grid-cols-3 bg-[#cfe4d9] font-medium text-gray-700 px-4 py-2">
+              <div>ISBN</div>
+              <div>Ketersediaan</div>
+              <div>Lokasi Penyimpanan</div>
             </div>
-            <div><%= buku.lokasi_penyimpanan || '-' %></div>
+            <div class="grid grid-cols-3 px-4 py-2">
+              <div><%= buku.nomor_isbn %></div>
+              <div class="<%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %> font-semibold">
+                <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak tersedia' %>
+              </div>
+              <div><%= buku.lokasi_penyimpanan || '-' %></div>
+            </div>
           </div>
         </div>
       </div>

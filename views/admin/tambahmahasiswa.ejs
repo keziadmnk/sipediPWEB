@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPEDI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body class="flex min-h-screen">
+    <%- include('../partials/asideAdmin') %>
+        <div class="flex-1 p-10 bg-[#f8fff6]">
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md mt-10">
+                <h2 class="text-2xl font-bold text-[#2f5a3f] mb-6 text-center">Tambah Mahasiswa</h2>
+
+                <form action="/admin/tambahmahasiswa" method="POST" class="space-y-4">
+                    <div>
+                        <label for="nama_lengkap" class="block text-sm font-medium text-gray-700">Nama Lengkap
+                            Mahasiswa</label>
+                        <input type="text" name="nama_lengkap" id="nama_lengkap" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="id_pengguna" class="block text-sm font-medium text-gray-700">NIM</label>
+                            <input type="text" name="id_pengguna" id="id_pengguna" required
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" name="email" id="email" required
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="nomor_hp" class="block text-sm font-medium text-gray-700">Nomor HP</label>
+                            <input type="tel" name="nomor_hp" id="nomor_hp"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
+                            <textarea name="alamat" id="alamat" rows="2"
+                                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Buat Password</label>
+                        <input type="password" name="password" id="password" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <label for="confirm_password" class="block text-sm font-medium text-gray-700">Ketik Ulang
+                            Password</label>
+                        <input type="password" name="confirm_password" id="confirm_password" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                    </div>
+
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" onclick="window.history.back()"
+                            class="px-4 py-2 bg-yellow-400 text-white font-semibold rounded-md shadow-sm hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400">
+                            Batal
+                        </button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-[#2c5a33] text-white font-semibold rounded-md shadow-sm hover:bg-[#1f4d2f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2c5a33]">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <% if (typeof message !=='undefined' && message) { %>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    Swal.fire({
+                        icon: '<%= message.type %>',
+                        title: '<%= message.text %>',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                });
+            </script>
+            <% } %>
+</body>
+
+</html>
