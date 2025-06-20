@@ -14,6 +14,7 @@ Pengguna.belongsTo(Role, { foreignKey: 'id_role' });
 Buku.hasMany(Peminjaman, { foreignKey: 'nomor_isbn' });
 Peminjaman.belongsTo(Pengguna, { foreignKey: 'id_pengguna' });
 Peminjaman.belongsTo(Buku, { foreignKey: 'nomor_isbn' });
+
 Pengguna.hasMany(Ulasan, { foreignKey: 'id_pengguna' });
 Ulasan.belongsTo(Pengguna, { foreignKey: 'id_pengguna' });
 

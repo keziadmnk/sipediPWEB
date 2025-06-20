@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIPEDI - Edit Buku</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  <style>
+      /* Custom background color with 33% opacity */
+      .bg-custom {
+        background-color: #E9F1ED;
+      }
+  </style>
+  
+</head>
+<body class="bg-green-50 flex ml-56">
+
+  <!-- Sidebar -->
+  <%- include('../partials/asideAdmin') %>
+
+  <!-- Content -->
+  <div class="flex-1 p-12">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-semibold">Edit Buku</h1>
+    </div>
+
+    <!-- Form Edit Buku -->
+    <div class="bg-white shadow-md rounded-lg p-10">
+       <!-- Form Tambah Buku -->
+      <div class="bg-white shadow-md rounded-lg p-10">
+        <form
+          action="/admin/tambahbuku"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <div class="grid grid-cols-2 gap-x-10 gap-y-6">
+            <!-- Baris 1 -->
+            <div class="col-span-2">
+              <label
+                for="judul_buku"
+                class="block text-sm font-medium text-gray-700"
+                >Judul Buku *</label
+              >
+              <input
+                type="text"
+                id="judul_buku"
+                name="judul_buku"
+                required
+                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+              />
+            </div>
+
+            <!-- Baris 2 -->
+            <div class="col-span-2">
+              <label class="block text-sm font-medium text-gray-700"
+                >Jenis Buku</label
+              >
+              <div class="mt-1 flex items-center space-x-6">
+                <input
+                  type="checkbox"
+                  id="buku_fisik"
+                  name="jenis_buku[]"
+                  value="Buku Fisik"
+                  checked
+                  class="mr-2"
+                />
+                <label for="buku_fisik" class="mr-6">Buku Fisik</label>
+                <input
+                  type="checkbox"
+                  id="e_book"
+                  name="jenis_buku[]"
+                  value="E-Book"
+                  class="mr-2"
+                />
+                <label for="e_book">E-Book</label>
+              </div>
+            </div>
+
+            <!-- Baris 3 -->
+            <div>
+              <label
+                for="kategori"
+                class="block text-sm font-medium text-gray-700"
+                >Kategori</label
+              >
+              <select
+                id="kategori"
+                name="kategori"
+                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+              >
+                <option value="">Pilih kategori</option>
+                <% if (typeof kategori !== 'undefined' && kategori.length > 0) {
+                %> <% kategori.forEach(function(item) { %>
+                <option value="<%= item.id_kategori %>">
+                  <%= item.nama_kategori %>
+                </option>
+                <% }); %> <% } else { %>
+                <option disabled>Tidak ada kategori tersedia</option>
+                <% } %>
+              </select>
+            </div>
+            <div>
+              <label for="isbn" class="block text-sm font-medium text-gray-700"
+                >ISBN *</label
+              >
+              <input
+                type="text"
+                id="isbn"
+                name="isbn"
+                required
+                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+              />
+            </div>
+
+            <!-- Baris 4 -->
+            <div>
+              <label
+                for="pengarang"
+                class="block text-sm font-medium text-gray-700"
+                >Pengarang *</label
+              >
+              <input
+                type="text"
+                id="pengarang"
+                name="pengarang"
+                required
+                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+              />
+            </div>
+            <div>
+              <label
+                for="tahun_terbit"
+                class="block text-sm font-medium text-gray-700"
+                >Tahun Terbit *</label
+              >
+              <select
+                name="tahun_terbit"
+                id="tahun_terbit"
+                required
+                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+              >
+                <option value="">Pilih tahun</option>
+                <% const currentYear = new Date().getFullYear(); for (let year =
+                currentYear; year >= 1950; year--) { %>
+                <option value="<%= year %>"><%= year %></option>
+                <% } %>
+              </select>
+            </div>
+
+            <!-- Baris 5 -->
+            <div>
+              <label
+                for="penerbit"
+                class="block text-sm font-medium text-gray-700"
+                >Penerbit *</label
+              >
+              <input
+                type="text"
+                id="penerbit"
+                name="penerbit"
+                required
+                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+              />
+            </div>
+            <div>
+              <label
+                for="jumlah_halaman"
+                class="block text-sm font-medium text-gray-700"
+                >Jumlah Halaman *</label
+              >
+              <input
+                type="number"
+                id="jumlah_halaman"
+                name="jumlah_halaman"
+                min="1"
+                required
+                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+              />
+            </div>
+
+            <!-- Baris 6 -->
+            <div>
+              <label
+                for="lokasi_penyimpanan"
+                class="block text-sm font-medium text-gray-700"
+                >Lokasi Penyimpanan</label
+              >
+              <select
+                id="lokasi_penyimpanan"
+                name="lokasi_penyimpanan"
+                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+              >
+                <option value="">Pilih lokasi</option>
+                <option value="American Corner – Sayap Kanan Lt.2">
+                  American Corner – Sayap Kanan Lt.2
+                </option>
+                <option value="Minangkabau Corner Lt. 3">
+                  Minangkabau Corner Lt. 3
+                </option>
+                <option value="Ruang Lokal Konten – Skripsi">
+                  Ruang Lokal Konten – Skripsi
+                </option>
+                <option value="Ruang Referensi – Sayap Kiri Lantai 2">
+                  Ruang Referensi – Sayap Kiri Lantai 2
+                </option>
+                <option value="Ruang Sirkulasi 2 – Sayap Kanan Lantai 1">
+                  Ruang Sirkulasi 2 – Sayap Kanan Lantai 1
+                </option>
+                <option value="Ruang Sirkulasi Utama – Sayap Kiri Lantai 1">
+                  Ruang Sirkulasi Utama – Sayap Kiri Lantai 1
+                </option>
+              </select>
+            </div>
+            <div>
+              <label
+                for="jumlah_stok"
+                class="block text-sm font-medium text-gray-700"
+                >Jumlah Stok </label
+              >
+              <input
+                type="number"
+                id="jumlah_stok"
+                name="jumlah_stok"
+                min="1"
+                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+              />
+            </div>
+
+            <!-- Baris 7 -->
+            <div>
+              <label
+                for="deskripsi"
+                class="block text-sm font-medium text-gray-700"
+                >Deskripsi</label
+              >
+              <textarea
+                id="deskripsi"
+                rows="5"
+                name="deskripsi"
+                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+              ></textarea>
+            </div>
+            <div class="flex flex-col gap-4">
+              <div>
+                <label
+                  for="upload_pdf"
+                  class="block text-sm font-medium text-gray-700"
+                  >Upload PDF</label
+                >
+                <input
+                  type="file"
+                  id="upload_pdf"
+                  name="upload_pdf"
+                  accept=".pdf"
+                  class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                />
+                <small class="text-gray-500">Format: PDF, Max: 10MB</small>
+              </div>
+              <div>
+                <label
+                  for="upload_sampul"
+                  class="block text-sm font-medium text-gray-700"
+                  >Upload Sampul</label
+                >
+                <input
+                  type="file"
+                  id="upload_sampul"
+                  name="upload_sampul"
+                  accept="image/*"
+                  class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                />
+                <small class="text-gray-500"
+                  >Format: JPG, PNG, GIF, Max: 10MB</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Tombol -->
+          <div class="flex justify-end gap-4 mt-6">
+            <a
+              href="/admin/databuku"
+              class="bg-yellow-400 text-white py-2 px-4 rounded-md hover:bg-yellow-500"
+              >Batal</a
+            >
+            <button
+              type="submit"
+              class="bg-[#276749] text-white py-2 px-4 rounded-md hover:bg-green-700"
+            >
+              Simpan
+            </button>
+          </div>
+        </form>
+    </div>
+  </div>
+  
+</body>
+</html>

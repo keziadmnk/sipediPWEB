@@ -14,6 +14,8 @@ var mahasiswaRouter = require('./routes/mahasiswaRoute');
 var adminRoute = require("./routes/adminRoute")
 var petugasRouter = require('./routes/PetugasRoute')
 var authRouter = require('./routes/authRoute');
+var bukuRouter = require('./routes/bukuRoute');
+
 const { authenticate, authorize } = require('./middlewares/authenticate');
 const session = require('express-session');
 const multer = require('multer');
@@ -57,6 +59,7 @@ app.use('/', authRouter);
 app.use('/admin', authorize(['admin']), adminRoute);
 app.use('/petugas', authorize(['petugas', 'admin']), petugasRouter);
 app.use('/mahasiswa', mahasiswaRouter);
+app.use('/buku', authenticate,bukuRouter);
 
 app.get('/dashboard', authenticate, (req, res) => {
   const role = req.user.role.toLowerCase();
