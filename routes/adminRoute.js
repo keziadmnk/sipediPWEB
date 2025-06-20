@@ -11,6 +11,7 @@ const {
   findAllBuku,
   tambahBuku,
   showDetailBukuAdmin,
+  hapusBuku,
 } = require("../controllers/admin/BukuController");
 // Import upload middleware
 const { uploadFields } = require("../middlewares/upload");
@@ -37,6 +38,7 @@ router.get("/databuku", findAllBuku);
 
 router.get("/tambahbuku", showTambahBuku);
 
+router.delete('/admin/buku/:nomor_isbn'); 
 
 router.post(
   "/tambahbuku",

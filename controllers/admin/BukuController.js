@@ -1,6 +1,3 @@
-// controllers/admin/BukuController.js
-// const { Buku, Jenis, Kategori, BukuJenis } = require("../../models");
-
 const { BukuJenis } = require("../../models/BukuJenisModel");
 const { Buku } = require("../../models/BukuModel");
 const { Jenis } = require("../../models/JenisModel");
@@ -168,9 +165,30 @@ const showDetailBukuAdmin = async (req, res) => {
   }
 };
 
+// const hapusBuku = async (req, res) => {
+//   try {
+//     const { nomor_isbn } = req.params; // Ambil nomor ISBN dari parameter URL
+
+//     // Cari buku berdasarkan nomor ISBN dan hapus
+//     const databuku = await Buku.findByPk(nomor_isbn);
+
+//     if (!buku) {
+//       return res.status(404).send("Buku tidak ditemukan");
+//     }
+
+    
+//     await buku.destroy();
+//     res.redirect('/admin/dataBuku'); // Redirect setelah berhasil menghapus
+//   } catch (error) {
+//     console.error("Error deleting book:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
+
+
 
 module.exports = {
   findAllBuku,
   tambahBuku,
-  showDetailBukuAdmin
+  showDetailBukuAdmin,
 };

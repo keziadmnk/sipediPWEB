@@ -1,6 +1,7 @@
 const { Buku } = require("../../models/BukuModel");
 const { Jenis } = require("../../models/JenisModel");
 const { Kategori } = require("../../models/KategoriModel");
+const { Op } = require("sequelize");
 
 const detailBuku = async (req, res) => {
   try {
@@ -25,27 +26,30 @@ const detailBuku = async (req, res) => {
 };
 
 
+const cariBuku = async (req, res) => {
+  try {
+    const searchQuery = req.query.search || '';  // Ambil query pencarian dari URL
+    const buku = await Buku.findAll({
+      where: {
+        judul_buku: {
+          [Op.like]: `%${searchQuery}%`  // Mencari buku dengan judul yang mengandung kata pencarian
+        }
+      }
+    });
+
+    const kategori = await require("../../models/KategoriModel").Kategori.findAll(); // Ambil semua kategori
+    res.render("mahasiswa/koleksibuku", {
+      kategori,
+      buku,
+      searchQuery  // Kirimkan query pencarian ke tampilan
+    });
+
+  } catch (error) {
+    console.error("Error searching books:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
 
 
-// const showKatalogByKategori = async (req, res) => {
-//   try {
-//     const { id_kategori } = req.params;
-//     const kategori = await Kategori.findAll();
 
-//     const buku = await Buku.findAll({
-//       where: { id_kategori },
-//       include: [{ model: Kategori, as: 'kategori' }]
-//     });
-
-//     res.render("mahasiswa/koleksibuku", {
-//       kategori,
-//       buku,
-//       selectedKategori: parseInt(id_kategori)
-//     });
-//   } catch (error) {
-//     console.error("Error:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
-module.exports = { detailBuku}
+module.exports = { detailBuku, cariBuku}
