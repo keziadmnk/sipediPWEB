@@ -14,6 +14,13 @@
 <body class="bg-[#F8FFF6] font-sans">
 
     <%- include('../partials/navbarMahasiswa') %>
+    
+    <% if (typeof message !== 'undefined' && message) { %>
+    <div class="max-w-4xl mx-auto mt-28 p-4 rounded-lg <%= message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+        <%= message.text %>
+    </div>
+    <% } %>
+
     <main class="max-w-4xl mx-auto p-6 bg-white mt-28 rounded-lg shadow-md">
         <div class="flex flex-col md:flex-row gap-6 border-b pb-6 mb-6">
             <img src="/images/coverbuku.jpeg" alt="Cover Buku" class="w-32 h-48 object-cover rounded-lg shadow-md self-center md:self-start">

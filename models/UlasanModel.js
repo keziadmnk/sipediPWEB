@@ -34,7 +34,7 @@ const Ulasan = sequelize.define('Ulasan', {
   }
 }, {
   tableName: 'ulasan',
-  timestamps: false
+  timestamps: true // UBAH INI MENJADI TRUE
 });
 
 module.exports = { Ulasan };
