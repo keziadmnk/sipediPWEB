@@ -10,6 +10,8 @@ router.get('/dashboard', authenticate, (req, res) => {
   res.render('mahasiswa/dashboard'); 
 });
 
+
+
 router.get('/akun', authenticate, (req, res) => {
   res.render('mahasiswa/akun'); 
 });
