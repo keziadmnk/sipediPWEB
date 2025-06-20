@@ -68,21 +68,10 @@ const prosesPeminjaman = async (req, res) => {
   try {
     // Log untuk debugging
     console.log("Raw request body:", req.body);
-    console.log("Request files:", req.files);
-    console.log("Content-Type:", req.get("Content-Type"));
+    console.log("Request user:", req.user);
 
-    // Ambil data dari body atau dari FormData yang sudah di-parse oleh multer
-    let nomor_isbn, tanggal_peminjaman;
-
-    if (req.body.nomor_isbn) {
-      // Jika data sudah ter-parse ke req.body
-      nomor_isbn = req.body.nomor_isbn;
-      tanggal_peminjaman = req.body.tanggal_peminjaman;
-    } else if (req.body) {
-      // Coba ambil dari properti lain jika ada
-      const bodyKeys = Object.keys(req.body);
-      console.log("Available body keys:", bodyKeys);
-    }
+    // Ambil data dari body
+    const { nomor_isbn, tanggal_peminjaman } = req.body;
 
     // Cek berbagai kemungkinan nama field untuk id pengguna
     const id_pengguna =
@@ -91,9 +80,9 @@ const prosesPeminjaman = async (req, res) => {
       req.user.userId ||
       req.user.username;
 
-    console.log("Process peminjaman - User ID:", id_pengguna); // Debug log
-    console.log("Process peminjaman - nomor_isbn:", nomor_isbn); // Debug log
-    console.log("Process peminjaman - tanggal_peminjaman:", tanggal_peminjaman); // Debug log
+    console.log("Process peminjaman - User ID:", id_pengguna);
+    console.log("Process peminjaman - nomor_isbn:", nomor_isbn);
+    console.log("Process peminjaman - tanggal_peminjaman:", tanggal_peminjaman);
 
     // Validasi input
     if (!nomor_isbn || !tanggal_peminjaman) {
@@ -180,14 +169,23 @@ const prosesPeminjaman = async (req, res) => {
       { where: { nomor_isbn: nomor_isbn } }
     );
 
+    // Format tanggal untuk response
+    const formatTanggal = (date) => {
+      return new Date(date).toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+    };
+
+    // Response dengan URL redirect ke halaman bukti peminjaman
     res.json({
       success: true,
       message: "Peminjaman berhasil diproses",
+      redirect_url: `/mahasiswa/buktipeminjaman?id_peminjaman=${peminjaman.id_peminjaman}`,
       data: {
         id_peminjaman: peminjaman.id_peminjaman,
-        tanggal_wajib_pengembalian: tanggalWajibPengembalian
-          .toISOString()
-          .split("T")[0],
+        tanggal_wajib_pengembalian: formatTanggal(tanggalWajibPengembalian),
       },
     });
   } catch (error) {
@@ -199,7 +197,76 @@ const prosesPeminjaman = async (req, res) => {
   }
 };
 
+// Menampilkan halaman bukti peminjaman
+const showBuktiPeminjaman = async (req, res) => {
+  try {
+    const { id_peminjaman } = req.query;
+
+    if (!id_peminjaman) {
+      return res.status(400).send("ID peminjaman tidak ditemukan");
+    }
+
+    // Cari data peminjaman berdasarkan ID dengan relasi ke buku dan pengguna
+    // Gunakan nama model tanpa alias karena tidak ada alias yang didefinisikan di relation.js
+    const peminjaman = await Peminjaman.findOne({
+      where: { id_peminjaman: id_peminjaman },
+      include: [
+        {
+          model: Buku,
+          // Tidak menggunakan alias karena tidak didefinisikan di relation.js
+          required: true,
+        },
+        {
+          model: Pengguna,
+          // Tidak menggunakan alias karena tidak didefinisikan di relation.js
+          required: true,
+        },
+      ],
+    });
+
+    if (!peminjaman) {
+      return res.status(404).send("Data peminjaman tidak ditemukan");
+    }
+
+    // Format tanggal
+    const formatTanggal = (date) => {
+      return new Date(date).toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+    };
+
+    // Prepare data dengan format tanggal yang sudah diformat
+    // Akses data relasi menggunakan nama model (Buku dan Pengguna)
+    const peminjamanData = {
+      ...peminjaman.dataValues,
+      tanggal_peminjaman: formatTanggal(peminjaman.tanggal_peminjaman),
+      tanggal_wajib_pengembalian: formatTanggal(
+        peminjaman.tanggal_wajib_pengembalian
+      ),
+      // Akses menggunakan nama model dengan huruf kapital
+      buku: peminjaman.Buku,
+      pengguna: peminjaman.Pengguna,
+      // Jika tidak ada lokasi_penyimpanan di peminjaman, ambil dari buku
+      lokasi_penyimpanan:
+        peminjaman.lokasi_penyimpanan || peminjaman.Buku.lokasi_penyimpanan,
+    };
+
+    console.log("Peminjaman data:", peminjamanData); // Debug log
+
+    // Render halaman bukti dengan data peminjaman
+    res.render("mahasiswa/buktipeminjaman", {
+      peminjaman: peminjamanData,
+    });
+  } catch (error) {
+    console.error("Error showing bukti peminjaman:", error);
+    res.status(500).send("Terjadi kesalahan sistem: " + error.message);
+  }
+};
+
 module.exports = {
   showFormPeminjaman,
   prosesPeminjaman,
+  showBuktiPeminjaman,
 };
