@@ -34,7 +34,7 @@
        <!-- Form Tambah Buku -->
       <div class="bg-white shadow-md rounded-lg p-10">
         <form
-          action="/admin/tambahbuku"
+          action="/admin/editbuku/<%= databuku.nomor_isbn %>"
           method="POST"
           enctype="multipart/form-data"
         >
@@ -52,6 +52,7 @@
                 name="judul_buku"
                 required
                 class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                value="<%= databuku.judul_buku %>"
               />
             </div>
 
@@ -61,23 +62,17 @@
                 >Jenis Buku</label
               >
               <div class="mt-1 flex items-center space-x-6">
-                <input
-                  type="checkbox"
-                  id="buku_fisik"
-                  name="jenis_buku[]"
-                  value="Buku Fisik"
-                  checked
-                  class="mr-2"
-                />
-                <label for="buku_fisik" class="mr-6">Buku Fisik</label>
-                <input
-                  type="checkbox"
-                  id="e_book"
-                  name="jenis_buku[]"
-                  value="E-Book"
-                  class="mr-2"
-                />
-                <label for="e_book">E-Book</label>
+                <% semuaJenis.forEach(function(jenis) { %>
+                  <input
+                    type="checkbox"
+                    id="jenis_<%= jenis.nama_jenis.replace(/\s/g, '_') %>"
+                    name="jenis_buku[]"
+                    value="<%= jenis.nama_jenis %>"
+                    class="mr-2"
+                    <%= databuku.jenis && databuku.jenis.some(j => j.nama_jenis === jenis.nama_jenis) ? 'checked' : '' %>
+                  />
+                  <label for="jenis_<%= jenis.nama_jenis.replace(/\s/g, '_') %>" class="mr-6"><%= jenis.nama_jenis %></label>
+                <% }); %>
               </div>
             </div>
 
@@ -94,14 +89,9 @@
                 class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
               >
                 <option value="">Pilih kategori</option>
-                <% if (typeof kategori !== 'undefined' && kategori.length > 0) {
-                %> <% kategori.forEach(function(item) { %>
-                <option value="<%= item.id_kategori %>">
-                  <%= item.nama_kategori %>
-                </option>
-                <% }); %> <% } else { %>
-                <option disabled>Tidak ada kategori tersedia</option>
-                <% } %>
+                <% kategori.forEach(function(item) { %>
+                  <option value="<%= item.id_kategori %>" <%= databuku.kategori && databuku.kategori.id_kategori === item.id_kategori ? 'selected' : '' %>><%= item.nama_kategori %></option>
+                <% }); %>
               </select>
             </div>
             <div>
@@ -114,6 +104,7 @@
                 name="isbn"
                 required
                 class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                value="<%= databuku.nomor_isbn %>"
               />
             </div>
 
@@ -130,6 +121,7 @@
                 name="pengarang"
                 required
                 class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                value="<%= databuku.pengarang %>"
               />
             </div>
             <div>
@@ -147,7 +139,7 @@
                 <option value="">Pilih tahun</option>
                 <% const currentYear = new Date().getFullYear(); for (let year =
                 currentYear; year >= 1950; year--) { %>
-                <option value="<%= year %>"><%= year %></option>
+                <option value="<%= year %>" <%= databuku.tahun_terbit == year ? 'selected' : '' %>><%= year %></option>
                 <% } %>
               </select>
             </div>
@@ -165,6 +157,7 @@
                 name="penerbit"
                 required
                 class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                value="<%= databuku.penerbit %>"
               />
             </div>
             <div>
@@ -180,6 +173,7 @@
                 min="1"
                 required
                 class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                value="<%= databuku.jumlah_halaman %>"
               />
             </div>
 
@@ -196,24 +190,12 @@
                 class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
               >
                 <option value="">Pilih lokasi</option>
-                <option value="American Corner – Sayap Kanan Lt.2">
-                  American Corner – Sayap Kanan Lt.2
-                </option>
-                <option value="Minangkabau Corner Lt. 3">
-                  Minangkabau Corner Lt. 3
-                </option>
-                <option value="Ruang Lokal Konten – Skripsi">
-                  Ruang Lokal Konten – Skripsi
-                </option>
-                <option value="Ruang Referensi – Sayap Kiri Lantai 2">
-                  Ruang Referensi – Sayap Kiri Lantai 2
-                </option>
-                <option value="Ruang Sirkulasi 2 – Sayap Kanan Lantai 1">
-                  Ruang Sirkulasi 2 – Sayap Kanan Lantai 1
-                </option>
-                <option value="Ruang Sirkulasi Utama – Sayap Kiri Lantai 1">
-                  Ruang Sirkulasi Utama – Sayap Kiri Lantai 1
-                </option>
+                <option value="American Corner – Sayap Kanan Lt.2" <%= databuku.lokasi_penyimpanan === 'American Corner – Sayap Kanan Lt.2' ? 'selected' : '' %>>American Corner – Sayap Kanan Lt.2</option>
+                <option value="Minangkabau Corner Lt. 3" <%= databuku.lokasi_penyimpanan === 'Minangkabau Corner Lt. 3' ? 'selected' : '' %>>Minangkabau Corner Lt. 3</option>
+                <option value="Ruang Lokal Konten – Skripsi" <%= databuku.lokasi_penyimpanan === 'Ruang Lokal Konten – Skripsi' ? 'selected' : '' %>>Ruang Lokal Konten – Skripsi</option>
+                <option value="Ruang Referensi – Sayap Kiri Lantai 2" <%= databuku.lokasi_penyimpanan === 'Ruang Referensi – Sayap Kiri Lantai 2' ? 'selected' : '' %>>Ruang Referensi – Sayap Kiri Lantai 2</option>
+                <option value="Ruang Sirkulasi 2 – Sayap Kanan Lantai 1" <%= databuku.lokasi_penyimpanan === 'Ruang Sirkulasi 2 – Sayap Kanan Lantai 1' ? 'selected' : '' %>>Ruang Sirkulasi 2 – Sayap Kanan Lantai 1</option>
+                <option value="Ruang Sirkulasi Utama – Sayap Kiri Lantai 1" <%= databuku.lokasi_penyimpanan === 'Ruang Sirkulasi Utama – Sayap Kiri Lantai 1' ? 'selected' : '' %>>Ruang Sirkulasi Utama – Sayap Kiri Lantai 1</option>
               </select>
             </div>
             <div>
@@ -228,6 +210,7 @@
                 name="jumlah_stok"
                 min="1"
                 class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                value="<%= databuku.jumlah_stok %>"
               />
             </div>
 
@@ -243,7 +226,7 @@
                 rows="5"
                 name="deskripsi"
                 class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
-              ></textarea>
+              ><%= databuku.deskripsi || '' %></textarea>
             </div>
             <div class="flex flex-col gap-4">
               <div>
@@ -259,6 +242,9 @@
                   accept=".pdf"
                   class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
                 />
+                <% if (databuku.upload_pdf) { %>
+                  <div class="text-xs text-gray-500 mt-1">File saat ini: <%= databuku.upload_pdf %></div>
+                <% } %>
                 <small class="text-gray-500">Format: PDF, Max: 10MB</small>
               </div>
               <div>
@@ -274,6 +260,9 @@
                   accept="image/*"
                   class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
                 />
+                <% if (databuku.upload_sampul) { %>
+                  <div class="text-xs text-gray-500 mt-1">File saat ini: <%= databuku.upload_sampul %></div>
+                <% } %>
                 <small class="text-gray-500"
                   >Format: JPG, PNG, GIF, Max: 10MB</small
                 >
