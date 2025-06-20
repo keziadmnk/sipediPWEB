@@ -94,7 +94,8 @@
             <td class="px-3 py-2 <%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %>">
                     <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak Tersedia' %>
                   </td>
-            <td class="px-3 py-2">
+            
+            <td class="px-3 py-2 text-center">
               <button class="bg-yellow-400 text-white py-1 px-3 rounded-md hover:bg-yellow-500">
                 <a href="/admin/editbuku/<%= buku.nomor_isbn %>">
                   <i class="fas fa-pencil-alt"></i>
@@ -113,8 +114,7 @@
         </tbody>
       </table>
     </div>
-  
-
+ </div>
 
 
   <script>
