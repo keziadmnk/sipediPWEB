@@ -1,7 +1,7 @@
 const express = require('express');
-const { findAllPeminjaman, findDetailPeminjaman } = require('../controllers/petugas/PeminjamanController');
+const { findAllPeminjaman, findDetailPeminjaman, kembalikanBuku } = require('../controllers/petugas/PeminjamanController');
 const {findAllPengembalian, findDetailPengembalian} = require('../controllers/petugas/PengembalianController');
-const {findAllDenda, findDetailDenda} = require('../controllers/petugas/DendaController');
+const {findAllDenda, findDetailDenda, cetakDendaPdf} = require('../controllers/petugas/DendaController');
 const { findStatusStatistik } = require('../controllers/petugas/DashboardController');
 const { authenticate } = require('../middlewares/authenticate');
 const { Pengguna } = require('../models/PenggunaModel');
@@ -11,9 +11,11 @@ router.get('/dashboard', findStatusStatistik);
 router.get('/peminjaman', findAllPeminjaman); 
 router.get('/pengembalian', findAllPengembalian); 
 router.get('/denda', findAllDenda); 
+router.get('/denda/cetak', cetakDendaPdf);
 router.get('/detailpeminjaman/:id_peminjaman', findDetailPeminjaman)
 router.get('/detailpengembalian/:id_peminjaman', findDetailPengembalian)
 router.get('/detaildenda/:id_peminjaman', findDetailDenda)
+router.post('/peminjaman/kembalikan/:id_peminjaman', kembalikanBuku);
 
 // router.get('/profil', function(req, res, next) {
 //   res.render('petugas/profil');  
