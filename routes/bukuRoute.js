@@ -4,8 +4,8 @@ const router = express.Router();
 const bukuController = require('../controllers/mahasiswa/BukuController');
 const { authenticate } = require('../middlewares/authenticate'); // Pastikan authenticate diimpor
 
-// Router ini dipasang dengan authenticate di app.js, tapi bisa juga ditambahkan per rute
-// router.get('/:id/ulasan', authenticate, bukuController.getDaftarUlasan);
+// Ini adalah rute yang akan dituju oleh tombol "Kembali" dari halaman ulasan
+router.get('/:nomor_isbn', bukuController.getDetailBuku);
 
 router.get('/:id/ulasan', bukuController.getDaftarUlasan); // Sudah dilindungi di app.js
 
@@ -23,7 +23,5 @@ router.post('/:nomor_isbn/ulasan/:id_ulasan/edit', bukuController.updateUlasan);
 
 // Rute BARU untuk menghapus ulasan (menggunakan POST untuk kemudahan form HTML)
 router.post('/:nomor_isbn/ulasan/:id_ulasan/delete', bukuController.deleteUlasan);
-
-//router.get('/detailbuku/:nomor_isbn', bukuController.getDetailBuku); // Ini mungkin duplikat, pastikan hanya 1 rute untuk detail buku
 
 module.exports = router;

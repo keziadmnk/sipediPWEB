@@ -11,8 +11,7 @@
         .progress-bar-fill { background-color: #FBBF24; /* amber-400 */ }
     </style>
 </head>
-<body class="bg-[#F8FFF6] font-sans">
-
+<body>
     <%- include('../partials/navbarMahasiswa') %>
 
     <% if (typeof message !== 'undefined' && message) { %>
@@ -22,12 +21,18 @@
     <% } %>
 
     <main class="max-w-4xl mx-auto p-6 bg-white mt-28 rounded-lg shadow-md">
+        <%# Tombol Kembali %>
+        <div class="mb-4">
+            <a href="/buku/<%= buku.nomor_isbn %>" class="text-2xl text-gray-600 hover:text-gray-900">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
         <div class="flex flex-col md:flex-row gap-6 border-b pb-6 mb-6">
-            <img src="/uploads/covers/<%= buku.upload_sampul %>" 
+            <img src="/uploads/covers/<%= buku.upload_sampul %>"
                  onerror="this.onerror=null; this.src='/images/placeholder-book.png';"
                  alt="Cover Buku" class="w-32 h-48 object-cover rounded-lg shadow-md self-center md:self-start">
             <div class="flex-1">
-                <h1 class="text-2xl font-bold text-gray-800"><%= buku.judul_buku %></h1> 
+                <h1 class="text-2xl font-bold text-gray-800"><%= buku.judul_buku %></h1>
                 <p class="text-gray-600 mb-2"><%= buku.pengarang %></p>
                 <div class="flex items-center mb-3">
                     <div class="text-yellow-400 text-xl">
@@ -127,5 +132,11 @@
         </div>
     </main>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Debugging: Cetak nilai buku.nomor_isbn ke konsol browser
+            console.log("Nomor ISBN di ulasan.ejs (dari buku.nomor_isbn):", "<%= buku.nomor_isbn %>");
+        });
+    </script>
 </body>
 </html>
