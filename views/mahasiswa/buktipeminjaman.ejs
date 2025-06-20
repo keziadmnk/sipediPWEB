@@ -1,0 +1,109 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>SIPEDI Peminjaman Berhasil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-[#f5fcf6] min-h-screen">
+    <%- include('../partials/navbarMahasiswa') %>
+    <!-- Main container -->
+    <main class="max-w-5xl mx-auto mt-28 px-4 sm:px-6 lg:px-8">
+      <!-- Success message box -->
+      <section
+        class="bg-white rounded-lg shadow-md border border-[#b6c9b5] p-6 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center"
+        style="box-shadow: 0 4px 6px rgb(182 201 181 / 0.3)"
+      >
+        <div class="max-w-xl">
+          <h2 class="text-[#2f5a3f] font-semibold text-lg mb-2">
+            Peminjaman Berhasil!
+          </h2>
+          <p class="text-[#2f5a3f] text-xs leading-tight">
+            Silakan tunjukkan Kode Peminjaman ini kepada petugas perpustakaan
+            sebagai bukti untuk mengambil buku.
+          </p>
+        </div>
+        <div
+          class="border border-[#2f5a3f] rounded-md px-6 py-4 mt-6 md:mt-0 text-center min-w-[100px]"
+        >
+          <p class="text-[#2f5a3f] text-[10px] font-semibold mb-1">
+            Kode Peminjaman:
+          </p>
+          <p class="text-[#2f5a3f] font-extrabold text-3xl leading-none">
+            <%= peminjaman.id_peminjaman %>
+          </p>
+        </div>
+      </section>
+      <!-- Summary box -->
+      <section
+        class="bg-white rounded-lg shadow-md border border-[#b6c9b5] p-6"
+        style="box-shadow: 0 4px 6px rgb(182 201 181 / 0.3)"
+      >
+        <h3
+          class="text-[#2f5a3f] font-semibold text-xs text-center mb-4 relative before:absolute before:left-1/2 before:-top-2 before:-translate-x-1/2 before:w-36 before:border-t before:border-[#2f5a3f]"
+        >
+          Ringkasan Peminjaman
+        </h3>
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4 text-[#2f5a3f] text-xs"
+        >
+          <div class="space-y-1">
+            <p class="font-semibold text-[10px]">Kode Peminjaman:</p>
+            <p><%= peminjaman.id_peminjaman %></p>
+            <p class="font-semibold text-[10px] mt-3">Nama Mahasiswa:</p>
+            <p>
+              <%= peminjaman.pengguna ? peminjaman.pengguna.nama_lengkap : '-'
+              %>
+            </p>
+            <p class="font-semibold text-[10px] mt-3">NIM:</p>
+            <p><%= peminjaman.id_pengguna %></p>
+            <p class="font-semibold text-[10px] mt-3">Email:</p>
+            <p><%= peminjaman.pengguna ? peminjaman.pengguna.email : '-' %></p>
+          </div>
+          <div class="space-y-1">
+            <p class="font-semibold text-[10px]">Judul Buku:</p>
+            <p><%= peminjaman.buku ? peminjaman.buku.judul_buku : '-' %></p>
+            <p class="font-semibold text-[10px] mt-3">Pengarang:</p>
+            <p><%= peminjaman.buku ? peminjaman.buku.pengarang : '-' %></p>
+            <p class="font-semibold text-[10px] mt-3">Nomor ISBN:</p>
+            <p><%= peminjaman.nomor_isbn %></p>
+            <p class="font-semibold text-[10px] mt-3">Lokasi Buku:</p>
+            <p><%= peminjaman.lokasi_penyimpanan %></p>
+          </div>
+          <div class="space-y-1">
+            <p class="font-semibold text-[10px]">Tanggal Pinjam:</p>
+            <p><%= peminjaman.tanggal_peminjaman %></p>
+            <p class="font-semibold text-[10px] mt-3">
+              Tanggal Pengembalian Maks:
+            </p>
+            <p><%= peminjaman.tanggal_wajib_pengembalian %></p>
+            <button
+              class="mt-6 border border-[#f5fc6a] text-[#b9a92a] text-[10px] font-semibold rounded px-3 py-1"
+              type="button"
+            >
+              Status: <%= peminjaman.status_peminjaman %>
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- Kembali button -->
+      <div class="flex justify-end mt-6">
+        <button
+          class="bg-gray-500 text-white text-xs font-semibold rounded px-4 py-2 cursor-pointer select-none hover:bg-gray-600"
+          type="button"
+          onclick="window.location.href='/mahasiswa/koleksibuku'"
+        >
+          Kembali
+        </button>
+      </div>
+    </main>
+  </body>
+</html>

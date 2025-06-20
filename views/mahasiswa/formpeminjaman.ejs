@@ -216,7 +216,7 @@
           btnPinjam.disabled = true;
           btnPinjam.textContent = "Memproses...";
 
-          // Ambil data dari form secara manual
+          // Ambil data dari form
           const nomor_isbn = document.querySelector(
             'input[name="nomor_isbn"]'
           ).value;
@@ -229,15 +229,16 @@
           console.log("nomor_isbn:", nomor_isbn);
           console.log("tanggal_peminjaman:", tanggal_peminjaman);
 
-          // Buat form data secara manual
-          const formData = new FormData();
-          formData.append("nomor_isbn", nomor_isbn);
-          formData.append("tanggal_peminjaman", tanggal_peminjaman);
-
           try {
             const response = await fetch("/mahasiswa/formpeminjaman", {
               method: "POST",
-              body: formData,
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: new URLSearchParams({
+                nomor_isbn: nomor_isbn,
+                tanggal_peminjaman: tanggal_peminjaman,
+              }),
             });
 
             const result = await response.json();
@@ -252,16 +253,20 @@
                 result.data.tanggal_wajib_pengembalian;
               alert.classList.remove("hidden");
 
-              // Redirect after 3 seconds
+              // Redirect to bukti peminjaman page after 2 seconds
               setTimeout(() => {
-                window.location.href = "/mahasiswa/koleksibuku";
-              }, 3000);
+                window.location.href = result.redirect_url;
+              }, 2000);
             } else {
               // Show error message
               alert.className =
                 "mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded";
               alert.textContent = result.message;
               alert.classList.remove("hidden");
+
+              // Re-enable button
+              btnPinjam.disabled = false;
+              btnPinjam.textContent = "Pinjam";
             }
           } catch (error) {
             console.error("Error:", error);
@@ -269,7 +274,7 @@
               "mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded";
             alert.textContent = "Terjadi kesalahan sistem. Silakan coba lagi.";
             alert.classList.remove("hidden");
-          } finally {
+
             // Re-enable button
             btnPinjam.disabled = false;
             btnPinjam.textContent = "Pinjam";
