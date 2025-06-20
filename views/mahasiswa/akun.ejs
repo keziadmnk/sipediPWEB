@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Profil Pengguna</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/stylesheets/output.css" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
@@ -19,7 +19,6 @@
     </style>
   </head>
   <body class="bg-[#f4f9f1] min-h-screen">
-
     <%- include('../partials/navbarMahasiswa') %>
     <main
       class="max-w-6xl mx-auto mt-40 p-6 bg-white rounded-md shadow-sm flex flex-col md:flex-row md:space-x-20"
@@ -115,12 +114,14 @@
             />
           </div>
           <div class="flex space-x-4 mt-6">
-            <button
-              class="bg-[#2c5a33] text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-[#244a29] transition"
-              type="button"
-            >
-              Lihat Riwayat Peminjaman
-            </button>
+            <a href="/mahasiswa/riwayatpeminjaman">
+              <button
+                class="bg-[#2c5a33] text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-[#244a29] transition"
+                type="button"
+              >
+                Lihat Riwayat Peminjaman
+              </button>
+            </a>
 
             <button
               class="bg-red-600 text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-red-700 transition"

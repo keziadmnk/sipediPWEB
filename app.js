@@ -16,6 +16,7 @@ var petugasRouter = require('./routes/PetugasRoute')
 var authRouter = require('./routes/authRoute');
 const { authenticate, authorize } = require('./middlewares/authenticate');
 const session = require('express-session');
+const multer = require('multer');
 
 var app = express();
 
@@ -24,10 +25,14 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// // Middleware untuk parsing multipart/form-data
+// const upload = multer();
+// app.use(upload.none()); // untuk form tanpa file upload
 
 // sequelize.sync({ alter: true }) 
 //   .then(() => {

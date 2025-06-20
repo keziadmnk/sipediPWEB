@@ -1,10 +1,8 @@
-// controllers/admin/BukuController.js
-// const { Buku, Jenis, Kategori, BukuJenis } = require("../../models");
-
 const { BukuJenis } = require("../../models/BukuJenisModel");
 const { Buku } = require("../../models/BukuModel");
 const { Jenis } = require("../../models/JenisModel");
 const { Kategori } = require("../../models/KategoriModel");
+const { Peminjaman } = require("../../models/PeminjamanModel");
 
 const findAllBuku = async (req, res) => {
   try {
@@ -168,9 +166,94 @@ const showDetailBukuAdmin = async (req, res) => {
   }
 };
 
+const hapusBuku = async (req, res) => {
+  try {
+    const { nomor_isbn } = req.params; // Ambil nomor ISBN dari parameter URL
+
+    console.log("Mencoba menghapus buku dengan ISBN:", nomor_isbn);
+
+    // Cari buku berdasarkan nomor ISBN
+    const databuku = await Buku.findByPk(nomor_isbn);
+
+    if (!databuku) {
+      console.log("Buku tidak ditemukan");
+      return res.status(404).json({
+        success: false,
+        message: "Buku tidak ditemukan"
+      });
+    }
+
+    // Cek apakah buku sedang dipinjam
+    const peminjamanAktif = await Peminjaman.findOne({
+      where: { 
+        nomor_isbn: nomor_isbn,
+        // Tambahkan kondisi untuk peminjaman yang belum dikembalikan
+        // Sesuaikan dengan struktur tabel peminjaman Anda
+        // status_peminjaman: 'dipinjam' // Contoh jika ada kolom status
+      }
+    });
+
+    if (peminjamanAktif) {
+      console.log("Buku sedang dipinjam, tidak bisa dihapus");
+      return res.status(400).json({
+        success: false,
+        message: "Buku tidak dapat dihapus karena sedang dipinjam"
+      });
+    }
+
+    // Hapus relasi di tabel BukuJenis terlebih dahulu (many-to-many)
+    await BukuJenis.destroy({
+      where: { nomor_isbn: nomor_isbn }
+    });
+
+    // Hapus buku dari database
+    await databuku.destroy();
+
+    console.log("Buku berhasil dihapus:", nomor_isbn);
+
+    // Jika request dari AJAX, kirim response JSON
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.json({
+        success: true,
+        message: "Buku berhasil dihapus"
+      });
+    }
+
+    // Jika request biasa, redirect dengan pesan sukses
+    req.session.message = {
+      type: 'success',
+      text: 'Buku berhasil dihapus!'
+    };
+    
+    res.redirect('/admin/databuku');
+
+  } catch (error) {
+    console.error("Error menghapus buku:", error);
+    
+    // Jika request dari AJAX, kirim error JSON
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      return res.status(500).json({
+        success: false,
+        message: "Terjadi kesalahan saat menghapus buku: " + error.message
+      });
+    }
+
+    // Jika request biasa, redirect dengan pesan error
+    req.session.message = {
+      type: 'error',
+      text: 'Gagal menghapus buku: ' + error.message
+    };
+    
+    res.redirect('/admin/databuku');
+  }
+};
+
+
+
 
 module.exports = {
   findAllBuku,
   tambahBuku,
-  showDetailBukuAdmin
+  showDetailBukuAdmin,
+  hapusBuku
 };
