@@ -28,7 +28,7 @@ router.get('/profil', authenticate, function(req, res, next) {
 // Route untuk bukti peminjaman
 router.get('/buktipeminjaman', authenticate, showBuktiPeminjaman);
 
-router.get('/koleksibuku', authenticate, showKatalogBuku, cariBuku);
+router.get('/koleksibuku', authenticate, cariBuku);
 
 
 router.get('/formpeminjaman', authenticate, showFormPeminjaman);
