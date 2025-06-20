@@ -1,64 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title><%= buku.judul_buku %> - Detail Buku</title>
-  <link href="/css/styles.css" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <style>
-    .line-clamp-2 {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-  </style>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= buku.judul_buku %> - Detail Buku</title>
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    </style>
+  </head>
 
-<body class="bg-[#F8FFF6] font-sans">
-  <!-- Navbar -->
-  <%- include('../partials/navbarMahasiswa') %>
+  <body class="bg-[#F8FFF6] font-sans">
+    <!-- Navbar -->
+    <%- include('../partials/navbarMahasiswa') %>
 
-  <!-- Konten -->
-  <main class="max-w-6xl mx-auto p-6 bg-white mt-28 rounded-lg shadow-md">
-    <div class="grid md:grid-cols-3 gap-8">
-      <!-- Gambar Buku -->
-      <div>
-        <img 
-        src="/uploads/covers/<%= buku.upload_sampul %>"
-        onerror="this.onerror=null; this.src='/images/placeholder-book.png';"
-        alt="Cover Buku"
-        class="rounded-lg shadow-md w-full">
-      </div>
-
-      <!-- Info Buku -->
-      <div class="md:col-span-2">
-        <h1 class="text-2xl font-bold text-gray-800 mb-2"><%= buku.judul_buku %></h1>
-        <p class="text-gray-600 mb-1"><%= buku.pengarang %></p>
-
-        <!-- Rating Dummy -->
-        <div class="flex items-center mb-3">
-          <div class="text-yellow-400 text-xl">★★★★☆</div>
-          <span class="ml-2 text-gray-700 font-semibold">4.0</span>
+    <!-- Konten -->
+    <main class="max-w-6xl mx-auto p-6 bg-white mt-28 rounded-lg shadow-md">
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Gambar Buku -->
+        <div>
+          <img
+            src="/uploads/covers/<%= buku.upload_sampul %>"
+            onerror="this.onerror=null; this.src='/images/placeholder-book.png';"
+            alt="Cover Buku"
+            class="rounded-lg shadow-md w-full"
+          />
         </div>
 
-        <!-- Deskripsi -->
-        <p class="text-gray-700 mb-4 text-sm leading-relaxed">
-          <%= buku.deskripsi || "Tidak ada deskripsi untuk buku ini." %>
-        </p>
+        <!-- Info Buku -->
+        <div class="md:col-span-2">
+          <h1 class="text-2xl font-bold text-gray-800 mb-2">
+            <%= buku.judul_buku %>
+          </h1>
+          <p class="text-gray-600 mb-1"><%= buku.pengarang %></p>
 
-        <!-- Detail Buku -->
-        <ul class="text-sm text-gray-700 space-y-1 mb-6">
-          <li><strong>Judul:</strong> <%= buku.judul_buku %></li>
-          <li><strong>Pengarang:</strong> <%= buku.pengarang %></li>
-          <li><strong>Penerbit:</strong> <%= buku.penerbit %></li>
-          <li><strong>Tahun Terbit:</strong> <%= buku.tahun_terbit %></li>
-          <li><strong>Jumlah Halaman:</strong> <%= buku.jumlah_halaman %> halaman</li>
-          <li><strong>Kategori:</strong> <%= buku.kategori ? buku.kategori.nama_kategori : 'Tidak tersedia' %></li>
-          <li><strong>Jenis:</strong>
-            <% if (buku.jenis && buku.jenis.length > 0) { %>
-              <%= buku.jenis.map(j => j.nama_jenis).join(", ") %>
+          <!-- Rating Dummy -->
+          <div class="flex items-center mb-3">
+            <div class="text-yellow-400 text-xl">★★★★☆</div>
+            <span class="ml-2 text-gray-700 font-semibold">4.0</span>
+          </div>
+
+          <!-- Deskripsi -->
+          <p class="text-gray-700 mb-4 text-sm leading-relaxed">
+            <%= buku.deskripsi || "Tidak ada deskripsi untuk buku ini." %>
+          </p>
+
+          <!-- Detail Buku -->
+          <ul class="text-sm text-gray-700 space-y-1 mb-6">
+            <li><strong>Judul:</strong> <%= buku.judul_buku %></li>
+            <li><strong>Pengarang:</strong> <%= buku.pengarang %></li>
+            <li><strong>Penerbit:</strong> <%= buku.penerbit %></li>
+            <li><strong>Tahun Terbit:</strong> <%= buku.tahun_terbit %></li>
+            <li>
+              <strong>Jumlah Halaman:</strong> <%= buku.jumlah_halaman %>
+              halaman
+            </li>
+            <li>
+              <strong>Kategori:</strong> <%= buku.kategori ?
+              buku.kategori.nama_kategori : 'Tidak tersedia' %>
+            </li>
+            <li>
+              <strong>Jenis:</strong>
+              <% if (buku.jenis && buku.jenis.length > 0) { %> <%=
+              buku.jenis.map(j => j.nama_jenis).join(", ") %> <% } else { %>
+              Tidak tersedia <% } %>
+            </li>
+          </ul>
+
+          <!-- Tombol Aksi -->
+          <div class="flex gap-4 mb-6">
+            <% if (buku.jumlah_stok > 0) { %>
+            <button
+              onclick="window.location.href='/mahasiswa/formpeminjaman?nomor_isbn=<%= buku.nomor_isbn %>'"
+              class="bg-[#276749] text-white px-4 py-2 rounded-lg hover:bg-green-700"
+            >
+              Pinjam
+            </button>
             <% } else { %>
               Tidak tersedia
             <% } %>
@@ -78,21 +104,20 @@
             <a href="/uploads/pdf/<%= buku.upload_pdf %>" target="_blank" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
               Download PDF
             </a>
-          <% } else { %>
-            <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg cursor-not-allowed" disabled>
+            <% } else { %>
+            <button
+              class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg cursor-not-allowed"
+              disabled
+            >
               Tidak Tersedia PDF
             </button>
-          <% } %>
+            <% } %>
 
-          <button class="bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-500">Lihat Ulasan</button>
-        </div>
-
-        <!-- Informasi Tambahan -->
-        <div class="border border-[#b4c9be] rounded-lg overflow-hidden text-sm">
-          <div class="grid grid-cols-3 bg-[#cfe4d9] font-medium text-gray-700 px-4 py-2">
-            <div>ISBN</div>
-            <div>Ketersediaan</div>
-            <div>Lokasi Penyimpanan</div>
+            <button
+              class="bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-500"
+            >
+              Lihat Ulasan
+            </button>
           </div>
           <div class="grid grid-cols-3 px-4 py-2">
             <div><%= buku.nomor_isbn %></div>
@@ -103,7 +128,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </main>
-</body>
+    </main>
+  </body>
 </html>
