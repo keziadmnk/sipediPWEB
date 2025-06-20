@@ -1,5 +1,6 @@
 const express = require("express");
 var router = express.Router();
+
 const {
   tambahKategori,
   findAllKategori,
@@ -11,6 +12,7 @@ const {
   findAllBuku,
   tambahBuku,
   showDetailBukuAdmin,
+  hapusBuku,
 } = require("../controllers/admin/BukuController");
 // Import upload middleware
 const { uploadFields } = require("../middlewares/upload");
@@ -36,6 +38,12 @@ router.get("/kategori", findAllKategori);
 router.get("/databuku", findAllBuku);
 
 router.get("/tambahbuku", showTambahBuku);
+
+// Route untuk menghapus buku - perbaiki route path
+router.delete('/buku/:nomor_isbn', authenticate, hapusBuku);
+
+// Alternative route jika ingin menggunakan POST method
+router.post('/hapusbuku/:nomor_isbn', authenticate, hapusBuku);
 
 
 router.post(
