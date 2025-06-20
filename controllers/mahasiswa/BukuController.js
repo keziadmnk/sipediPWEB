@@ -262,9 +262,11 @@ exports.updateUlasan = async (req, res) => {
 // Anda bisa menambahkan fungsi detail buku di sini juga
 exports.getDetailBuku = async (req, res) => {
     try {
-        const { id } = req.params; // This should be nomor_isbn
+        const { nomor_isbn } = req.params; // This should be nomor_isbn
 
-        const buku = await Buku.findByPk(id, {
+        console.log("getDetailBuku - Nomor ISBN diterima:", nomor_isbn);
+
+        const buku = await Buku.findByPk(nomor_isbn, {
            include: [
             { model: Kategori, as: 'kategori' },
             { model: Jenis, as: 'jenis' }
@@ -272,6 +274,7 @@ exports.getDetailBuku = async (req, res) => {
         });
 
         if (!buku) {
+          console.error("getDetailBuku - Buku tidak ditemukan untuk ISBN:", nomor_isbn); // Log jika buku tidak ditemukan
           return res.status(404).send("Buku tidak ditemukan");
         }
 
