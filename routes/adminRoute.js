@@ -38,7 +38,7 @@ router.get("/databuku", findAllBuku);
 
 router.get("/tambahbuku", showTambahBuku);
 
-router.delete('/admin/buku/:nomor_isbn', hapusBuku); 
+router.delete('/admin/buku/:nomor_isbn'); 
 
 router.post(
   "/tambahbuku",
