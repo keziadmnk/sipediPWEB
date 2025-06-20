@@ -2,9 +2,14 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
 const Ulasan = sequelize.define('Ulasan', {
+  id_ulasan: { // Kolom baru sebagai Primary Key
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false
+  },
   nomor_isbn: {
     type: DataTypes.STRING(20),
-    primaryKey: true,
     allowNull: false,
     references: {
       model: 'buku',
@@ -13,7 +18,6 @@ const Ulasan = sequelize.define('Ulasan', {
   },
   id_pengguna: {
     type: DataTypes.STRING(10),
-    primaryKey: true,
     allowNull: false,
     references: {
       model: 'pengguna',
@@ -34,7 +38,7 @@ const Ulasan = sequelize.define('Ulasan', {
   }
 }, {
   tableName: 'ulasan',
-  timestamps: true // UBAH INI MENJADI TRUE
+  timestamps: true
 });
 
 module.exports = { Ulasan };

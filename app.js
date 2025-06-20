@@ -36,13 +36,13 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // const upload = multer();
 // app.use(upload.none()); // untuk form tanpa file upload
 
-sequelize.sync({ alter: true }) 
-  .then(() => {
-    console.log("Database & tables have been synced.");
-  })
-  .catch((error) => {
-    console.error("Error syncing database:", error);
-  });
+// sequelize.sync({ alter: true }) 
+//   .then(() => {
+//     console.log("Database & tables have been synced.");
+//   })
+//   .catch((error) => {
+//     console.error("Error syncing database:", error);
+//   });
 
 // Konfigurasi session
 app.use(session({
@@ -59,7 +59,7 @@ app.use('/', authRouter);
 app.use('/admin', authorize(['admin']), adminRoute);
 app.use('/petugas', authorize(['petugas', 'admin']), petugasRouter);
 app.use('/mahasiswa', mahasiswaRouter);
-app.use('/buku', bukuRouter);
+app.use('/buku', authenticate,bukuRouter);
 
 app.get('/dashboard', authenticate, (req, res) => {
   const role = req.user.role.toLowerCase();
