@@ -19,9 +19,9 @@ router.get('/profil', authenticate, function(req, res, next) {
   res.render('mahasiswa/profil'); 
 });
 
-router.get('/riwayatpeminjaman', function(req, res, next) {
-  res.render('mahasiswa/riwayatpeminjaman'); 
-});
+// router.get('/riwayatpeminjaman', function(req, res, next) {
+//   res.render('mahasiswa/riwayatpeminjaman'); 
+// });
 
 router.get('/koleksibuku', authenticate, showKatalogBuku);
 
@@ -36,6 +36,7 @@ router.get('/detailbuku', authenticate, function(req, res, next) {
 
 router.get('/detailbuku/:nomor_isbn', detailBuku);
 
-// router.get('/riwayat-peminjaman', showRiwayatPeminjaman);
-// router.get('/detail-peminjaman/:id_peminjaman', getDetailPeminjaman);
+
+router.get('/riwayatpeminjaman', authenticate, showRiwayatPeminjaman);
+router.get('/detail-peminjaman/:id_peminjaman', authenticate, getDetailPeminjaman);
 module.exports = router;

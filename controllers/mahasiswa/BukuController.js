@@ -12,7 +12,7 @@ exports.getDaftarUlasan = async (req, res) => {
             buku: dummyBuku,
             ulasans: dummyUlasans,
             rating: dummyRating
-        });
+        });+
 
     } catch (error) {
         console.error(error);
