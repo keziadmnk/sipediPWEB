@@ -48,7 +48,7 @@
             <div class="col-span-2">
               <label
                 for="judul_buku"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Judul Buku *</label
               >
               <input
@@ -56,13 +56,13 @@
                 id="judul_buku"
                 name="judul_buku"
                 required
-                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
               />
             </div>
 
             <!-- Baris 2 -->
             <div class="col-span-2">
-              <label class="block text-sm font-medium text-gray-700"
+              <label class="block text-sm font-medium text-gray-700 mb-1"
                 >Jenis Buku</label
               >
               <div class="mt-1 flex items-center space-x-6">
@@ -90,13 +90,13 @@
             <div>
               <label
                 for="kategori"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Kategori</label
               >
               <select
                 id="kategori"
                 name="kategori"
-                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]
               >
                 <option value="">Pilih kategori</option>
                 <% if (typeof kategori !== 'undefined' && kategori.length > 0) {
@@ -110,7 +110,7 @@
               </select>
             </div>
             <div>
-              <label for="isbn" class="block text-sm font-medium text-gray-700"
+              <label for="isbn" class="block text-sm font-medium text-gray-700 mb-1"
                 >ISBN *</label
               >
               <input
@@ -118,7 +118,7 @@
                 id="isbn"
                 name="isbn"
                 required
-                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
               />
             </div>
 
@@ -126,7 +126,7 @@
             <div>
               <label
                 for="pengarang"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Pengarang *</label
               >
               <input
@@ -134,20 +134,20 @@
                 id="pengarang"
                 name="pengarang"
                 required
-                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
               />
             </div>
             <div>
               <label
                 for="tahun_terbit"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Tahun Terbit *</label
               >
               <select
                 name="tahun_terbit"
                 id="tahun_terbit"
                 required
-                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
               >
                 <option value="">Pilih tahun</option>
                 <% const currentYear = new Date().getFullYear(); for (let year =
@@ -161,7 +161,7 @@
             <div>
               <label
                 for="penerbit"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Penerbit *</label
               >
               <input
@@ -169,13 +169,13 @@
                 id="penerbit"
                 name="penerbit"
                 required
-                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
               />
             </div>
             <div>
               <label
                 for="jumlah_halaman"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Jumlah Halaman *</label
               >
               <input
@@ -184,7 +184,7 @@
                 name="jumlah_halaman"
                 min="1"
                 required
-                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
               />
             </div>
 
@@ -192,13 +192,13 @@
             <div>
               <label
                 for="lokasi_penyimpanan"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Lokasi Penyimpanan</label
               >
               <select
                 id="lokasi_penyimpanan"
                 name="lokasi_penyimpanan"
-                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
               >
                 <option value="">Pilih lokasi</option>
                 <option value="American Corner – Sayap Kanan Lt.2">
@@ -224,7 +224,7 @@
             <div>
               <label
                 for="jumlah_stok"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Jumlah Stok </label
               >
               <input
@@ -232,7 +232,7 @@
                 id="jumlah_stok"
                 name="jumlah_stok"
                 min="1"
-                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
               />
             </div>
 
@@ -240,21 +240,21 @@
             <div>
               <label
                 for="deskripsi"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Deskripsi</label
               >
               <textarea
                 id="deskripsi"
                 rows="5"
                 name="deskripsi"
-                class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
               ></textarea>
             </div>
             <div class="flex flex-col gap-4">
               <div>
                 <label
                   for="upload_pdf"
-                  class="block text-sm font-medium text-gray-700"
+                  class="block text-sm font-medium text-gray-700 mb-1"
                   >Upload PDF</label
                 >
                 <input
@@ -262,14 +262,14 @@
                   id="upload_pdf"
                   name="upload_pdf"
                   accept=".pdf"
-                  class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                  class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
                 />
                 <small class="text-gray-500">Format: PDF, Max: 10MB</small>
               </div>
               <div>
                 <label
                   for="upload_sampul"
-                  class="block text-sm font-medium text-gray-700"
+                  class="block text-sm font-medium text-gray-700 mb-1"
                   >Upload Sampul</label
                 >
                 <input
@@ -277,7 +277,7 @@
                   id="upload_sampul"
                   name="upload_sampul"
                   accept="image/*"
-                  class="mt-1 w-full p-2.5 rounded-md border border-gray-300 shadow-sm bg-custom"
+                  class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
                 />
                 <small class="text-gray-500"
                   >Format: JPG, PNG, GIF, Max: 10MB</small
@@ -290,12 +290,12 @@
           <div class="flex justify-end gap-4 mt-6">
             <a
               href="/admin/databuku"
-              class="bg-yellow-400 text-white py-2 px-4 rounded-md hover:bg-yellow-500"
+              class="bg-[#e8c75a] text-white text-xs font-semibold rounded-md py-2 px-6 shadow-md hover:bg-[#d4b44a] transition"
               >Batal</a
             >
             <button
               type="submit"
-              class="bg-[#276749] text-white py-2 px-4 rounded-md hover:bg-green-700"
+              class="bg-[#2f6f4e] text-white text-xs font-semibold rounded-md py-2 px-6 shadow-md hover:bg-[#255a3f] transition"
             >
               Simpan
             </button>
