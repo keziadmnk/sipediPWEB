@@ -38,7 +38,13 @@ const Ulasan = sequelize.define('Ulasan', {
   }
 }, {
   tableName: 'ulasan',
-  timestamps: true
+  timestamps: true,
+  // Tambahkan unique constraint untuk kombinasi nomor_isbn dan id_pengguna
+  uniqueKeys: {
+    unique_ulasan_per_buku_pengguna: {
+      fields: ['nomor_isbn', 'id_pengguna']
+    }
+  }
 });
 
 module.exports = { Ulasan };

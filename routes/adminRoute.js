@@ -17,7 +17,7 @@ const {
 
 // Import upload middleware
 const { uploadFields } = require("../middlewares/upload");
-const { findAllMahasiswa } = require("../controllers/admin/MahasiswaController");
+const { findAllMahasiswa, showTambahMahasiswaForm, tambahMahasiswa } = require("../controllers/admin/MahasiswaController");
 const { findAllPetugas, tambahPetugas } = require("../controllers/admin/PetugasController");
 
 // const adminController = require('../controllers/admin/adminController');
@@ -72,5 +72,8 @@ router.get("/tambahpetugas", authenticate, (req, res) => {
 });
 
 router.post("/tambahpetugas", authenticate, tambahPetugas);
+
+router.get('/tambahmahasiswa', authenticate, showTambahMahasiswaForm); // Route to show the add student form
+router.post('/tambahmahasiswa', authenticate, tambahMahasiswa); // Route to process the add student form submission
 
 module.exports = router;

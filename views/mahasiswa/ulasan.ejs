@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ulasan Buku - <%= buku.judul %></title>
+    <title>Ulasan Buku - <%= buku.judul_buku %></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
@@ -23,9 +23,11 @@
 
     <main class="max-w-4xl mx-auto p-6 bg-white mt-28 rounded-lg shadow-md">
         <div class="flex flex-col md:flex-row gap-6 border-b pb-6 mb-6">
-            <img src="/images/coverbuku.jpeg" alt="Cover Buku" class="w-32 h-48 object-cover rounded-lg shadow-md self-center md:self-start">
+            <img src="/uploads/covers/<%= buku.upload_sampul %>" 
+                 onerror="this.onerror=null; this.src='/images/placeholder-book.png';"
+                 alt="Cover Buku" class="w-32 h-48 object-cover rounded-lg shadow-md self-center md:self-start">
             <div class="flex-1">
-                <h1 class="text-2xl font-bold text-gray-800"><%= buku.judul %></h1>
+                <h1 class="text-2xl font-bold text-gray-800"><%= buku.judul_buku %></h1> 
                 <p class="text-gray-600 mb-2"><%= buku.pengarang %></p>
                 <div class="flex items-center mb-3">
                     <div class="text-yellow-400 text-xl">
@@ -41,7 +43,7 @@
                 </div>
                 <p class="text-sm text-gray-700 leading-relaxed line-clamp-3">
                     <%= buku.deskripsi %>
-                    <a href="/buku/<%= buku.id %>" class="text-green-700 font-semibold">Selengkapnya>>></a>
+                    <a href="/buku/<%= buku.nomor_isbn %>" class="text-green-700 font-semibold">Selengkapnya>>></a>
                 </p>
             </div>
         </div>
@@ -64,12 +66,25 @@
                 <div class="text-center">
                     <p class="text-4xl font-bold text-gray-800"><%= rating.rataRata.toFixed(1) %></p>
                     <div class="text-yellow-400">
-                        </div>
+                        <% for(let i = 1; i <= 5; i++) { %>
+                            <% if(i <= Math.round(rating.rataRata)) { %>
+                                <i class="fas fa-star"></i>
+                            <% } else { %>
+                                <i class="far fa-star"></i>
+                            <% } %>
+                        <% } %>
+                    </div>
                     <p class="text-sm text-gray-500"><%= rating.totalUlasan %> Reviews</p>
                 </div>
-                <a href="/buku/<%= buku.nomor_isbn %>/ulasan/tulis" class="mt-4 bg-yellow-400 text-black font-semibold px-8 py-2 rounded-lg hover:bg-yellow-500">
-                    Tulis Ulasan
-                </a>
+                <% if (userUlasanExists) { %>
+                    <a href="/buku/<%= buku.nomor_isbn %>/ulasan/<%= userUlasanId %>/edit" class="mt-4 bg-blue-500 text-white font-semibold px-8 py-2 rounded-lg hover:bg-blue-700">
+                        Edit Ulasan Anda
+                    </a>
+                <% } else { %>
+                    <a href="/buku/<%= buku.nomor_isbn %>/ulasan/tulis" class="mt-4 bg-yellow-400 text-black font-semibold px-8 py-2 rounded-lg hover:bg-yellow-500">
+                        Tulis Ulasan
+                    </a>
+                <% } %>
             </div>
         </div>
 
