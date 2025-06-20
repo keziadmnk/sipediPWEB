@@ -42,39 +42,5 @@ const showTambahBuku = async (req, res) => {
   }
 };
 
-const showKatalogBuku = async (req, res) => {
-  try {
-    const selectedKategori = req.query.kategori || null;
-    const searchQuery = req.query.q || null;
-    const kategori = await Kategori.findAll();
 
-     const whereClause = {};
-     if (selectedKategori) {
-      whereClause.id_kategori = selectedKategori;
-    }
-
-    if (searchQuery) {
-      whereClause.judul_buku = {
-        [Op.like]: `%${searchQuery}%`
-      };
-    }
-
-    const buku = await Buku.findAll({
-      where: whereClause,
-      include: [{ model: Kategori, as: 'kategori' }]
-    });
-
-    res.render("mahasiswa/koleksibuku", {
-      kategori,
-      buku,
-      selectedKategori: selectedKategori ? parseInt(selectedKategori) : null,
-      searchQuery
-    });
-
-  } catch (error) {
-    console.error("Error fetching katalog:", error);
-    res.status(500).send("Internal Server Error");
-  }
-};
-
-module.exports = { tambahKategori, findAllKategori, showTambahBuku, showKatalogBuku}
+module.exports = { tambahKategori, findAllKategori, showTambahBuku}
