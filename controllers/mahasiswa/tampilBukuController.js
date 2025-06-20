@@ -28,19 +28,36 @@ const detailBuku = async (req, res) => {
 
 const cariBuku = async (req, res) => {
   try {
+    const selectedKategori = req.query.kategori || null; // Filter kategori dari query parameter
     const searchQuery = req.query.search || '';  // Ambil query pencarian dari URL
+
+    const whereClause = {};
+
+    // Filter berdasarkan kategori jika ada
+    if (selectedKategori) {
+      whereClause.id_kategori = selectedKategori;
+    }
+
+    // Filter berdasarkan judul_buku jika ada query pencarian
+    if (searchQuery) {
+      whereClause.judul_buku = {
+        [Op.like]: `%${searchQuery}%`
+      };
+    }
+
     const buku = await Buku.findAll({
-      where: {
-        judul_buku: {
-          [Op.like]: `%${searchQuery}%`  // Mencari buku dengan judul yang mengandung kata pencarian
-        }
-      }
+      where: whereClause,
+      include: [
+        { model: Kategori, as: 'kategori' } // Include kategori untuk ditampilkan
+      ]
     });
 
-    const kategori = await require("../../models/KategoriModel").Kategori.findAll(); // Ambil semua kategori
+    const kategori = await Kategori.findAll(); // Ambil semua kategori untuk filter dropdown
+
     res.render("mahasiswa/koleksibuku", {
       kategori,
       buku,
+      selectedKategori: selectedKategori ? parseInt(selectedKategori) : null, // Kirim kategori yang dipilih
       searchQuery  // Kirimkan query pencarian ke tampilan
     });
 
@@ -49,7 +66,6 @@ const cariBuku = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
-
 
 
 module.exports = { detailBuku, cariBuku}
