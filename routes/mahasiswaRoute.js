@@ -1,7 +1,7 @@
 var express = require('express');
 const { authenticate } = require('../middlewares/authenticate'); // Middleware untuk autentikasi
 const { showKatalogBuku} = require('../controllers/admin/KategoriController');
-const { detailBuku, showKatalogByKategori } = require('../controllers/mahasiswa/tampilBukuController');
+const { detailBuku, cariBuku } = require('../controllers/mahasiswa/tampilBukuController');
 var router = express.Router();
 
 router.get('/dashboard', authenticate, (req, res) => {
@@ -17,7 +17,7 @@ router.get('/profil', authenticate, function(req, res, next) {
   res.render('mahasiswa/profil'); 
 });
 
-router.get('/koleksibuku', authenticate, showKatalogBuku);
+router.get('/koleksibuku', authenticate, showKatalogBuku, cariBuku);
 
 
 router.get('/formpeminjaman', authenticate, function(req, res, next) {
