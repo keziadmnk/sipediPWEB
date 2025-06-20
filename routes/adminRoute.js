@@ -18,6 +18,7 @@ const {
 // Import upload middleware
 const { uploadFields } = require("../middlewares/upload");
 const { findAllMahasiswa } = require("../controllers/admin/MahasiswaController");
+const { findAllPetugas } = require("../controllers/admin/PetugasController");
 
 // const adminController = require('../controllers/admin/adminController');
 
@@ -59,5 +60,7 @@ router.post(
 );
 
 router.get("/datamahasiswa", authenticate, findAllMahasiswa);
+
+router.get("/datapetugas", authenticate, findAllPetugas);
 
 module.exports = router;
