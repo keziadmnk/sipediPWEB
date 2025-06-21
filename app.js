@@ -32,9 +32,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Middleware untuk parsing multipart/form-data
-const upload = multer();
-app.use(upload.none()); // untuk form tanpa file upload
+// Middleware untuk parsing multipart/form-data - DISABLED karena konflik dengan upload
+// const upload = multer();
+// app.use(upload.none()); // untuk form tanpa file upload
 
 // sequelize.sync({ alter: true }) 
 //   .then(() => {

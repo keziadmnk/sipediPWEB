@@ -4,7 +4,15 @@ const path = require('path');
 
 const findAkun = async (req, res) => {
     try {
+        // Gunakan userId dari JWT token (sesuai dengan yang dibuat di loginController.js)
         const idLogin = req.user.userId;
+
+        if (!idLogin) {
+            return res.status(400).render('error', {
+                message: 'ID pengguna tidak ditemukan dalam session.',
+                error: {}
+            });
+        }
 
         const mahasiswa = await Pengguna.findOne({
             where: { id_pengguna: idLogin }
@@ -29,7 +37,13 @@ const findAkun = async (req, res) => {
 
 const updateFoto = async (req, res) => {
     try {
+        // Gunakan userId dari JWT token (sesuai dengan yang dibuat di loginController.js)
         const idLogin = req.user.userId;
+        
+        if (!idLogin) {
+            return res.status(400).send('ID pengguna tidak ditemukan dalam session');
+        }
+
         const mahasiswa = await Pengguna.findOne({ where: { id_pengguna: idLogin }});
 
         if (!mahasiswa) {

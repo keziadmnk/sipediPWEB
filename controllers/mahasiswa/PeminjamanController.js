@@ -1,6 +1,7 @@
 const { Peminjaman } = require("../../models/PeminjamanModel");
 const { Buku } = require("../../models/BukuModel");
 const { Pengguna } = require("../../models/PenggunaModel");
+const PDFDocument = require('pdfkit');
 
 // Menampilkan form peminjaman dengan data buku yang dipilih
 const showFormPeminjaman = async (req, res) => {
@@ -29,11 +30,7 @@ const showFormPeminjaman = async (req, res) => {
     }
 
     // Cek berbagai kemungkinan nama field untuk id pengguna
-    const userId =
-      req.user.id_pengguna ||
-      req.user.id ||
-      req.user.userId ||
-      req.user.username;
+    const userId = req.user.userId;
 
     console.log("User ID:", userId); // Debug log
 
@@ -74,11 +71,7 @@ const prosesPeminjaman = async (req, res) => {
     const { nomor_isbn, tanggal_peminjaman } = req.body;
 
     // Cek berbagai kemungkinan nama field untuk id pengguna
-    const id_pengguna =
-      req.user.id_pengguna ||
-      req.user.id ||
-      req.user.userId ||
-      req.user.username;
+    const id_pengguna = req.user.userId;
 
     console.log("Process peminjaman - User ID:", id_pengguna);
     console.log("Process peminjaman - nomor_isbn:", nomor_isbn);
@@ -265,8 +258,103 @@ const showBuktiPeminjaman = async (req, res) => {
   }
 };
 
+const downloadBuktiPeminjaman = async (req, res) => {
+  try {
+    const { id_peminjaman } = req.params;
+    const peminjaman = await Peminjaman.findOne({
+      where: { id_peminjaman: id_peminjaman },
+      include: [{ model: Buku, required: true }, { model: Pengguna, required: true }],
+    });
+
+    if (!peminjaman) {
+      return res.status(404).send("Data peminjaman tidak ditemukan");
+    }
+    
+    const peminjamanData = peminjaman.get({ plain: true });
+
+    const doc = new PDFDocument({ margin: 50, size: 'A4' });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="bukti-peminjaman-${id_peminjaman}.pdf"`);
+
+    doc.pipe(res);
+
+    // Header
+    doc
+      .fontSize(20).font('Helvetica-Bold').text('Bukti Peminjaman', { align: 'center' })
+      .fontSize(12).font('Helvetica').text('Sistem Informasi Perpustakaan Digital (SIPEDI)', { align: 'center' })
+      .text('Universitas Andalas', { align: 'center' })
+      .moveDown(2);
+
+    // Kode Peminjaman Box
+    const boxY = doc.y;
+    doc
+      .fontSize(14).font('Helvetica-Bold').text('Kode Peminjaman Anda:', 70, boxY + 22, { align: 'left'})
+      .fontSize(20).font('Helvetica-Bold').text(String(peminjamanData.id_peminjaman), 70, boxY + 20, { align: 'right', width: 452 });
+    
+    doc.rect(50, boxY, 512, 60).stroke();
+    doc.moveDown(4);
+
+    // Helper function to draw a section
+    const drawSection = (title, data) => {
+      doc.fontSize(16).font('Helvetica-Bold').text(title, { underline: true }).moveDown(0.5);
+      Object.entries(data).forEach(([key, value]) => {
+        const textValue = String(value || '-');
+        doc.fontSize(11).font('Helvetica-Bold').text(key + ':', { continued: true, width: 150 })
+           .font('Helvetica').text(textValue)
+           .moveDown(0.5);
+      });
+      doc.moveDown(1);
+    };
+
+    // Format tanggal function
+    const formatTanggal = (date) => {
+      if (!date) return '-';
+      return new Date(date).toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      });
+    };
+
+    // Informasi Peminjam
+    drawSection('Informasi Peminjam', {
+      'Nama Lengkap': peminjamanData.Pengguna.nama_lengkap,
+      'NIM': peminjamanData.id_pengguna,
+      'Email': peminjamanData.Pengguna.email
+    });
+
+    // Informasi Buku
+    drawSection('Informasi Buku', {
+      'Judul Buku': peminjamanData.Buku.judul_buku,
+      'Pengarang': peminjamanData.Buku.pengarang,
+      'Nomor ISBN': peminjamanData.nomor_isbn,
+      'Lokasi': peminjamanData.Buku.lokasi_penyimpanan
+    });
+
+    // Detail Peminjaman
+    drawSection('Detail Peminjaman', {
+      'Tanggal Pinjam': formatTanggal(peminjamanData.tanggal_peminjaman),
+      'Wajib Kembali': formatTanggal(peminjamanData.tanggal_wajib_pengembalian),
+      'Status': peminjamanData.status_peminjaman,
+    });
+    
+    // Footer
+    doc.fontSize(9).font('Helvetica-Oblique')
+      .text('Harap tunjukkan bukti ini kepada petugas perpustakaan saat pengambilan buku.', 50, 750, { align: 'center', width: 512 })
+      .text(`Dokumen ini dibuat secara otomatis pada ${new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'long' })}.`, { align: 'center', width: 512 });
+
+    doc.end();
+
+  } catch (error) {
+    console.error("Error downloading bukti peminjaman:", error);
+    res.status(500).send("Terjadi kesalahan saat mengunduh bukti peminjaman: " + error.message);
+  }
+};
+
 module.exports = {
   showFormPeminjaman,
   prosesPeminjaman,
   showBuktiPeminjaman,
+  downloadBuktiPeminjaman,
 };

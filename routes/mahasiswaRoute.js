@@ -1,7 +1,7 @@
 var express = require('express');
 const { authenticate } = require('../middlewares/authenticate'); // Middleware untuk autentikasi
 const { showKatalogBuku} = require('../controllers/admin/KategoriController');
-const { showFormPeminjaman, prosesPeminjaman, showBuktiPeminjaman } = require('../controllers/mahasiswa/PeminjamanController');
+const { showFormPeminjaman, prosesPeminjaman, showBuktiPeminjaman, downloadBuktiPeminjaman } = require('../controllers/mahasiswa/PeminjamanController');
 const { showRiwayatPeminjaman, getDetailPeminjaman } = require('../controllers/mahasiswa/RiwayatController');
 const { detailBuku, cariBuku } = require('../controllers/mahasiswa/tampilBukuController');
 const { findAkun, updateFoto } = require('../controllers/mahasiswa/AkunController');
@@ -28,6 +28,9 @@ router.get('/profil', authenticate, function(req, res, next) {
 
 // Route untuk bukti peminjaman
 router.get('/buktipeminjaman', authenticate, showBuktiPeminjaman);
+
+// Route untuk download bukti peminjaman
+router.get('/download-bukti-peminjaman/:id_peminjaman', authenticate, downloadBuktiPeminjaman);
 
 router.get('/koleksibuku', authenticate, cariBuku);
 

@@ -32,12 +32,12 @@ router.get("/dashboard", authenticate, (req, res) => {
   res.render("admin/dashboard");
 });
 
-router.get('/editbuku', authenticate, (req, res) => {
-  res.render('admin/editbuku'); 
-});
-
 router.get("/tambahkategori", function (req, res, next) {
   res.render("admin/tambahkategori");
+});
+
+router.get('/editbuku', authenticate, (req, res) => {
+  res.render('admin/editbuku'); 
 });
 
 router.get('/detailbuku', authenticate, function(req, res, next) {
