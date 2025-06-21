@@ -9,200 +9,131 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-    <style>
-      .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      /* Custom CSS for horizontal scrolling with scrollbar hidden */
-      .horizontal-scroll-container::-webkit-scrollbar {
-        display: none; /* Hide scrollbar for Webkit browsers */
-      }
-      .horizontal-scroll-container {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-      }
-      .category-item {
-        flex: 0 0 auto; /* Prevent items from growing/shrinking, base on content */
-      }
-      /* Custom styling for the category buttons to match the image */
-      .category-button {
-          background-color: oklch(96.2% 0.044 156.743); /* Equivalent to --color-green-100 */
-          color: oklch(37.3% 0.034 259.733); /* Equivalent to --color-gray-700 */
-          border-radius: 9999px; /* Full rounded corners */
-          padding: 1rem 6.2rem; /* py-2 px-6 */
-          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); /* shadow-sm */
-          transition-property: box-shadow, background-color;
-          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-          transition-duration: 150ms; /* default transition duration */
-      }
-      .category-button:hover {
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
-          background-color: oklch(78.92% 0.13678 147.322); /* Equivalent to --color-gray-200 from output.css */
-      }
-      /* Specific adjustment for arrow positioning based on the image */
-      .category-arrows-wrapper {
-          position: relative;
-          display: flex;
-          align-items: center;
-      }
-      .category-arrows-wrapper button {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          background-color: white;
-          border: 1px solid oklch(70.7% 0.022 261.325); /* gray-400 equivalent */
-      }
-      .category-arrows-wrapper button#scrollLeftCategory {
-          left: -15px;
-      }
-      .category-arrows-wrapper button#scrollRightCategory {
-          right: -15px;
-      }
-
-      /* New styles for book carousel arrows */
-      .book-carousel-arrows-wrapper {
-          position: relative;
-          display: flex;
-          align-items: center;
-      }
-      .book-carousel-arrows-wrapper button {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          background-color: white; /* Match category arrows */
-          border: 1px solid oklch(70.7% 0.022 261.325); /* Match category arrows */
-          padding: 0.5rem; /* Smaller padding for smaller buttons */
-          border-radius: 9999px; /* Rounded buttons */
-          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); /* shadow-sm */
-          cursor: pointer;
-          z-index: 10;
-          transition: background-color 150ms ease-in-out;
-      }
-      .book-carousel-arrows-wrapper button:hover {
-          background-color: oklch(92.8% 0.006 264.531); /* gray-200 on hover */
-      }
-      .book-carousel-arrows-wrapper button#scrollLeftBook {
-          left: -15px; /* Adjust as needed */
-      }
-      .book-carousel-arrows-wrapper button#scrollRightBook {
-          right: -15px; /* Adjust as needed */
-      }
-
-      /* Styling for individual book items in the carousel */
-      .book-carousel-item {
-        flex: 0 0 auto; /* Ensures items don't shrink and maintain their size */
-        margin-right: 1rem; /* space-x-4 equivalent */
-        width: 120px; /* Default width based on h-[160px] with 3:4 aspect */
-      }
-     /* Untuk MEMPERBESAR BUKU, ubah nilai di kelas ini (atau buat kelas baru) */
-      .book-carousel-item.size-large { /* Anda bisa menambahkan kelas ini ke item buku di EJS */
-        width: 200px; /* Lebar yang lebih besar */
-      }
-      .book-carousel-item.size-large { /* Anda bisa menambahkan kelas ini ke item buku di EJS */
-        height: 300px; /* Lebar yang lebih besar */
-      }
-      .book-carousel-item.size-large img { /* Sesuaikan tinggi gambar agar rasio tetap */
-        width: 100px; /* Tinggi yang sesuai (misal, 3:4 dari 150px) */
-      }
-      .book-carousel-item.size-large img { /* Sesuaikan tinggi gambar agar rasio tetap */
-        height: 300px; /* Tinggi yang sesuai (misal, 3:4 dari 150px) */
-      }
-      
-    </style>
   </head>
-<body class="bg-[#F8FFF6] font-sans">
+<body class="bg-gradient-to-br  to-emerald-50 font-sans">
   <%- include('../partials/navbarMahasiswa') %>
 
   <main class="mt-20">
-    <div class="relative w-full overflow-hidden">
-      <img
-        alt="Library bookshelves with books, blurred background with green overlay"
-        class="w-full object-cover object-center opacity-70"
-        height="180"
-        src="/images/mahasiswa-dashboard1.png"
-        style="max-height: 250px"
-        width="1200"
-      />
+    <!-- Enhanced Hero Section -->
+    <div class="relative bg-gradient-to-br from-green-800 to-green-900 overflow-hidden">
+      <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('/images/mahasiswa-dashboard1.png');"></div>
+      <div class="relative z-10 py-16 text-center text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">
+            Selamat Datang di SIPEDI
+          </h1>
+          <p class="text-xl text-green-100 mb-6">
+            Sistem Informasi Perpustakaan Digital Universitas Andalas
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+              <i class="fas fa-book-open text-2xl text-white mb-2 block"></i>
+              <p class="text-white font-medium">Koleksi Digital</p>
+            </div>
+            <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+              <i class="fas fa-search text-2xl text-white mb-2 block"></i>
+              <p class="text-white font-medium">Pencarian dan Peminjaman Cepat</p>
+            </div>
+            <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+              <i class="fas fa-clock text-2xl text-white mb-2 block"></i>
+              <p class="text-white font-medium">24/7 Akses</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
+    <div class="max-w-9xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
 
-      <section class="py-6">
-        <h2 class="text-[#2f5d40] font-semibold text-sm mb-4 select-none">
-          Rekomendasi Untuk Anda
-        </h2>
-        <div class="book-carousel-arrows-wrapper">
-          <button id="scrollLeftBook">
+      <!-- Enhanced Book Recommendation Section -->
+      <section class="py-8">
+        <div class="bg-gradient-to-br from-green-50 to-emerald-50 py-6 my-8 rounded-xl shadow-sm border border-green-100">
+          <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">
+            <i class="fas fa-star text-yellow-500 mr-3"></i>
+            Rekomendasi Untuk Anda
+          </h2>
+          <p class="text-gray-600 text-center">Buku-buku terbaik yang kami rekomendasikan</p>
+        </div>
+        
+        <div class="relative flex items-center">
+          <button id="scrollLeftBook" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white border-2 border-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-50 hover:border-green-500 hover:shadow-xl transition-all duration-300">
               <i class="fas fa-chevron-left text-gray-700"></i>
           </button>
 
-          <div id="booksContainer" class="flex overflow-x-auto horizontal-scroll-container py-2 px-1 w-full">
+          <div id="booksContainer" class="flex overflow-x-auto py-6 px-12 w-full scrollbar-hide">
             <% if (bukuRekomendasi && bukuRekomendasi.length > 0) { %>
               <% bukuRekomendasi.forEach(buku => { %>
-                <div class="flex-none book-carousel-item bg-white p-2 shadow-sm size-large">
-                  <a href="/buku/<%= buku.nomor_isbn %>">
-                    <img
-                      alt="Cover <%= buku.judul_buku %>"
-                      class="w-full h-[160px] object-cover"
-                      height="160"
-                      src="/uploads/covers/<%= buku.upload_sampul %>"
-                      onerror="this.onerror=null; this.src='/images/placeholder-book.png';"
-                      width="120"
-                    />
+                <div class="flex-none w-48 bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 mr-6 transform hover:-translate-y-2">
+                  <a href="/buku/<%= buku.nomor_isbn %>" class="block">
+                    <div class="aspect-[3/4] relative overflow-hidden">
+                      <img
+                        alt="Cover <%= buku.judul_buku %>"
+                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                        src="/uploads/covers/<%= buku.upload_sampul %>"
+                        onerror="this.onerror=null; this.src='/images/placeholder-book.png';"
+                      />
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-5">
+                      <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2 text-sm leading-tight"><%= buku.judul_buku %></h3>
+                      <p class="text-sm text-gray-500"><%= buku.pengarang %></p>
+                    </div>
                   </a>
-                  <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight line-clamp-2">
-                    <%= buku.judul_buku %>
-                  </p>
-                  <p class="text-[8px] text-[#9dbb9a] mt-0.5">
-                    <%= buku.pengarang %>
-                  </p>
                 </div>
               <% }); %>
             <% } else { %>
               <% for(let i = 0; i < 6; i++) { %>
-                <div class="flex-none book-carousel-item bg-white p-2 shadow-sm size-large">
-                  <a href="#">
+                <div class="flex-none w-48 bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 mr-6 transform hover:-translate-y-2">
+                  <a href="#" class="block">
+                    <div class="aspect-[3/4] relative overflow-hidden">
                       <img
-                          alt="Placeholder Cover"
-                          class="w-full h-[160px] object-cover"
-                          height="160"
-                          src="/images/placeholder-book.png"
-                          width="120"
+                        alt="Placeholder Cover"
+                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                        src="/images/placeholder-book.png"
                       />
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-5">
+                      <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2 text-sm leading-tight">
+                        Cover Bertarung Melawan Masa Lalu
+                      </h3>
+                      <p class="text-sm text-gray-500">
+                        Bertarung Melawan Masa Lalu
+                      </p>
+                    </div>
                   </a>
-                  <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight line-clamp-2">
-                      Cover Bertarung Melawan Masa Lalu
-                  </p>
-                  <p class="text-[8px] text-[#9dbb9a] mt-0.5">
-                      Bertarung Melawan Masa Lalu
-                  </p>
                 </div>
               <% } %>
             <% } %>
           </div>
 
-          <button id="scrollRightBook">
+          <button id="scrollRightBook" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white border-2 border-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-50 hover:border-green-500 hover:shadow-xl transition-all duration-300">
               <i class="fas fa-chevron-right text-gray-700"></i>
           </button>
         </div>
       </section>
 
-      <section class="py-6">
-        <h2 class="text-[#2f5d40] font-semibold text-sm mb-4 select-none">
+      <!-- Enhanced Category Section -->
+      <section class="py-8">
+        <div class="bg-gradient-to-br from-green-50 to-emerald-50 py-6 my-8 rounded-xl shadow-sm border border-green-100">
+          <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">
+            <i class="fas fa-tags text-blue-500 mr-3"></i>
             Kategori Buku
-        </h2>
-        <div class="category-arrows-wrapper relative flex items-center">
-            <button id="scrollLeftCategory" class="z-10 p-2 rounded-full shadow-md cursor-pointer hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500">
+          </h2>
+          <p class="text-gray-600 text-center">Jelajahi koleksi berdasarkan kategori</p>
+        </div>
+        
+        <div class="relative flex items-center">
+            <button id="scrollLeftCategory" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white border-2 border-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-50 hover:border-green-500 hover:shadow-xl transition-all duration-300">
                 <i class="fas fa-chevron-left text-gray-700"></i>
             </button>
 
-            <div id="categoriesContainer" class="flex overflow-x-auto horizontal-scroll-container space-x-4 py-2 px-1 w-full">
+            <div id="categoriesContainer" class="flex overflow-x-auto space-x-4 py-4 px-12 w-full scrollbar-hide">
                 <% if (categories && categories.length > 0) { %>
                     <% categories.forEach(kategori => { %>
-                        <div class="flex-none category-item">
-                            <a href="/mahasiswa/koleksibuku?kategori=<%= kategori.id_kategori %>" class="block category-button whitespace-nowrap">
+                        <div class="flex-none">
+                            <a href="/mahasiswa/koleksibuku?kategori=<%= kategori.id_kategori %>" class="block bg-gradient-to-br from-green-700 to-green-900 text-white font-medium rounded-full px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:from-green-500 hover:to-green-700 whitespace-nowrap">
+                                <i class="fas fa-folder mr-2"></i>
                                 <%= kategori.nama_kategori %>
                             </a>
                         </div>
@@ -212,58 +143,71 @@
                 <% } %>
             </div>
 
-            <button id="scrollRightCategory" class="z-10 p-2 rounded-full shadow-md cursor-pointer hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <button id="scrollRightCategory" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white border-2 border-gray-200 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-gray-50 hover:border-green-500 hover:shadow-xl transition-all duration-300">
                 <i class="fas fa-chevron-right text-gray-700"></i>
             </button>
         </div>
       </section>
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-6 my-20">
-        <img
-          alt="Logo of Perpustakaan Universitas Andalas with green and yellow emblem"
-          height="150"
-          src="/images/logo-unand.png"
-          width="300"
-        />
-        <p
-          class="text-right text-[10px] sm:text-[12px] text-green-900 max-w-[900px]"
-        >
-          <span class="font-semibold italic">
+    </div>
+
+    <!-- Enhanced Logo Section -->
+    <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 mx-4 sm:mx-6 md:mx-10 lg:mx-16 my-20 shadow-xl border border-green-100">
+      <div class="flex flex-col lg:flex-row items-center justify-center gap-8">
+        <div class="text-center lg:text-left">
+          <img
+            alt="Logo of Perpustakaan Universitas Andalas with green and yellow emblem"
+            height="150"
+            src="/images/logo-unand.png"
+            width="300"
+            class="mb-6 lg:mb-0"
+          />
+        </div>
+        <div class="max-w-2xl">
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">
+            <i class="fas fa-university text-green-600 mr-3"></i>
             Perpustakaan Universitas Andalas
-          </span>
-          hadir sebagai pusat pengetahuan yang mendukung proses pendidikan,
-          penelitian, dan pengabdian masyarakat. Dengan koleksi digital yang terus
-          berkembang dan layanan informasi
-          <span class="font-semibold"> berbasis teknologi </span>
-          , kami berkomitmen memberikan akses informasi yang mudah, cepat, dan
-          terpercaya bagi seluruh sivitas akademika.
-          <br />
+          </h3>
+          <p class="text-gray-700 leading-relaxed mb-6">
+            <span class="font-semibold italic text-green-700">
+              Perpustakaan Universitas Andalas
+            </span>
+            hadir sebagai pusat pengetahuan yang mendukung proses pendidikan,
+            penelitian, dan pengabdian masyarakat. Dengan koleksi digital yang terus
+            berkembang dan layanan informasi
+            <span class="font-semibold text-green-700"> berbasis teknologi </span>
+            , kami berkomitmen memberikan akses informasi yang mudah, cepat, dan
+            terpercaya bagi seluruh sivitas akademika.
+          </p>
           <a
-            class="text-orange-500 text-[10px] sm:text-[12px] font-normal"
-            href="#"
+            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-700 to-green-900 text-white font-medium rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            href="/mahasiswa/profil"
           >
+            <i class="fas fa-user mr-2"></i>
             Lihat Selengkapnya
           </a>
-        </p>
+        </div>
       </div>
-
-      <div class="mb-10 px-4 sm:px-0">
-        <iframe
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen=""
-          class="rounded"
-          frameborder="0"
-          height="480"
-          src="https://www.youtube.com/embed/_k3wmGUG_0Y?si=xcsygl_U-wlcxj0U"
-          title="FASILITAS PERPUSTAKAAN UNIVERSITAS ANDALAS"
-          width="100%"
-        >
-        </iframe>
-      </div>
-
     </div>
+
+    <!-- Enhanced YouTube Section -->
+    <div class="mb-20">
+      <iframe
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen=""
+        class="rounded"
+        frameborder="0"
+        height="480"
+        src="https://www.youtube.com/embed/_k3wmGUG_0Y?si=xcsygl_U-wlcxj0U"
+        title="FASILITAS PERPUSTAKAAN UNIVERSITAS ANDALAS"
+        width="100%"
+      >
+      </iframe>
+    </div>
+
+    <!-- Original Footer -->
     <footer
-      class="bg-[#2f5d40] text-[#d1d5db] mt-6 px-4 sm:px-6 md:px-10 lg:px-16 py-6"
+      class="bg-[#2f5d40] text-[#FDFCDD] hover:text-[#FFFB8C] mt-6 px-4 sm:px-6 md:px-10 lg:px-16 py-6"
     >
       <div
         class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
@@ -283,6 +227,25 @@
       </div>
     </footer>
   </main>
+
+  <style>
+    /* Hide scrollbar for webkit browsers */
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* Line clamp utility */
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+    }
+  </style>
 
   <script>
     const categoriesContainer = document.getElementById('categoriesContainer');
