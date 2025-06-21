@@ -117,8 +117,33 @@ const tambahPetugas = async (req, res) => {
     }
 };
 
+const hapusPetugas = async (req, res) => {
+    try {
+        const { id_pengguna } = req.params;
+
+        await Pengguna.destroy({
+            where: { id_pengguna }
+        });
+
+        req.session.message = {
+            type: 'success',
+            text: 'Petugas berhasil dihapus.'
+        };
+
+        res.redirect('/admin/datapetugas');
+    } catch (error) {
+        console.error("Gagal menghapus petugas:", error);
+        req.session.message = {
+            type: 'error',
+            text: 'Terjadi kesalahan saat menghapus petugas.'
+        };
+        res.redirect('/admin/datapetugas');
+    }
+};
+
 module.exports = {
     findAllPetugas,
     showTambahPetugasForm,
     tambahPetugas,
+    hapusPetugas
 };
