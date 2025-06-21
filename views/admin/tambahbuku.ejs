@@ -315,18 +315,44 @@
         const isFisik = checkboxFisik.checked;
         const isEbook = checkboxEbook.checked;
 
-        lokasi.disabled = !isFisik;
-        jumlah_stok.disabled = !isFisik;
-        uploadPdf.disabled = !isEbook;
+        // Jika keduanya dipilih, enable semua field
+        if (isFisik && isEbook) {
+          lokasi.disabled = false;
+          jumlah_stok.disabled = false;
+          uploadPdf.disabled = false;
+          
+          lokasi.classList.remove("bg-gray-100");
+          jumlah_stok.classList.remove("bg-gray-100");
+          uploadPdf.classList.remove("bg-gray-100");
+          
+          lokasi.setAttribute('required', 'required');
+          jumlah_stok.setAttribute('required', 'required');
+          uploadPdf.setAttribute('required', 'required');
+        } else {
+          // Jika hanya satu yang dipilih
+          lokasi.disabled = !isFisik;
+          jumlah_stok.disabled = !isFisik;
+          uploadPdf.disabled = !isEbook;
 
-        lokasi.classList.toggle("bg-gray-100", !isFisik);
-        jumlah_stok.classList.toggle("bg-gray-100", !isFisik);
-        uploadPdf.classList.toggle("bg-gray-100", !isEbook);
+          lokasi.classList.toggle("bg-gray-100", !isFisik);
+          jumlah_stok.classList.toggle("bg-gray-100", !isFisik);
+          uploadPdf.classList.toggle("bg-gray-100", !isEbook);
 
-        // Reset values when disabled
-        if (!isFisik) lokasi.value = "";
-        if (!isFisik) jumlah_stok.value = "";
-        if (!isEbook) uploadPdf.value = "";
+          // Hapus required attribute untuk field yang di-disable
+          if (!isFisik) {
+            lokasi.removeAttribute('required');
+            jumlah_stok.removeAttribute('required');
+          } else {
+            lokasi.setAttribute('required', 'required');
+            jumlah_stok.setAttribute('required', 'required');
+          }
+          
+          if (!isEbook) {
+            uploadPdf.removeAttribute('required');
+          } else {
+            uploadPdf.setAttribute('required', 'required');
+          }
+        }
       }
 
       checkboxFisik.addEventListener("change", updateFormFields);
@@ -334,6 +360,14 @@
 
       // Form validation
       document.querySelector("form").addEventListener("submit", function (e) {
+        const isFisik = checkboxFisik.checked;
+        const isEbook = checkboxEbook.checked;
+        
+        // Jika tidak ada yang dipilih, default ke buku fisik
+        if (!isFisik && !isEbook) {
+          checkboxFisik.checked = true;
+        }
+        
         const requiredFields = [
           "judul_buku",
           "isbn",
@@ -342,10 +376,25 @@
           "tahun_terbit",
           "jumlah_halaman",
         ];
+        
+        // Tambahkan field wajib berdasarkan jenis buku
+        if (isFisik || (isFisik && isEbook)) {
+          requiredFields.push("lokasi_penyimpanan", "jumlah_stok");
+        }
+        
+        // Jika e-book dipilih, PDF wajib
+        if (isEbook) {
+          requiredFields.push("upload_pdf");
+        }
+        
         let hasError = false;
 
         requiredFields.forEach((fieldName) => {
           const field = document.querySelector(`[name="${fieldName}"]`);
+          // Skip validation untuk field yang di-disable
+          if (field.disabled) {
+            return;
+          }
           if (!field.value.trim()) {
             field.classList.add("border-red-500");
             hasError = true;
