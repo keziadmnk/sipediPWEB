@@ -5,6 +5,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Riwayat Peminjaman</title>
     <link rel="stylesheet" href="/stylesheets/output.css" />
+
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
@@ -39,6 +40,7 @@
               <th class="py-3 px-3 text-center">Tanggal Peminjaman</th>
               <th class="py-3 px-3 text-center">Tanggal Wajib Pengembalian</th>
               <th class="py-3 px-3 text-center">Tanggal Pengembalian</th>
+              <th class="py-3 px-3 text-center">Cetak</th>
               <th class="py-3 px-3 text-center rounded-tr-lg">Status</th>
             </tr>
           </thead>
@@ -61,6 +63,13 @@
               <td class="py-3 px-3 text-center">
                 <%= item.tanggal_pengembalian %>
               </td>
+
+              <td class="py-3 px-3 text-center">
+                <i
+                  class="fas fa-print text-gray-600 hover:text-green-700 cursor-pointer"
+                ></i>
+              </td>
+
               <td class="py-3 px-3 text-center font-bold">
                 <% if (item.status_peminjaman === 'Dikembalikan') { %>
                 <span

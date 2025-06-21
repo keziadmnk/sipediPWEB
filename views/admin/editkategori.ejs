@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Kategori</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        /* Gaya untuk modal (sama seperti editUlasan.ejs) */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Custom background color from editbuku.ejs for consistency */
+        .bg-custom {
+            background-color: #E9F1ED;
+        }
+        /* Font color from editbuku.ejs for inputs */
+        .text-input-color {
+            color: #2f6f4e; /* green-700 like */
+        }
+    </style>
+</head>
+<body class="bg-green-50 flex ml-56"> <%# Mengikuti body class dari editbuku.ejs %>
+
+    <%- include('../partials/asideAdmin') %> <%# Menggunakan nama partial yang sama dengan editbuku.ejs %>
+
+    <div class="flex-1 p-12"> <%# Mengikuti struktur content div dari editbuku.ejs %>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-semibold">Edit Kategori</h1> <%# Judul di kiri atas seperti editbuku %>
+            <%# Jika ada tombol atau elemen lain di header, bisa ditambahkan di sini %>
+        </div>
+
+        <div class="bg-white shadow-md rounded-lg p-10"> <%# Mengikuti gaya form container dari editbuku.ejs %>
+            
+            <%# Bagian Kategori Sebelumnya (Read-only) %>
+            <div class="mb-4">
+                <label for="nama_kategori_sebelumnya" class="block text-sm font-medium text-gray-700 mt-1">Kategori Sebelumnya</label>
+                <input
+                    type="text"
+                    id="nama_kategori_sebelumnya"
+                    value="<%= kategori.nama_kategori %>" <%# Pre-fill dengan data yang ada %>
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 bg-gray-200 leading-tight focus:outline-none focus:shadow-outline cursor-not-allowed"
+                    readonly <%# Pastikan read-only %>
+                >
+            </div>
+
+            <form id="editKategoriForm" action="/admin/editkategori/<%= kategori.id_kategori %>" method="POST">
+                <div class="mb-6">
+                    <label for="nama_kategori" class="block text-sm font-medium text-gray-700 mt-1">Kategori Baru</label>
+                    <input
+                        type="text"
+                        id="nama_kategori"
+                        name="nama_kategori"
+                        placeholder="Masukkan nama kategori baru"
+                        value="<%= kategori.nama_kategori %>"
+                        class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-input-color focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                        required
+                    >
+                </div>
+                
+                <div class="flex justify-end gap-4 mt-6"> <%# Mengikuti layout tombol editbuku.ejs %>
+                    <a
+                        href="/admin/kategori"
+                        class="bg-[#e8c75a] text-white text-xs font-semibold rounded-md py-2 px-6 shadow-md hover:bg-[#d4b44a] transition"
+                    >
+                        Batal
+                    </a>
+                    <button
+                        type="submit"
+                        class="bg-[#2f6f4e] text-white text-xs font-semibold rounded-md py-2 px-6 shadow-md hover:bg-[#255a3f] transition"
+                    >
+                        Simpan
+                    </button>
+                    <%# Tombol Hapus akan dipicu via JS & modal %>
+                    <button id="deleteButton" type="button" class="bg-red-600 text-white text-xs font-semibold rounded-md py-2 px-6 shadow-md hover:bg-red-700 transition">
+                        Hapus
+                    </button>
+                </div>
+            </form>
+
+            <%# Form DELETE yang disembunyikan untuk pengiriman via JS %>
+            <form id="deleteKategoriForm" action="/admin/deletekategori/<%= kategori.id_kategori %>" method="POST" class="hidden"></form>
+
+        </div> <%# Penutup div.bg-white.shadow-md %>
+    </div> <%# Penutup div.flex-1.p-12 %>
+
+    <%# Custom Confirmation Modal (sama seperti editUlasan.ejs) %>
+    <div id="customConfirmModal" class="fixed inset-0 hidden modal-overlay z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full text-center">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Konfirmasi Penghapusan</h3>
+            <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus kategori ini?</p>
+            <div class="flex justify-center gap-4">
+                <button id="modalCancelBtn" class="bg-gray-200 text-gray-800 font-semibold px-6 py-2 rounded-lg hover:bg-gray-300">
+                    Batal
+                </button>
+                <button id="modalConfirmBtn" class="bg-red-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-700">
+                    Oke, Hapus
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButton = document.getElementById('deleteButton');
+            const deleteKategoriForm = document.getElementById('deleteKategoriForm');
+            const customConfirmModal = document.getElementById('customConfirmModal');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+
+            function showModal() {
+                customConfirmModal.classList.remove('hidden');
+            }
+
+            function hideModal() {
+                customConfirmModal.classList.add('hidden');
+            }
+
+            if (deleteButton) {
+                deleteButton.addEventListener('click', showModal);
+            }
+
+            if (modalConfirmBtn) {
+                modalConfirmBtn.addEventListener('click', function() {
+                    hideModal();
+                    deleteKategoriForm.submit();
+                });
+            }
+
+            if (modalCancelBtn) {
+                modalCancelBtn.addEventListener('click', hideModal);
+            }
+
+            customConfirmModal.addEventListener('click', function(event) {
+                if (event.target === customConfirmModal) {
+                    hideModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

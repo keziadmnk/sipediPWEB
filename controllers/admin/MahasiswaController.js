@@ -115,8 +115,164 @@ const tambahMahasiswa = async (req, res) => {
   }
 };
 
+// Tampilkan form edit mahasiswa
+const showEditMahasiswa = async (req, res) => {
+  try {
+    const { id_pengguna } = req.params;
+    
+    // Ambil data mahasiswa berdasarkan ID
+    const mahasiswa = await Pengguna.findByPk(id_pengguna, {
+      include: [
+        {
+          model: Role,
+          where: { nama_role: 'mahasiswa' }
+        }
+      ]
+    });
+
+    if (!mahasiswa) {
+      req.session.message = {
+        type: 'error',
+        text: 'Mahasiswa tidak ditemukan'
+      };
+      return res.redirect('/admin/datamahasiswa');
+    }
+
+    // Ambil pesan dari session jika ada
+    const message = req.session.message;
+    delete req.session.message;
+
+    res.render('admin/editmahasiswa', { mahasiswa, message });
+  } catch (error) {
+    console.error("Error showEditMahasiswa:", error);
+    req.session.message = {
+      type: 'error',
+      text: 'Terjadi kesalahan saat memuat data mahasiswa'
+    };
+    res.redirect('/admin/datamahasiswa');
+  }
+};
+
+// Proses update mahasiswa
+const updateMahasiswa = async (req, res) => {
+  try {
+    const { id_pengguna } = req.params;
+    const { nama_lengkap, email, nomor_hp, alamat, password, confirm_password } = req.body;
+
+    // 1. Validasi input wajib
+    if (!nama_lengkap || !email) {
+      req.session.message = {
+        type: 'error',
+        text: 'Nama Lengkap dan Email adalah field wajib yang harus diisi.'
+      };
+      return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
+    }
+
+    // 2. Cari mahasiswa yang akan diupdate
+    const mahasiswa = await Pengguna.findByPk(id_pengguna);
+    if (!mahasiswa) {
+      req.session.message = {
+        type: 'error',
+        text: 'Mahasiswa tidak ditemukan'
+      };
+      return res.redirect('/admin/datamahasiswa');
+    }
+
+    // 3. Cek apakah email sudah digunakan oleh mahasiswa lain
+    const existingMahasiswa = await Pengguna.findOne({
+      where: {
+        email: email,
+        id_pengguna: { [require('sequelize').Op.ne]: id_pengguna } // Exclude current mahasiswa
+      }
+    });
+
+    if (existingMahasiswa) {
+      req.session.message = {
+        type: 'error',
+        text: 'Email sudah digunakan oleh mahasiswa lain.'
+      };
+      return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
+    }
+
+    // 4. Validasi password jika diisi
+    if (password || confirm_password) {
+      if (!password || !confirm_password) {
+        req.session.message = {
+          type: 'error',
+          text: 'Password dan Konfirmasi Password harus diisi keduanya jika ingin mengubah password.'
+        };
+        return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
+      }
+
+      if (password !== confirm_password) {
+        req.session.message = {
+          type: 'error',
+          text: 'Password dan Konfirmasi Password tidak cocok.'
+        };
+        return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
+      }
+    }
+
+    // 5. Update data mahasiswa
+    const updateData = {
+      nama_lengkap,
+      email,
+      nomor_hp: nomor_hp || null,
+      alamat: alamat || null
+    };
+
+    // Hash password baru jika diisi
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    await mahasiswa.update(updateData);
+
+    req.session.message = {
+      type: 'success',
+      text: 'Data mahasiswa berhasil diupdate!'
+    };
+    res.redirect('/admin/datamahasiswa');
+
+  } catch (error) {
+    console.error("Error updateMahasiswa:", error);
+    req.session.message = {
+      type: 'error',
+      text: 'Gagal update mahasiswa: ' + error.message
+    };
+    res.redirect(`/admin/editmahasiswa/${req.params.id_pengguna}`);
+  }
+};
+
+const hapusMahasiswa = async (req, res) => {
+  try {
+    const { id_pengguna } = req.params;
+
+    await Pengguna.destroy({
+      where: { id_pengguna }
+    });
+
+    req.session.message = {
+      type: 'success',
+      text: 'Mahasiswa berhasil dihapus.'
+    };
+
+    res.redirect('/admin/datamahasiswa');
+  } catch (error) {
+    console.error("Gagal menghapus mahasiswa:", error);
+    req.session.message = {
+      type: 'error',
+      text: 'Terjadi kesalahan saat menghapus mahasiswa.'
+    };
+    res.redirect('/admin/datamahasiswa');
+  }
+};
+
 module.exports = {
   findAllMahasiswa,
   showTambahMahasiswaForm,
   tambahMahasiswa,
+  showEditMahasiswa,
+  updateMahasiswa,
+  hapusMahasiswa,
 };

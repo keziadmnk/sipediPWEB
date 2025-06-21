@@ -55,7 +55,7 @@
                   </th>
                   <th class="px-3 py-2" scope="col">Nama Mahasiswa</th>
                   <th class="px-3 py-2" scope="col">Judul Buku</th>
-                  <th class="px-3 py-2" scope="col">Tanggal Peminjaman</th>
+                  <th class="px-3 py-2" scope="col">Tanggal Wajib Pengembalian</th>
                   <th class="px-3 py-2" scope="col">Tanggal Pengembalian</th>
                   <th class="px-3 py-2" scope="col">Detail</th>
                   <th class="px-3 py-2 rounded-tr-lg" scope="col">Denda</th>
@@ -70,7 +70,7 @@
                   </td>
                   <td class="px-3 py-2"><%= peminjaman.Buku.judul_buku %></td>
                   <td class="px-3 py-2">
-                    <%= peminjaman.tanggal_peminjaman.toLocaleDateString() %>
+                    <%= peminjaman.tanggal_wajib_pengembalian.toLocaleDateString() %>
                   </td>
                   <td class="px-3 py-2">
                     <%= peminjaman.tanggal_pengembalian.toLocaleDateString() %>

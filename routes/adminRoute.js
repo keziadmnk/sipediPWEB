@@ -6,6 +6,10 @@ const {
   findAllKategori,
   showTambahBuku,
   showKatalogBuku,
+  showEditKategoriForm, 
+  updateKategori,   
+  deleteKategori,   
+
 } = require("../controllers/admin/KategoriController");
 const { authenticate } = require("../middlewares/authenticate");
 const {
@@ -19,8 +23,8 @@ const {
 
 // Import upload middleware
 const { uploadFields } = require("../middlewares/upload");
-const { findAllMahasiswa, showTambahMahasiswaForm, tambahMahasiswa } = require("../controllers/admin/MahasiswaController");
-const { findAllPetugas, tambahPetugas } = require("../controllers/admin/PetugasController");
+const { findAllMahasiswa, showTambahMahasiswaForm, tambahMahasiswa, showEditMahasiswa, updateMahasiswa, hapusMahasiswa } = require("../controllers/admin/MahasiswaController");
+const { findAllPetugas, tambahPetugas, showEditPetugas, updatePetugas, hapusPetugas } = require("../controllers/admin/PetugasController");
 
 // const adminController = require('../controllers/admin/adminController');
 
@@ -46,6 +50,14 @@ router.get("/detailbuku/:nomor_isbn", showDetailBukuAdmin);
 router.post("/tambahkategori", tambahKategori);
 
 router.get("/kategori", findAllKategori);
+
+// Rute BARU untuk menampilkan form edit kategori
+router.get("/editkategori/:id_kategori", showEditKategoriForm); // id_kategori dari parameter
+
+// Rute BARU untuk memproses update kategori
+router.post("/editkategori/:id_kategori", updateKategori); // id_kategori dari parameter
+
+router.post("/deletekategori/:id_kategori", deleteKategori);
 
 router.get("/databuku", findAllBuku);
 
@@ -81,5 +93,17 @@ router.post('/tambahmahasiswa', authenticate, tambahMahasiswa); // Route to proc
 // Route edit buku
 router.get('/editbuku/:nomor_isbn', authenticate, showEditBuku);
 router.post('/editbuku/:nomor_isbn', authenticate, uploadFields, updateBuku);
+
+// Route edit petugas
+router.get('/editpetugas/:id_pengguna', authenticate, showEditPetugas);
+router.post('/editpetugas/:id_pengguna', authenticate, updatePetugas);
+
+// Route edit mahasiswa
+router.get('/editmahasiswa/:id_pengguna', authenticate, showEditMahasiswa);
+router.post('/editmahasiswa/:id_pengguna', authenticate, updateMahasiswa);
+
+router.post('/hapuspetugas/:id_pengguna', authenticate, hapusPetugas);
+
+router.post('/hapusmahasiswa/:id_pengguna', authenticate, hapusMahasiswa);
 
 module.exports = router;

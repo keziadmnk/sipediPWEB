@@ -7,6 +7,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const multer = require('multer');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -18,7 +19,6 @@ var bukuRouter = require('./routes/bukuRoute');
 
 const { authenticate, authorize } = require('./middlewares/authenticate');
 const session = require('express-session');
-const multer = require('multer');
 
 var app = express();
 
@@ -32,9 +32,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// // Middleware untuk parsing multipart/form-data
-// const upload = multer();
-// app.use(upload.none()); // untuk form tanpa file upload
+// Middleware untuk parsing multipart/form-data
+const upload = multer();
+app.use(upload.none()); // untuk form tanpa file upload
 
 // sequelize.sync({ alter: true }) 
 //   .then(() => {

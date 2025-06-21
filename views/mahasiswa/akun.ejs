@@ -24,21 +24,33 @@
       class="max-w-6xl mx-auto mt-40 p-6 bg-white rounded-md shadow-sm flex flex-col md:flex-row md:space-x-20"
     >
       <section class="flex flex-col md:w-1/3 justify-center items-center">
-        <div class="flex justify-center w-full">
-          <img
-            alt="3D avatar of a woman with brown hair, glasses, and a purple sweater on a purple background"
-            class="w-44 h-44 rounded-full border-2 border-[#2c5a33]"
-            height="180"
-            src="https://storage.googleapis.com/a1aa/image/c053e2fe-0b89-4871-f633-6f1a48e8d919.jpg"
-            width="180"
-            style=""
-          />
-        </div>
+        <% if (mahasiswa.foto) { %>
+          <img src="<%= mahasiswa.foto %>" alt="Foto Profil" class="w-44 h-44 rounded-full border-2 border-[#2c5a33] object-cover">
+        <% } else { %>
+          <div class="flex justify-center items-center w-44 h-44 rounded-full border-2 border-[#2c5a33] bg-gray-200">
+            <i class="fas fa-user text-6xl text-gray-500"></i>
+          </div>
+        <% } %>
         <p
-          class="text-[#2c5a33] font-semibold text-sm text-center break-words max-w-[180px] mt-4"
+          class="text-[#2c5a33] font-semibold text-sm text-center break-words mt-4"
         >
-          2311522010_kezia@student.unand.ac.id
+          <%= mahasiswa.email %>
         </p>
+
+        <!-- Tombol ini akan memicu input file yang tersembunyi -->
+        <button
+                id="ubahFotoBtn"
+                class="bg-[#2c5a33] mt-4 text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-[#244a29] transition"
+                type="button"
+              >
+                 Ubah Foto
+        </button>
+
+        <!-- Form ini disembunyikan dan akan di-submit secara otomatis oleh script -->
+        <form action="/mahasiswa/akun/upload" method="POST" enctype="multipart/form-data" id="uploadForm" class="hidden">
+            <input type="file" name="foto" id="fotoInput" accept="image/*" required>
+        </form>
+
       </section>
       <section class="md:w-2/3">
         <h1 class="text-[#2c5a33] font-bold text-xl mb-6">Profil Pengguna</h1>
@@ -54,7 +66,8 @@
               class="w-full rounded-md border border-[#2c5a33] bg-[#f4f9f1] text-[#2c5a33] text-xs px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#2c5a33]"
               id="nama"
               type="text"
-              value="Kezia Valerina Damanik"
+              value="<%= mahasiswa.nama_lengkap %>"
+              readonly
             />
           </div>
           <div>
@@ -68,7 +81,8 @@
               class="w-full rounded-md border border-[#2c5a33] bg-[#f4f9f1] text-[#2c5a33] text-xs px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#2c5a33]"
               id="nim"
               type="text"
-              value="2311522010"
+              value="<%= mahasiswa.id_pengguna %>"
+              readonly
             />
           </div>
           <div>
@@ -82,7 +96,8 @@
               class="w-full rounded-md border border-[#2c5a33] bg-[#f4f9f1] text-[#2c5a33] text-xs px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#2c5a33]"
               id="email"
               type="email"
-              value="2311522010_kezia@student.unand.ac.id"
+              value="<%= mahasiswa.email %>"
+              readonly
             />
           </div>
           <div>
@@ -96,7 +111,8 @@
               class="w-full rounded-md border border-[#2c5a33] bg-[#f4f9f1] text-[#2c5a33] text-xs px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#2c5a33]"
               id="hp"
               type="text"
-              value="081234567890"
+              value="<%= mahasiswa.nomor_hp || '' %>"
+              readonly
             />
           </div>
           <div>
@@ -110,7 +126,8 @@
               class="w-full rounded-md border border-[#2c5a33] bg-[#f4f9f1] text-[#2c5a33] text-xs px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#2c5a33]"
               id="alamat"
               type="text"
-              value="Perumahan Salingka Bungo Permai II"
+              value="<%= mahasiswa.alamat || '' %>"
+              readonly
             />
           </div>
           <div class="flex space-x-4 mt-6">
@@ -133,5 +150,15 @@
         </form>
       </section>
     </main>
+
+    <script>
+      document.getElementById('ubahFotoBtn').addEventListener('click', () => {
+        document.getElementById('fotoInput').click();
+      });
+
+      document.getElementById('fotoInput').addEventListener('change', () => {
+        document.getElementById('uploadForm').submit();
+      });
+    </script>
   </body>
 </html>

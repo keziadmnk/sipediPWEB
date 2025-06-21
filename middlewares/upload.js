@@ -6,7 +6,8 @@ const fs = require("fs");
 const createUploadDirs = () => {
   const dirs = [
     'public/uploads/pdf',
-    'public/uploads/covers' // Ganti dari 'sampul' ke 'covers' agar konsisten
+    'public/uploads/covers',
+    'public/uploads/profil'
   ];
   
   dirs.forEach(dir => {
@@ -27,12 +28,21 @@ const storage = multer.diskStorage({
       cb(null, "public/uploads/pdf");
     } else if (file.fieldname === "upload_sampul") {
       cb(null, "public/uploads/covers");
+    } else if (file.fieldname === "foto") {
+      cb(null, "public/uploads/profil");
     } else {
       cb(new Error("Field name tidak valid"), null);
     }
   },
   filename: (req, file, cb) => {
-    const prefix = file.fieldname === "upload_pdf" ? "PDF" : "SAMPUL";
+    let prefix = "";
+    if (file.fieldname === "upload_pdf") {
+      prefix = "PDF";
+    } else if (file.fieldname === "upload_sampul") {
+      prefix = "SAMPUL";
+    } else if (file.fieldname === "foto") {
+        prefix = "FOTO";
+    }
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, `${prefix}-${uniqueSuffix}${path.extname(file.originalname)}`);
   },
@@ -55,6 +65,15 @@ const fileFilter = (req, file, cb) => {
       cb(null, true);
     } else {
       cb(new Error("Hanya file PNG, JPG, atau JPEG yang diperbolehkan untuk upload sampul!"), false);
+    }
+  } else if (file.fieldname === "foto") {
+    // Hanya terima file gambar untuk foto profil
+    if (file.mimetype === "image/png" || 
+        file.mimetype === "image/jpeg" || 
+        file.mimetype === "image/jpg") {
+      cb(null, true);
+    } else {
+      cb(new Error("Hanya file PNG, JPG, atau JPEG yang diperbolehkan untuk foto profil!"), false);
     }
   } else {
     cb(new Error("Field name tidak valid"), false);
@@ -80,7 +99,15 @@ module.exports = {
   ]),
   
   // Untuk single file jika diperlukan
-  uploadSingle: upload.single,
+  uploadSingle: (fieldName) => {
+    return multer({
+      storage: storage,
+      fileFilter: fileFilter,
+      limits: { 
+        fileSize: 10 * 1024 * 1024, // 10MB limit
+      },
+    }).single(fieldName);
+  },
   
   // Export upload object jika diperlukan
   upload: upload

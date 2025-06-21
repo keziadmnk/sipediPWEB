@@ -27,6 +27,10 @@ const Pengguna = sequelize.define('Pengguna',{
         type: DataTypes.TEXT,
         allowNull: true
     },
+    foto: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     nomor_hp: {
         type: DataTypes.STRING(15),
         allowNull: true
