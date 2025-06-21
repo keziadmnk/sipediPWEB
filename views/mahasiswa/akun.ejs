@@ -36,13 +36,17 @@
         >
           <%= mahasiswa.email %>
         </p>
+
+        <!-- Tombol ini akan memicu input file yang tersembunyi -->
         <button
                 id="ubahFotoBtn"
                 class="bg-[#2c5a33] mt-4 text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-[#244a29] transition"
                 type="button"
               >
                  Ubah Foto
-              </button>
+        </button>
+
+        <!-- Form ini disembunyikan dan akan di-submit secara otomatis oleh script -->
         <form action="/mahasiswa/akun/upload" method="POST" enctype="multipart/form-data" id="uploadForm" class="hidden">
             <input type="file" name="foto" id="fotoInput" accept="image/*" required>
         </form>
