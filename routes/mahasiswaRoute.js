@@ -4,6 +4,8 @@ const { showKatalogBuku} = require('../controllers/admin/KategoriController');
 const { showFormPeminjaman, prosesPeminjaman, showBuktiPeminjaman } = require('../controllers/mahasiswa/PeminjamanController');
 const { showRiwayatPeminjaman, getDetailPeminjaman } = require('../controllers/mahasiswa/RiwayatController');
 const { detailBuku, cariBuku } = require('../controllers/mahasiswa/tampilBukuController');
+const { findAkun, updateFoto } = require('../controllers/mahasiswa/AkunController');
+const { uploadSingle } = require('../middlewares/upload');
 var router = express.Router();
 
 router.get('/dashboard', authenticate, (req, res) => {
@@ -12,9 +14,8 @@ router.get('/dashboard', authenticate, (req, res) => {
 
 
 
-router.get('/akun', authenticate, (req, res) => {
-  res.render('mahasiswa/akun'); 
-});
+router.get('/akun', authenticate, findAkun);
+router.post('/akun/upload', authenticate, uploadSingle('foto'), updateFoto);
 
 
 router.get('/profil', authenticate, function(req, res, next) {
