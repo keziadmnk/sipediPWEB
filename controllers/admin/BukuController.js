@@ -183,13 +183,11 @@ const hapusBuku = async (req, res) => {
       });
     }
 
-    // Cek apakah buku sedang dipinjam
+    // Cek apakah buku sedang dipinjam (hanya status "Dipinjam")
     const peminjamanAktif = await Peminjaman.findOne({
       where: { 
         nomor_isbn: nomor_isbn,
-        // Tambahkan kondisi untuk peminjaman yang belum dikembalikan
-        // Sesuaikan dengan struktur tabel peminjaman Anda
-        // status_peminjaman: 'dipinjam' // Contoh jika ada kolom status
+        status_peminjaman: 'Dipinjam' // Hanya cek peminjaman yang belum dikembalikan
       }
     });
 
