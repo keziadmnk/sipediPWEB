@@ -6,6 +6,10 @@ const {
   findAllKategori,
   showTambahBuku,
   showKatalogBuku,
+  showEditKategoriForm, 
+  updateKategori,   
+  deleteKategori,   
+
 } = require("../controllers/admin/KategoriController");
 const { authenticate } = require("../middlewares/authenticate");
 const {
@@ -46,6 +50,14 @@ router.get("/detailbuku/:nomor_isbn", showDetailBukuAdmin);
 router.post("/tambahkategori", tambahKategori);
 
 router.get("/kategori", findAllKategori);
+
+// Rute BARU untuk menampilkan form edit kategori
+router.get("/editkategori/:id_kategori", showEditKategoriForm); // id_kategori dari parameter
+
+// Rute BARU untuk memproses update kategori
+router.post("/editkategori/:id_kategori", updateKategori); // id_kategori dari parameter
+
+router.post("/deletekategori/:id_kategori", deleteKategori);
 
 router.get("/databuku", findAllBuku);
 

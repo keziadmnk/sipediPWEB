@@ -7,6 +7,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const multer = require('multer');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -31,13 +32,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-sequelize.sync({ alter: true }) 
-  .then(() => {
-    console.log("Database & tables have been synced.");
-  })
-  .catch((error) => {
-    console.error("Error syncing database:", error);
-  });
+// Middleware untuk parsing multipart/form-data
+const upload = multer();
+app.use(upload.none()); // untuk form tanpa file upload
+
+// sequelize.sync({ alter: true }) 
+//   .then(() => {
+//     console.log("Database & tables have been synced.");
+//   })
+//   .catch((error) => {
+//     console.error("Error syncing database:", error);
+//   });
 
 // Konfigurasi session
 app.use(session({
