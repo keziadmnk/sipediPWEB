@@ -115,8 +115,33 @@ const tambahMahasiswa = async (req, res) => {
   }
 };
 
+const hapusMahasiswa = async (req, res) => {
+  try {
+    const { id_pengguna } = req.params;
+
+    await Pengguna.destroy({
+      where: { id_pengguna }
+    });
+
+    req.session.message = {
+      type: 'success',
+      text: 'Mahasiswa berhasil dihapus.'
+    };
+
+    res.redirect('/admin/datamahasiswa');
+  } catch (error) {
+    console.error("Gagal menghapus mahasiswa:", error);
+    req.session.message = {
+      type: 'error',
+      text: 'Terjadi kesalahan saat menghapus mahasiswa.'
+    };
+    res.redirect('/admin/datamahasiswa');
+  }
+};
+
 module.exports = {
   findAllMahasiswa,
   showTambahMahasiswaForm,
   tambahMahasiswa,
+  hapusMahasiswa,
 };
