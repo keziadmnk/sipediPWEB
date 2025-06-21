@@ -64,43 +64,55 @@
           <div id="booksContainer" class="flex overflow-x-auto py-6 px-12 w-full scrollbar-hide">
             <% if (bukuRekomendasi && bukuRekomendasi.length > 0) { %>
               <% bukuRekomendasi.forEach(buku => { %>
-                <div class="flex-none w-48 bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 mr-6 transform hover:-translate-y-2">
+                <div class="flex-none bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out mr-6" style="width: 200px; min-width: 200px;">
                   <a href="/buku/<%= buku.nomor_isbn %>" class="block">
-                    <div class="aspect-[3/4] relative overflow-hidden">
-                      <img
-                        alt="Cover <%= buku.judul_buku %>"
-                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                        src="/uploads/covers/<%= buku.upload_sampul %>"
-                        onerror="this.onerror=null; this.src='/images/placeholder-book.png';"
-                      />
-                      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                    <div class="p-5">
-                      <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2 text-sm leading-tight"><%= buku.judul_buku %></h3>
-                      <p class="text-sm text-gray-500"><%= buku.pengarang %></p>
+                    <div class="p-4">
+                      <!-- Kotak Gambar Sampul -->
+                      <div class="w-full h-48 bg-gray-100 overflow-hidden shadow-md mb-4">
+                        <img
+                          alt="Cover <%= buku.judul_buku %>"
+                          class="w-full h-full object-cover"
+                          src="/uploads/covers/<%= buku.upload_sampul %>"
+                          onerror="this.onerror=null; this.src='/images/placeholder-book.png';"
+                        />
+                      </div>
+                      
+                      <!-- Kotak Judul dan Pengarang -->
+                      <div>
+                        <h3 class="font-semibold text-gray-800 mb-1 line-clamp-2 hover:text-green-600 transition-colors duration-200 text-sm">
+                          <%= buku.judul_buku %>
+                        </h3>
+                        <p class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200">
+                          <%= buku.pengarang %>
+                        </p>
+                      </div>
                     </div>
                   </a>
                 </div>
               <% }); %>
             <% } else { %>
               <% for(let i = 0; i < 6; i++) { %>
-                <div class="flex-none w-48 bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 mr-6 transform hover:-translate-y-2">
+                <div class="flex-none bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out mr-6" style="width: 200px; min-width: 200px;">
                   <a href="#" class="block">
-                    <div class="aspect-[3/4] relative overflow-hidden">
-                      <img
-                        alt="Placeholder Cover"
-                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                        src="/images/placeholder-book.png"
-                      />
-                      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                    <div class="p-5">
-                      <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2 text-sm leading-tight">
-                        Cover Bertarung Melawan Masa Lalu
-                      </h3>
-                      <p class="text-sm text-gray-500">
-                        Bertarung Melawan Masa Lalu
-                      </p>
+                    <div class="p-4">
+                      <!-- Kotak Gambar Sampul -->
+                      <div class="w-full h-48 bg-gray-100 overflow-hidden shadow-md mb-4">
+                        <img
+                          alt="Placeholder Cover"
+                          class="w-full h-full object-cover"
+                          src="/images/placeholder-book.png"
+                        />
+                      </div>
+                      
+                      <!-- Kotak Judul dan Pengarang -->
+                      <div>
+                        <h3 class="font-semibold text-gray-800 mb-1 line-clamp-2 hover:text-green-600 transition-colors duration-200 text-sm">
+                          Cover Bertarung Melawan Masa Lalu
+                        </h3>
+                        <p class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200">
+                          Bertarung Melawan Masa Lalu
+                        </p>
+                      </div>
                     </div>
                   </a>
                 </div>

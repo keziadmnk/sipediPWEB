@@ -13,6 +13,25 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    
+    /* Custom search bar effects */
+    .search-container {
+      position: relative;
+    }
+    
+    .search-container:focus-within {
+      transform: scale(1.02);
+      transition: transform 0.2s ease-in-out;
+    }
+    
+    .search-input:focus {
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    }
+    
+    .search-button:hover {
+      transform: translateX(2px);
+      transition: transform 0.2s ease-in-out;
+    }
   </style>
 </head>
 
@@ -50,17 +69,38 @@
 
       <!-- Main Content -->
       <main class="flex-1 p-6">
+        <!-- Header Section -->
+        <div class="mb-6">
+          <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-6 shadow-sm border border-green-100">
+            <h1 class="text-2xl font-bold text-gray-800 mb-2 flex items-center">
+              <i class="fas fa-books text-green-600 mr-3"></i>
+              Koleksi Buku
+            </h1>
+            <p class="text-gray-600 text-sm">Jelajahi koleksi buku digital dan fisik yang tersedia di perpustakaan</p>
+          </div>
+        </div>
+
         <!-- Search Bar -->
         <div class="mb-6">
           <div class="max-w-md ml-auto">
-            <form method="GET" action="/mahasiswa/koleksibuku">
-              <input 
-                type="text" 
-                name="search"
-                placeholder="Cari buku..."
-                value="<%= searchQuery %>" 
-                class="text-sm w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              >
+            <form method="GET" action="/mahasiswa/koleksibuku" class="relative search-container">
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input 
+                  type="text" 
+                  name="search"
+                  placeholder="Cari judul buku atau pengarang..."
+                  value="<%= searchQuery %>" 
+                  class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white shadow-sm hover:shadow-md transition-all duration-200 text-sm search-input"
+                >
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                  <button type="submit" class="text-gray-400 hover:text-green-600 transition-colors duration-200 search-button">
+                    <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
         </div>
