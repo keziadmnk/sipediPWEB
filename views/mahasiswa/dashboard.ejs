@@ -15,17 +15,107 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
+      /* Custom CSS for horizontal scrolling with scrollbar hidden */
+      .horizontal-scroll-container::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Webkit browsers */
+      }
+      .horizontal-scroll-container {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+      .category-item {
+        flex: 0 0 auto; /* Prevent items from growing/shrinking, base on content */
+      }
+      /* Custom styling for the category buttons to match the image */
+      .category-button {
+          background-color: oklch(96.2% 0.044 156.743); /* Equivalent to --color-green-100 */
+          color: oklch(37.3% 0.034 259.733); /* Equivalent to --color-gray-700 */
+          border-radius: 9999px; /* Full rounded corners */
+          padding: 1rem 6.2rem; /* py-2 px-6 */
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); /* shadow-sm */
+          transition-property: box-shadow, background-color;
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          transition-duration: 150ms; /* default transition duration */
+      }
+      .category-button:hover {
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
+          background-color: oklch(78.92% 0.13678 147.322); /* Equivalent to --color-gray-200 from output.css */
+      }
+      /* Specific adjustment for arrow positioning based on the image */
+      .category-arrows-wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+      }
+      .category-arrows-wrapper button {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: white;
+          border: 1px solid oklch(70.7% 0.022 261.325); /* gray-400 equivalent */
+      }
+      .category-arrows-wrapper button#scrollLeftCategory {
+          left: -15px;
+      }
+      .category-arrows-wrapper button#scrollRightCategory {
+          right: -15px;
+      }
+
+      /* New styles for book carousel arrows */
+      .book-carousel-arrows-wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+      }
+      .book-carousel-arrows-wrapper button {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: white; /* Match category arrows */
+          border: 1px solid oklch(70.7% 0.022 261.325); /* Match category arrows */
+          padding: 0.5rem; /* Smaller padding for smaller buttons */
+          border-radius: 9999px; /* Rounded buttons */
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); /* shadow-sm */
+          cursor: pointer;
+          z-index: 10;
+          transition: background-color 150ms ease-in-out;
+      }
+      .book-carousel-arrows-wrapper button:hover {
+          background-color: oklch(92.8% 0.006 264.531); /* gray-200 on hover */
+      }
+      .book-carousel-arrows-wrapper button#scrollLeftBook {
+          left: -15px; /* Adjust as needed */
+      }
+      .book-carousel-arrows-wrapper button#scrollRightBook {
+          right: -15px; /* Adjust as needed */
+      }
+
+      /* Styling for individual book items in the carousel */
+      .book-carousel-item {
+        flex: 0 0 auto; /* Ensures items don't shrink and maintain their size */
+        margin-right: 1rem; /* space-x-4 equivalent */
+        width: 120px; /* Default width based on h-[160px] with 3:4 aspect */
+      }
+     /* Untuk MEMPERBESAR BUKU, ubah nilai di kelas ini (atau buat kelas baru) */
+      .book-carousel-item.size-large { /* Anda bisa menambahkan kelas ini ke item buku di EJS */
+        width: 200px; /* Lebar yang lebih besar */
+      }
+      .book-carousel-item.size-large { /* Anda bisa menambahkan kelas ini ke item buku di EJS */
+        height: 300px; /* Lebar yang lebih besar */
+      }
+      .book-carousel-item.size-large img { /* Sesuaikan tinggi gambar agar rasio tetap */
+        width: 100px; /* Tinggi yang sesuai (misal, 3:4 dari 150px) */
+      }
+      .book-carousel-item.size-large img { /* Sesuaikan tinggi gambar agar rasio tetap */
+        height: 300px; /* Tinggi yang sesuai (misal, 3:4 dari 150px) */
+      }
+      
     </style>
   </head>
-  <body></body>
-</html>
 <body class="bg-[#F8FFF6] font-sans">
-  <!-- Header menggunakan partial EJS -->
   <%- include('../partials/navbarMahasiswa') %>
 
-  <!-- Hero Section -->
   <main class="mt-20">
-    <!-- Hero Image -->
     <div class="relative w-full overflow-hidden">
       <img
         alt="Library bookshelves with books, blurred background with green overlay"
@@ -37,171 +127,141 @@
       />
     </div>
 
-    <section class="px-4 sm:px-6 md:px-10 lg:px-16 py-6">
-      <h2 class="text-[#2f5d40] font-semibold text-sm mb-4 select-none">
-        Rekomendasi Untuk Anda
-      </h2>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-        <div class="bg-white p-2 shadow-sm">
-          <img
-            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
-            class="w-full h-[160px] object-cover"
-            height="160"
-            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
-            width="120"
-          />
-          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
-            Dasar dasar Penguasaan Pemrograman Web
-          </p>
-          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
-        </div>
-        <div class="bg-white p-2 shadow-sm">
-          <img
-            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
-            class="w-full h-[160px] object-cover"
-            height="160"
-            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
-            width="120"
-          />
-          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
-            Dasar dasar Penguasaan Pemrograman Web
-          </p>
-          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
-        </div>
-        <div class="bg-white p-2 shadow-sm">
-          <img
-            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
-            class="w-full h-[160px] object-cover"
-            height="160"
-            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
-            width="120"
-          />
-          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
-            Dasar dasar Penguasaan Pemrograman Web
-          </p>
-          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
-        </div>
-        <div class="bg-white p-2 shadow-sm">
-          <img
-            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
-            class="w-full h-[160px] object-cover"
-            height="160"
-            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
-            width="120"
-          />
-          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
-            Dasar dasar Penguasaan Pemrograman Web
-          </p>
-          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
-        </div>
-        <div class="bg-white p-2 shadow-sm">
-          <img
-            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
-            class="w-full h-[160px] object-cover"
-            height="160"
-            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
-            width="120"
-          />
-          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
-            Dasar dasar Penguasaan Pemrograman Web
-          </p>
-          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
-        </div>
-        <div class="bg-white p-2 shadow-sm">
-          <img
-            alt="Book cover showing web programming with HTML5, CSS3, and JavaScript icons on dark background"
-            class="w-full h-[160px] object-cover"
-            height="160"
-            src="https://storage.googleapis.com/a1aa/image/a12ac7a3-9fac-4acf-429c-2d57291b8295.jpg"
-            width="120"
-          />
-          <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight">
-            Dasar dasar Penguasaan Pemrograman Web
-          </p>
-          <p class="text-[8px] text-[#9dbb9a] mt-0.5">Agusriandi</p>
-        </div>
-      </div>
-    </section>
-    <!-- Categories Section -->
-    <section
-      class="px-4 sm:px-6 md:px-10 lg:px-16 grid grid-cols-1 md:grid-cols-2 gap-2"
-    >
-      <div class="relative group cursor-pointer">
-        <img
-          alt="Parliament hall with many seats and people, representing politics"
-          class="w-full h-[180px] object-cover"
-          height="180"
-          src="https://storage.googleapis.com/a1aa/image/d596bb1e-3bcd-424d-f2be-9f1229544c3e.jpg"
-          width="600"
-        />
-        <div
-          class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center"
-        >
-          <h3 class="text-white text-xl font-normal select-none">Politik</h3>
-        </div>
-      </div>
-      <div class="relative group cursor-pointer">
-        <img
-          alt="Technology devices like laptop, tablet, and smartphone with digital data icons floating"
-          class="w-full h-[180px] object-cover"
-          height="180"
-          src="https://storage.googleapis.com/a1aa/image/75ee8e4f-ae7c-4537-4108-d8c0ad847613.jpg"
-          width="600"
-        />
-        <div
-          class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center"
-        >
-          <h3 class="text-white text-xl font-normal select-none">Teknologi</h3>
-        </div>
-      </div>
-    </section>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
 
-    <div
-      class="flex flex-col sm:flex-row items-center justify-center gap-6 my-20"
-    >
-      <img
-        alt="Logo of Perpustakaan Universitas Andalas with green and yellow emblem"
-        height="150"
-        src="/images/logo-unand.png"
-        width="300"
-      />
-      <p
-        class="text-right text-[10px] sm:text-[12px] text-green-900 max-w-[900px]"
-      >
-        <span class="font-semibold italic">
-          Perpustakaan Universitas Andalas
-        </span>
-        hadir sebagai pusat pengetahuan yang mendukung proses pendidikan,
-        penelitian, dan pengabdian masyarakat. Dengan koleksi digital yang terus
-        berkembang dan layanan informasi
-        <span class="font-semibold"> berbasis teknologi </span>
-        , kami berkomitmen memberikan akses informasi yang mudah, cepat, dan
-        terpercaya bagi seluruh sivitas akademika.
-        <br />
-        <a
-          class="text-orange-500 text-[10px] sm:text-[12px] font-normal"
-          href="#"
+      <section class="py-6">
+        <h2 class="text-[#2f5d40] font-semibold text-sm mb-4 select-none">
+          Rekomendasi Untuk Anda
+        </h2>
+        <div class="book-carousel-arrows-wrapper">
+          <button id="scrollLeftBook">
+              <i class="fas fa-chevron-left text-gray-700"></i>
+          </button>
+
+          <div id="booksContainer" class="flex overflow-x-auto horizontal-scroll-container py-2 px-1 w-full">
+            <% if (bukuRekomendasi && bukuRekomendasi.length > 0) { %>
+              <% bukuRekomendasi.forEach(buku => { %>
+                <div class="flex-none book-carousel-item bg-white p-2 shadow-sm size-large">
+                  <a href="/buku/<%= buku.nomor_isbn %>">
+                    <img
+                      alt="Cover <%= buku.judul_buku %>"
+                      class="w-full h-[160px] object-cover"
+                      height="160"
+                      src="/uploads/covers/<%= buku.upload_sampul %>"
+                      onerror="this.onerror=null; this.src='/images/placeholder-book.png';"
+                      width="120"
+                    />
+                  </a>
+                  <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight line-clamp-2">
+                    <%= buku.judul_buku %>
+                  </p>
+                  <p class="text-[8px] text-[#9dbb9a] mt-0.5">
+                    <%= buku.pengarang %>
+                  </p>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <% for(let i = 0; i < 6; i++) { %>
+                <div class="flex-none book-carousel-item bg-white p-2 shadow-sm size-large">
+                  <a href="#">
+                      <img
+                          alt="Placeholder Cover"
+                          class="w-full h-[160px] object-cover"
+                          height="160"
+                          src="/images/placeholder-book.png"
+                          width="120"
+                      />
+                  </a>
+                  <p class="text-[10px] text-[#2f5d40] mt-1 leading-tight line-clamp-2">
+                      Cover Bertarung Melawan Masa Lalu
+                  </p>
+                  <p class="text-[8px] text-[#9dbb9a] mt-0.5">
+                      Bertarung Melawan Masa Lalu
+                  </p>
+                </div>
+              <% } %>
+            <% } %>
+          </div>
+
+          <button id="scrollRightBook">
+              <i class="fas fa-chevron-right text-gray-700"></i>
+          </button>
+        </div>
+      </section>
+
+      <section class="py-6">
+        <h2 class="text-[#2f5d40] font-semibold text-sm mb-4 select-none">
+            Kategori Buku
+        </h2>
+        <div class="category-arrows-wrapper relative flex items-center">
+            <button id="scrollLeftCategory" class="z-10 p-2 rounded-full shadow-md cursor-pointer hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500">
+                <i class="fas fa-chevron-left text-gray-700"></i>
+            </button>
+
+            <div id="categoriesContainer" class="flex overflow-x-auto horizontal-scroll-container space-x-4 py-2 px-1 w-full">
+                <% if (categories && categories.length > 0) { %>
+                    <% categories.forEach(kategori => { %>
+                        <div class="flex-none category-item">
+                            <a href="/mahasiswa/koleksibuku?kategori=<%= kategori.id_kategori %>" class="block category-button whitespace-nowrap">
+                                <%= kategori.nama_kategori %>
+                            </a>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="col-span-full text-center text-gray-500 w-full">Tidak ada kategori untuk ditampilkan.</div>
+                <% } %>
+            </div>
+
+            <button id="scrollRightCategory" class="z-10 p-2 rounded-full shadow-md cursor-pointer hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500">
+                <i class="fas fa-chevron-right text-gray-700"></i>
+            </button>
+        </div>
+      </section>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-6 my-20">
+        <img
+          alt="Logo of Perpustakaan Universitas Andalas with green and yellow emblem"
+          height="150"
+          src="/images/logo-unand.png"
+          width="300"
+        />
+        <p
+          class="text-right text-[10px] sm:text-[12px] text-green-900 max-w-[900px]"
         >
-          Lihat Selengkapnya
-        </a>
-      </p>
+          <span class="font-semibold italic">
+            Perpustakaan Universitas Andalas
+          </span>
+          hadir sebagai pusat pengetahuan yang mendukung proses pendidikan,
+          penelitian, dan pengabdian masyarakat. Dengan koleksi digital yang terus
+          berkembang dan layanan informasi
+          <span class="font-semibold"> berbasis teknologi </span>
+          , kami berkomitmen memberikan akses informasi yang mudah, cepat, dan
+          terpercaya bagi seluruh sivitas akademika.
+          <br />
+          <a
+            class="text-orange-500 text-[10px] sm:text-[12px] font-normal"
+            href="#"
+          >
+            Lihat Selengkapnya
+          </a>
+        </p>
+      </div>
+
+      <div class="mb-10 px-4 sm:px-0">
+        <iframe
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen=""
+          class="rounded"
+          frameborder="0"
+          height="480"
+          src="https://www.youtube.com/embed/_k3wmGUG_0Y?si=xcsygl_U-wlcxj0U"
+          title="FASILITAS PERPUSTAKAAN UNIVERSITAS ANDALAS"
+          width="100%"
+        >
+        </iframe>
+      </div>
+
     </div>
-    <!-- Video embed -->
-    <div class="mb-10 px-4 sm:px-0">
-  <iframe
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen=""
-    class="rounded"
-    frameborder="0"
-    height="480"
-    src="https://www.youtube.com/embed/_k3wmGUG_0Y?si=xcsygl_U-wlcxj0U"
-    title="FASILITAS PERPUSTAKAAN UNIVERSITAS ANDALAS"
-    width="100%"
-  >
-  </iframe>
-</div>
-
-    <!-- Footer -->
     <footer
       class="bg-[#2f5d40] text-[#d1d5db] mt-6 px-4 sm:px-6 md:px-10 lg:px-16 py-6"
     >
@@ -223,4 +283,66 @@
       </div>
     </footer>
   </main>
+
+  <script>
+    const categoriesContainer = document.getElementById('categoriesContainer');
+    const scrollLeftCategoryButton = document.getElementById('scrollLeftCategory');
+    const scrollRightCategoryButton = document.getElementById('scrollRightCategory');
+
+    const booksContainer = document.getElementById('booksContainer');
+    const scrollLeftBookButton = document.getElementById('scrollLeftBook');
+    const scrollRightBookButton = document.getElementById('scrollRightBook');
+
+    const scrollAmount = 200; // Adjust scroll distance as needed
+
+    // --- Category Scroll Logic ---
+    scrollLeftCategoryButton.addEventListener('click', () => {
+      categoriesContainer.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+      });
+    });
+
+    scrollRightCategoryButton.addEventListener('click', () => {
+      categoriesContainer.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    });
+
+    // --- Book Scroll Logic ---
+    scrollLeftBookButton.addEventListener('click', () => {
+      booksContainer.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+      });
+    });
+
+    scrollRightBookButton.addEventListener('click', () => {
+      booksContainer.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    });
+
+    // --- Always show buttons logic (removed hiding logic) ---
+    const updateAllArrowsVisibility = () => {
+        // Category arrows
+        scrollLeftCategoryButton.style.display = 'block';
+        scrollRightCategoryButton.style.display = 'block';
+
+        // Book arrows
+        scrollLeftBookButton.style.display = 'block';
+        scrollRightBookButton.style.display = 'block';
+    };
+
+    updateAllArrowsVisibility(); // Initial call
+
+    // Attach to scroll and resize events for both containers
+    categoriesContainer.addEventListener('scroll', updateAllArrowsVisibility);
+    window.addEventListener('resize', updateAllArrowsVisibility); // Re-evaluate on resize
+    booksContainer.addEventListener('scroll', updateAllArrowsVisibility);
+    window.addEventListener('resize', updateAllArrowsVisibility); // Re-evaluate on resize
+  </script>
 </body>
+</html>
