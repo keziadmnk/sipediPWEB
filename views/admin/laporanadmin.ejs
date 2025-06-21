@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPEDI - Laporan Peminjaman dan Pengembalian</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        /* Custom background color with 33% opacity */
+        .bg-custom {
+            background-color: #E9F1ED;
+        }
+    </style>
+</head>
+
+<body class="bg-green-50 flex ml-56">
+    <%- include('../partials/asideAdmin') %>
+
+        <!-- Content -->
+        <div class="flex-1 p-12">
+            <div class="flex-1 flex flex-col">
+                
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-semibold">Laporan Peminjaman dan Pengembalian</h1>
+                </div>
+
+                <!-- Filter Section -->
+                <form method="GET" action="/admin/laporanadmin" class="mb-6 no-print">
+                    <div class="flex items-end space-x-4">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Filter:</label>
+                            <div class="flex space-x-4">
+                                <div class="flex-1">
+                                    <label class="block text-xs text-gray-600 mb-1">Dari tanggal</label>
+                                    <input type="date" name="dari_tanggal" value="<%= filters.dari_tanggal || '' %>"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                </div>
+                                <div class="text-center flex items-end pb-2">
+                                    <span class="text-gray-500">-</span>
+                                </div>
+                                <div class="flex-1">
+                                    <label class="block text-xs text-gray-600 mb-1">Sampai Tanggal</label>
+                                    <input type="date" name="sampai_tanggal" value="<%= filters.sampai_tanggal || '' %>"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="px-4 py-2 bg-[#276749] text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                            Filter
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Print Section -->
+            <div class="print-section">
+                <!-- Header untuk cetak -->
+                <div class="mb-6 print-only">
+                    <h1 class="text-2xl font-bold text-center mb-2">LAPORAN PEMINJAMAN DAN PENGEMBALIAN BUKU</h1>
+                    <p class="text-center text-gray-600 mb-4">Sistem Informasi Perpustakaan Digital (SIPEDI)</p>
+                    <p class="text-center text-gray-600 mb-4">Universitas Andalas</p>
+                    <% if (filters.dari_tanggal || filters.sampai_tanggal) { %>
+                        <p class="text-center text-gray-600">
+                            Periode:
+                            <%= filters.dari_tanggal ? new Date(filters.dari_tanggal).toLocaleDateString('id-ID')
+                                : 'Semua' %> -
+                                <%= filters.sampai_tanggal ? new
+                                    Date(filters.sampai_tanggal).toLocaleDateString('id-ID') : 'Semua' %>
+                        </p>
+                        <% } %>
+                            <p class="text-center text-gray-600">Tanggal Cetak: <%= new
+                                    Date().toLocaleDateString('id-ID') %>
+                            </p>
+                </div>
+
+                <!-- Table Section -->
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse border border-gray-300">
+                        <thead class="bg-[#276749] text-white">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-sm font-medium border border-gray-300">Id Peminjaman
+                                </th>
+                                <th class="px-4 py-3 text-left text-sm font-medium border border-gray-300">Nama
+                                    Mahasiswa</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium border border-gray-300">Judul Buku
+                                </th>
+                                <th class="px-4 py-3 text-left text-sm font-medium border border-gray-300">Tanggal
+                                    Peminjaman</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium border border-gray-300">Tanggal
+                                    Pengembalian</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium border border-gray-300">Status</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium border border-gray-300">Denda</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <% if (dataPeminjaman && dataPeminjaman.length> 0) { %>
+                                <% dataPeminjaman.forEach((item, index)=> { %>
+                                    <tr class="<%= index % 2 === 0 ? 'bg-white' : 'bg-gray-50' %>">
+                                        <td class="px-4 py-3 text-sm text-gray-900 border border-gray-300">
+                                            <%= item.id_peminjaman %>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 border border-gray-300">
+                                            <%= item.Pengguna ? item.Pengguna.nama_lengkap : '-' %>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 border border-gray-300">
+                                            <%= item.Buku ? item.Buku.judul_buku : '-' %>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 border border-gray-300">
+                                            <%= item.tanggal_peminjaman ? new
+                                                Date(item.tanggal_peminjaman).toLocaleDateString('id-ID') : '-' %>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 border border-gray-300">
+                                            <%= item.tanggal_pengembalian ? new
+                                                Date(item.tanggal_pengembalian).toLocaleDateString('id-ID') : '-' %>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm border border-gray-300">
+                                            <% if (item.status_peminjaman==='Dikembalikan' ) { %>
+                                                <span
+                                                    class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                                                    Dikembalikan
+                                                </span>
+                                                <% } else if (item.status_peminjaman==='Terlambat' ) { %>
+                                                    <span
+                                                        class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">
+                                                        Terlambat
+                                                    </span>
+                                                    <% } else { %>
+                                                        <span
+                                                            class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                                                            Dipinjam
+                                                        </span>
+                                                        <% } %>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm text-gray-900 border border-gray-300">
+                                            <% if (item.denda && item.denda> 0) { %>
+                                                Rp<%= item.denda.toLocaleString('id-ID') %>
+                                                    <% } else { %>
+                                                        Rp0
+                                                        <% } %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="7"
+                                                    class="px-4 py-8 text-center text-gray-500 border border-gray-300">
+                                                    <div class="flex flex-col items-center">
+                                                        <i class="fas fa-inbox text-3xl text-gray-300 mb-2"></i>
+                                                        <p>Tidak ada data peminjaman yang ditemukan</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Summary untuk cetak -->
+                <div class="mt-6 print-only">
+                    <div class="grid grid-cols-3 gap-4 text-sm">
+                        <div>
+                            <strong>Total Peminjaman:</strong>
+                            <%= dataPeminjaman ? dataPeminjaman.length : 0 %>
+                        </div>
+                        <div>
+                            <strong>Dikembalikan:</strong>
+                            <%= dataPeminjaman ? dataPeminjaman.filter(item=> item.status_peminjaman ===
+                                'Dikembalikan').length : 0 %>
+                        </div>
+                        <div>
+                            <strong>Terlambat:</strong>
+                            <%= dataPeminjaman ? dataPeminjaman.filter(item=> item.status_peminjaman ===
+                                'Terlambat').length : 0 %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer with Print Button -->
+            <div class="p-6 border-t bg-gray-50 flex justify-end no-print">
+                <button onclick="window.print()"
+                    class="px-6 py-2 bg-[#276749] text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center space-x-2">
+                    <i class="fas fa-print"></i>
+                    <span>Cetak Laporan</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Print Styles -->
+        <style>
+            @media print {
+                body * {
+                    visibility: hidden;
+                }
+
+                .print-section,
+                .print-section * {
+                    visibility: visible;
+                }
+
+                .print-section {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    margin: 0;
+                    padding: 20px;
+                }
+
+                .no-print {
+                    display: none !important;
+                }
+
+                .print-only {
+                    display: block !important;
+                }
+
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                }
+
+                th,
+                td {
+                    border: 1px solid #000;
+                    padding: 8px;
+                    text-align: left;
+                }
+
+                th {
+                    background-color: #276749 !important;
+                    color: white !important;
+                }
+            }
+
+            .print-only {
+                display: none;
+            }
+        </style>
+
+        <script>
+            // Auto-submit form when date changes
+            document.addEventListener('DOMContentLoaded', function () {
+                const dateInputs = document.querySelectorAll('input[type="date"]');
+                dateInputs.forEach(input => {
+                    input.addEventListener('change', function () {
+                        // Auto-submit could be added here if needed
+                    });
+                });
+            });
+        </script>
+</body>
+
+</html>
