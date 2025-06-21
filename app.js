@@ -36,13 +36,13 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const upload = multer();
 app.use(upload.none()); // untuk form tanpa file upload
 
-sequelize.sync({ alter: true }) 
-  .then(() => {
-    console.log("Database & tables have been synced.");
-  })
-  .catch((error) => {
-    console.error("Error syncing database:", error);
-  });
+// sequelize.sync({ alter: true }) 
+//   .then(() => {
+//     console.log("Database & tables have been synced.");
+//   })
+//   .catch((error) => {
+//     console.error("Error syncing database:", error);
+//   });
 
 // Konfigurasi session
 app.use(session({

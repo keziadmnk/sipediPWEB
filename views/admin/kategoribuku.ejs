@@ -1,85 +1,183 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIPEDI - Kategori Buku</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-      rel="stylesheet"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPEDI - Kategori Buku</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        rel="stylesheet"
     />
-  <style>
-      /* Custom scrollbar for sidebar */
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background-color: #2f855a;
-        border-radius: 3px;
-      }
-  </style>
-  </head>
-  <body class="bg-[#f5fef7] min-h-screen flex flex-col ml-56">
+    <style>
+        /* Custom scrollbar for sidebar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #2f855a;
+            border-radius: 3px;
+        }
+        /* Gaya untuk modal */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="bg-[#f5fef7] min-h-screen flex flex-col ml-56">
     <div class="flex flex-1">
-      <%- include('../partials/asideAdmin') %>
+        <%- include('../partials/asideAdmin') %>
 
-      <div class="flex-1 flex flex-col">
-        <header
-          class="flex justify-end items-center px-8 py-4 border-b border-[#cbd5d0]"
-        >
-          <button
-            aria-label="User profile"
-            class="text-[#276749] text-xl focus:outline-none"
-            type="button"
-          >
-            <i class="fas fa-user-circle"></i>
-          </button>
-        </header>
+        <div class="flex-1 flex flex-col">
+            <header
+                class="flex justify-end items-center px-8 py-4 border-b border-[#cbd5d0]"
+            >
+                <button
+                    aria-label="User profile"
+                    class="text-[#276749] text-xl focus:outline-none"
+                    type="button"
+                >
+                    <i class="fas fa-user-circle"></i>
+                </button>
+            </header>
 
-        <main class="flex-1 p-8">
-           <div class="flex justify-between items-center mb-6">
-              <h2 class="text-[#276749] font-semibold text-lg mb-6">Kategori Buku</h2>
-              <button class="bg-[#276749] text-white py-2 px-4 rounded-lg hover:bg-green-700 ml-4 text-sm"><a href="/admin/tambahkategori">Tambah Kategori Buku</a>
-                
-          </button>
-           </div>
-          
+            <main class="flex-1 p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-[#276749] font-semibold text-lg mb-6">Kategori Buku</h2>
+                    <button class="bg-[#276749] text-white py-2 px-4 rounded-lg hover:bg-green-700 ml-4 text-sm"><a href="/admin/tambahkategori">Tambah Kategori Buku</a>
+                    </button>
+                </div>
 
-          <div
-            class="overflow-x-auto rounded-lg shadow-md border border-transparent"
-          >
-            <table class="min-w-full text-xs text-left text-[#4a5568]">
-              <thead
-                class="bg-[#276749] text-[#d1d5db] text-[10px] font-semibold rounded-t-lg"
-              >
-                <tr>
-                  <th class="px-3 py-2 rounded-tl-lg" scope="col">
-                    Id Kategori
-                  </th>
-                  <th class="px-3 py-2" scope="col">Nama Kategori</th>
-                  <th class="px-3 py-2" scope="col">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% kategori.forEach(kategori => { %>
-          <tr>
-            <td class="px-3 py-2"><%= kategori.id_kategori %></td>
-            <td class="px-3 py-2"><%= kategori.nama_kategori %></td>
-            <td class="px-3 py-2">
-              <button class="bg-yellow-400 text-white py-1 px-3 rounded-md hover:bg-yellow-500">
-                <i class="fas fa-pencil-alt"></i>
-              </button>
-              <button class="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700">
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        <% }); %>
-        </tbody>
-      </table>
+                <%# Pesan Sukses/Error (jika ada) %>
+                <% if (typeof message !== 'undefined' && message) { %>
+                <div class="p-4 mb-4 rounded-lg <%= message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+                    <%= message.text %>
+                </div>
+                <% } %>
+            
+                <div
+                    class="overflow-x-auto rounded-lg shadow-md border border-transparent"
+                >
+                    <table class="min-w-full text-xs text-left text-[#4a5568]">
+                        <thead
+                            class="bg-[#276749] text-[#d1d5db] text-[10px] font-semibold rounded-t-lg"
+                        >
+                            <tr>
+                                <th class="px-3 py-2 rounded-tl-lg" scope="col">
+                                    Id Kategori
+                                </th>
+                                <th class="px-3 py-2" scope="col">Nama Kategori</th>
+                                <th class="px-3 py-2" scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% kategori.forEach(kategori => { %>
+                                <tr>
+                                    <td class="px-3 py-2"><%= kategori.id_kategori %></td>
+                                    <td class="px-3 py-2"><%= kategori.nama_kategori %></td>
+                                    <td class="px-3 py-2">
+                                        <a href="/admin/editkategori/<%= kategori.id_kategori %>" 
+                                            class="bg-yellow-400 text-white py-1 px-3 rounded-md hover:bg-yellow-500 inline-block">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        
+                                        <%# Tombol Hapus - pemicu modal %>
+                                        <button type="button" 
+                                                class="delete-button bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700 inline-block ml-1"
+                                                data-id="<%= kategori.id_kategori %>" 
+                                                data-name="<%= kategori.nama_kategori %>">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+
+                                        <%# Form DELETE yang disembunyikan untuk pengiriman via JS %>
+                                        <form id="deleteForm-<%= kategori.id_kategori %>" 
+                                              action="/admin/deletekategori/<%= kategori.id_kategori %>" 
+                                              method="POST" 
+                                              class="hidden"></form>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
     </div>
-  </div>
 
+    <%# Custom Confirmation Modal %>
+    <div id="customConfirmModal" class="fixed inset-0 hidden modal-overlay z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full text-center">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Konfirmasi Penghapusan</h3>
+            <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus kategori <span id="modalCategoryName" class="font-semibold"></span> ini?</p>
+            <div class="flex justify-center gap-4">
+                <button id="modalCancelBtn" class="bg-gray-200 text-gray-800 font-semibold px-6 py-2 rounded-lg hover:bg-gray-300">
+                    Batal
+                </button>
+                <button id="modalConfirmBtn" class="bg-red-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-700">
+                    Oke, Hapus
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const customConfirmModal = document.getElementById('customConfirmModal');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalCategoryName = document.getElementById('modalCategoryName');
+            let currentCategoryId = null; // Menyimpan ID kategori yang akan dihapus
+
+            // Fungsi untuk menampilkan modal
+            function showModal(categoryId, categoryName) {
+                currentCategoryId = categoryId;
+                modalCategoryName.textContent = `'${categoryName}'`; // Tampilkan nama kategori di modal
+                customConfirmModal.classList.remove('hidden');
+            }
+
+            // Fungsi untuk menyembunyikan modal
+            function hideModal() {
+                customConfirmModal.classList.add('hidden');
+                currentCategoryId = null; // Reset ID saat modal ditutup
+            }
+
+            // Event delegation untuk semua tombol delete
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const categoryId = this.dataset.id;
+                    const categoryName = this.dataset.name;
+                    showModal(categoryId, categoryName);
+                });
+            });
+
+            // Ketika tombol "Oke, Hapus" di modal diklik
+            if (modalConfirmBtn) {
+                modalConfirmBtn.addEventListener('click', function() {
+                    hideModal();
+                    if (currentCategoryId) {
+                        const deleteForm = document.getElementById(`deleteForm-${currentCategoryId}`);
+                        if (deleteForm) {
+                            deleteForm.submit(); // Submit form penghapusan yang sesuai
+                        }
+                    }
+                });
+            }
+
+            // Ketika tombol "Batal" di modal diklik
+            if (modalCancelBtn) {
+                modalCancelBtn.addEventListener('click', hideModal);
+            }
+
+            // Klik di luar modal untuk menutup (opsional)
+            customConfirmModal.addEventListener('click', function(event) {
+                if (event.target === customConfirmModal) {
+                    hideModal();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
