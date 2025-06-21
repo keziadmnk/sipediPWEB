@@ -69,37 +69,41 @@
             </li>
           </ul>
 
-          <div class="flex gap-4 mb-6">
-            <% if (buku.jumlah_stok > 0) { %>
+          <%
+            // Define boolean flags for book types for cleaner logic
+            const jenisList = buku.jenis.map(j => j.nama_jenis.toLowerCase());
+            const isFisik = jenisList.includes("buku fisik");
+            const isEbook = jenisList.includes("e-book") || jenisList.includes("ebook");
+          %>
+
+          <div class="flex flex-wrap gap-4 mb-6">
+            <% if (buku.jumlah_stok > 0 && isFisik) { %>
             <button
               onclick="window.location.href='/mahasiswa/formpeminjaman?nomor_isbn=<%= buku.nomor_isbn %>'"
               class="bg-[#276749] text-white px-4 py-2 rounded-lg hover:bg-green-700"
             >
-              Pinjam
+              Pinjam Buku Fisik
             </button>
             <% } else { %>
             <button
               class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg cursor-not-allowed"
               disabled
+              title="Tidak dapat dipinjam karena stok habis atau hanya tersedia sebagai E-Book."
             >
-              Tidak Tersedia
+              Tidak Bisa Dipinjam
             </button>
             <% } %>
-
-            <%
-              const jenisList = buku.jenis.map(j => j.nama_jenis.toLowerCase());
-              const isEbook = jenisList.includes("e-book") || jenisList.includes("ebook");
-            %>
+            
             <% if (isEbook && buku.upload_pdf) { %>
             <a href="/uploads/pdf/<%= buku.upload_pdf %>" target="_blank" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
-              Download PDF
+              Baca E-Book
             </a>
             <% } else { %>
             <button
               class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg cursor-not-allowed"
               disabled
             >
-              Tidak Tersedia PDF
+              E-Book Tidak Tersedia
             </button>
             <% } %>
 
@@ -122,6 +126,7 @@
           </div>
         </div>
       </div>
+      
     </main>
   </body>
 </html>

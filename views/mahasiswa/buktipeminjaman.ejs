@@ -96,21 +96,26 @@
       </section>
       
       <!-- Kembali button -->
-      <div class="flex space-x-3 justify-end mt-8">
+      <div class="flex justify-end mt-6">
         <button
           class="bg-gray-500 text-white text-xs font-semibold rounded px-4 py-1 hover:bg-gray-600"
           type="button"
           onclick="window.location.href='/mahasiswa/koleksibuku'"
         >
           Kembali
-
         </button>
-        <div class="flex justify-end mt-6">
         <button
-          class="bg-gray-500 text-white text-xs font-semibold rounded px-4 py-2 cursor-pointer select-none hover:bg-gray-600"
+          class="bg-[#276749] text-white text-xs font-semibold rounded px-4 py-2 cursor-pointer select-none hover:bg-green-700"
           type="button"
-          onclick="window.location.href='/mahasiswa/koleksibuku'"
-        ><i class="fas-fa download mr-2"></i>Download Bukti
+          onclick="downloadBuktiPeminjaman('<%= peminjaman.id_peminjaman %>')"
+        >
+          <i class="fas fa-download mr-2"></i>Download Bukti
+        </button>
+        <button
+          class="bg-[#2f6f4e] text-white text-xs font-semibold rounded px-4 py-1 hover:bg-[#255c3f]"
+          type="submit"
+        >
+          Cetak
         </button>
         <button
           class="bg-[#2f6f4e] text-white text-xs font-semibold rounded px-4 py-1 hover:bg-[#255c3f]"
@@ -120,5 +125,12 @@
         </button>
       </div>
     </main>
+
+    <script>
+      function downloadBuktiPeminjaman(idPeminjaman) {
+        // Redirect ke endpoint download bukti peminjaman
+        window.location.href = `/mahasiswa/download-bukti-peminjaman/${idPeminjaman}`;
+      }
+    </script>
   </body>
 </html>

@@ -94,12 +94,9 @@
             <td class="px-3 py-2 <%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %>">
                     <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak Tersedia' %>
                   </td>
-            
-            <td class="px-3 py-2 text-center">
+            <td class="px-3 py-2">
               <button class="bg-yellow-400 text-white py-1 px-3 rounded-md hover:bg-yellow-500">
-                <a href="/admin/editbuku/<%= buku.nomor_isbn %>">
-                  <i class="fas fa-pencil-alt"></i>
-                </a>
+                <i class="fas fa-pencil-alt"></i>
               </button>
               <button 
               class="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700 btn-hapus"
@@ -114,7 +111,8 @@
         </tbody>
       </table>
     </div>
- </div>
+  
+
 
 
   <script>
