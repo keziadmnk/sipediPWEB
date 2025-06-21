@@ -38,4 +38,37 @@ const showDashboardAdmin = async (req, res) => {
   }
 };
 
-module.exports = {  showDashboardAdmin }
+const showProfilAdmin = async (req, res) => {
+  try {
+    // Gunakan userId dari JWT token
+    const idLogin = req.user.userId;
+
+    if (!idLogin) {
+      return res.status(400).render('error', {
+        message: 'ID pengguna tidak ditemukan dalam session.',
+        error: {}
+      });
+    }
+
+    const admin = await Pengguna.findOne({
+      where: { id_pengguna: idLogin }
+    });
+
+    if (!admin) {
+      return res.status(404).render('error', {
+        message: 'Data admin tidak ditemukan.',
+        error: {}
+      });
+    }
+
+    res.render('admin/profil', { admin });
+  } catch (error) {
+    console.error('Gagal menampilkan profil admin:', error);
+    res.status(500).render('error', {
+      message: 'Gagal memuat profil admin.',
+      error
+    });
+  }
+};
+
+module.exports = { showDashboardAdmin, showProfilAdmin }
