@@ -27,17 +27,19 @@
   </style>
   
 </head>
-<body class="bg-[#f5fef7] min-h-screen flex"> <%# Hapus 'ml-56' dari sini agar sidebar tidak terdorong %>
+<body class="bg-[#f5fef7] min-h-screen flex">
 
   <%- include('../partials/asidePetugas') %>
 
-  <main class="flex-1 flex flex-col"> <%# Gunakan tag <main> dan struktur flex dari dashboard.ejs %>
-    <%- include('../partials/navpetugas') %> <%# Include navpetugas.ejs %>
+  <main class="flex-1 flex flex-col">
+    <%- include('../partials/navpetugas') %>
 
-    <div class="p-8"> <%# Padding untuk konten di bawah header/navbar %>
+    <div class="p-8">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-[#276749]">Stok Buku Fisik</h1>
-        <button class="bg-[#276749] text-white py-2 px-4 rounded-lg hover:bg-green-700 text-sm">
+        <%# Tombol Cetak Laporan %>
+        <button onclick="window.open('/petugas/stokbuku/print', '_blank');"
+                class="bg-[#276749] text-white py-2 px-4 rounded-lg hover:bg-green-700 text-sm">
           Cetak Laporan Stok Buku
         </button>
       </div>
