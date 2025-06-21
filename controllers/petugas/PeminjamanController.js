@@ -43,6 +43,14 @@ const findDetailPeminjaman = async (req, res) => {
           attributes: ["nomor_isbn", "judul_buku", "pengarang", "lokasi_penyimpanan"],
         },
       ],
+      attributes: [
+        "id_peminjaman", 
+        "tanggal_peminjaman", 
+        "tanggal_wajib_pengembalian", 
+        "tanggal_pengembalian", 
+        "status_peminjaman", 
+        "denda"
+      ],
     });
     if (!datapeminjaman) {
       return res.status(404).send("Peminjaman tidak ditemukan");
