@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIPEDI - Stok Buku Fisik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+  <style>
+      /* Custom scrollbar for sidebar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #2f855a;
+        border-radius: 3px;
+      }
+      .bg-green-sidebar { /* Contoh warna sidebar jika belum di output.css */
+        background-color: #2c5a33;
+      }
+      .text-green-sidebar-light {
+        color: #b38aff; /* Contoh warna teks di sidebar */
+      }
+  </style>
+  
+</head>
+<body class="bg-[#f5fef7] min-h-screen flex"> <%# Hapus 'ml-56' dari sini agar sidebar tidak terdorong %>
+
+  <%- include('../partials/asidePetugas') %>
+
+  <main class="flex-1 flex flex-col"> <%# Gunakan tag <main> dan struktur flex dari dashboard.ejs %>
+    <%- include('../partials/navpetugas') %> <%# Include navpetugas.ejs %>
+
+    <div class="p-8"> <%# Padding untuk konten di bawah header/navbar %>
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-semibold text-[#276749]">Stok Buku Fisik</h1>
+        <button class="bg-[#276749] text-white py-2 px-4 rounded-lg hover:bg-green-700 text-sm">
+          Cetak Laporan Stok Buku
+        </button>
+      </div>
+
+      <div class="overflow-x-auto rounded-lg shadow-md border border-transparent">
+        <table class="min-w-full text-xs text-left text-[#4a5568]">
+          <thead class="bg-[#276749] text-[#d1d5db] text-[10px] font-semibold rounded-t-lg">
+            <tr>
+              <th class="px-3 py-2 rounded-tl-lg" scope="col">No</th>
+              <th class="px-3 py-2" scope="col">ISBN</th>
+              <th class="px-3 py-2" scope="col">Judul Buku</th>
+              <th class="px-3 py-2" scope="col">Stok Tersedia</th>
+              <th class="px-3 py-2" scope="col">Stok Dipinjam</th>
+              <th class="px-3 py-2" scope="col">Total Stok</th>
+              <th class="px-3 py-2" scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (stokData.length > 0) { %>
+              <% stokData.forEach(stok => { %>
+                <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
+                  <td class="px-3 py-2"><%= stok.no %></td>
+                  <td class="px-3 py-2"><%= stok.isbn %></td>
+                  <td class="px-3 py-2"><%= stok.judul_buku %></td>
+                  <td class="px-3 py-2"><%= stok.stok_tersedia %></td>
+                  <td class="px-3 py-2"><%= stok.stok_dipinjam %></td>
+                  <td class="px-3 py-2"><%= stok.total_stok %></td>
+                  <td class="px-3 py-2">
+                    <span class="<%= stok.status.color %> font-semibold">
+                      <i class="<%= stok.status.icon %>"></i> <%= stok.status.message %>
+                    </span>
+                  </td>
+                </tr>
+              <% }); %>
+            <% } else { %>
+              <tr class="bg-white border-b border-gray-200">
+                <td colspan="7" class="px-3 py-4 text-center text-gray-500">Tidak ada data stok buku fisik.</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
