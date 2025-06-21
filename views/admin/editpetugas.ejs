@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPEDI - Edit Petugas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <style>
+        /* Custom background color with 33% opacity */
+        .bg-custom {
+            background-color: #E9F1ED;
+        }
+    </style>
+</head>
+
+<body class="bg-green-50 flex ml-56">
+    <%- include('../partials/asideAdmin') %>
+
+    <!-- Content -->
+    <div class="flex-1 p-12">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-semibold">Edit Petugas</h1>
+        </div>
+
+        <!-- Form Edit Petugas -->
+        <div class="bg-white shadow-md rounded-lg p-10">
+            <% if (message) { %>
+                <div
+                    class="mb-6 p-4 rounded-lg <%= message.type === 'success' ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800' %>">
+                    <%= message.text %>
+                </div>
+                <% } %>
+
+                    <form
+                        action="/admin/editpetugas/<%= petugas.id_pengguna %>"
+                        method="POST"
+                        class="space-y-6"
+                    >
+                        <div class="grid grid-cols-2 gap-x-10 gap-y-6">
+                            <!-- Baris 1 -->
+                            <div class="col-span-2">
+                                <label
+                                    for="nama_lengkap"
+                                    class="block text-sm font-medium text-gray-700 mt-1"
+                                >Nama Lengkap Petugas *</label
+                                >
+                                <input
+                                    type="text"
+                                    id="nama_lengkap"
+                                    name="nama_lengkap"
+                                    required
+                                    class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                                    value="<%= petugas.nama_lengkap %>"
+                                />
+                            </div>
+
+                            <!-- Baris 2 -->
+                            <div>
+                                <label
+                                    for="id_pengguna"
+                                    class="block text-sm font-medium text-gray-700 mt-1"
+                                >NIP</label
+                                >
+                                <input
+                                    type="text"
+                                    id="id_pengguna"
+                                    name="id_pengguna"
+                                    class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] bg-gray-50 cursor-not-allowed"
+                                    value="<%= petugas.id_pengguna %>"
+                                    readonly
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    for="email"
+                                    class="block text-sm font-medium text-gray-700 mt-1"
+                                >Email *</label
+                                >
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    required
+                                    class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                                    value="<%= petugas.email %>"
+                                />
+                            </div>
+
+                            <!-- Baris 3 -->
+                            <div>
+                                <label
+                                    for="nomor_hp"
+                                    class="block text-sm font-medium text-gray-700 mt-1"
+                                >Nomor HP</label
+                                >
+                                <input
+                                    type="text"
+                                    id="nomor_hp"
+                                    name="nomor_hp"
+                                    class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                                    value="<%= petugas.nomor_hp || '' %>"
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    for="alamat"
+                                    class="block text-sm font-medium text-gray-700 mt-1"
+                                >Alamat</label
+                                >
+                                <input
+                                    type="text"
+                                    id="alamat"
+                                    name="alamat"
+                                    class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                                    value="<%= petugas.alamat || '' %>"
+                                />
+                            </div>
+
+                            <!-- Password Section -->
+                            <div class="col-span-2 border-t pt-6">
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">Reset Password</h3>
+                                <div class="grid grid-cols-2 gap-x-10 gap-y-6">
+                                    <div>
+                                        <label
+                                            for="password"
+                                            class="block text-sm font-medium text-gray-700 mt-1"
+                                        >Reset Password</label
+                                        >
+                                        <input
+                                            type="password"
+                                            id="password"
+                                            name="password"
+                                            class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                                            placeholder="Kosongkan jika tidak ingin mengubah password"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label
+                                            for="confirm_password"
+                                            class="block text-sm font-medium text-gray-700 mt-1"
+                                        >Ketik Ulang Password</label
+                                        >
+                                        <input
+                                            type="password"
+                                            id="confirm_password"
+                                            name="confirm_password"
+                                            class="w-full bg-[#f0f6f3] border border-transparent rounded-md py-2 px-3 text-sm text-[#2f6f4e] focus:outline-none focus:ring-2 focus:ring-[#2f6f4e]"
+                                            placeholder="Ketik ulang password baru"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tombol -->
+                        <div class="flex justify-end gap-4 mt-6">
+                            <a
+                                href="/admin/datapetugas"
+                                class="bg-[#e8c75a] text-white text-xs font-semibold rounded-md py-2 px-6 shadow-md hover:bg-[#d4b44a] transition"
+                            >Batal</a
+                            >
+                            <button
+                                type="submit"
+                                class="bg-[#2f6f4e] text-white text-xs font-semibold rounded-md py-2 px-6 shadow-md hover:bg-[#255a3f] transition"
+                            >
+                                Simpan
+                            </button>
+                        </div>
+                    </form>
+        </div>
+    </div>
+
+    <script>
+        // Validasi password matching
+        document.getElementById('confirm_password').addEventListener('input', function () {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+
+            if (password && confirmPassword && password !== confirmPassword) {
+                this.setCustomValidity('Password tidak cocok');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        // Reset validasi saat password diubah
+        document.getElementById('password').addEventListener('input', function () {
+            const confirmPassword = document.getElementById('confirm_password');
+            if (confirmPassword.value) {
+                confirmPassword.dispatchEvent(new Event('input'));
+            }
+        });
+
+        // Form validation
+        document.querySelector("form").addEventListener("submit", function (e) {
+            const requiredFields = [
+                "nama_lengkap",
+                "email"
+            ];
+            let hasError = false;
+
+            requiredFields.forEach((fieldName) => {
+                const field = document.querySelector(`[name="${fieldName}"]`);
+                if (!field.value.trim()) {
+                    field.classList.add("border-red-500");
+                    hasError = true;
+                } else {
+                    field.classList.remove("border-red-500");
+                }
+            });
+
+            if (hasError) {
+                e.preventDefault();
+                alert("Mohon lengkapi semua field yang wajib diisi (*)");
+            }
+        });
+    </script>
+</body>
+
+</html>
