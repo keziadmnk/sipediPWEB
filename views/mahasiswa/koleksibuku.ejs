@@ -69,19 +69,25 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-sm">
           <% if (buku && buku.length > 0) { %>
             <% buku.forEach(b => { %>
-              <a href="/mahasiswa/detailbuku/<%= b.nomor_isbn %>" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 block">
-                <div class="aspect-[3/4]">
-                  <img 
-                    src="/uploads/covers/<%= b.upload_sampul %>" 
-                    alt="<%= b.judul_buku %>" 
-                    class="w-full h-full object-cover"
-                    onerror="this.src='/images/placeholder-book.png'">
-                </div>
+              <a href="/mahasiswa/detailbuku/<%= b.nomor_isbn %>" class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out block">
                 <div class="p-4">
-                  <h3 class="font-medium text-gray-800 mb-1 line-clamp-2"><%= b.judul_buku %></h3>
-                  <p class="text-sm text-gray-500"><%= b.pengarang %></p>
+                  <!-- Kotak Gambar Sampul -->
+                  <div class="w-full h-48 bg-gray-100 overflow-hidden shadow-md mb-4">
+                    <img 
+                      src="/uploads/covers/<%= b.upload_sampul %>" 
+                      alt="<%= b.judul_buku %>" 
+                      class="w-full h-full object-cover "
+                      onerror="this.src='/images/placeholder-book.png'">
+                  </div>
+                  
+                  <!-- Kotak Judul dan Pengarang -->
+                  <div>
+                    <h3 class="font-semibold text-gray-800 mb-1 line-clamp-2 hover:text-green-600 transition-colors duration-200"><%= b.judul_buku %></h3>
+                    <p class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200"><%= b.pengarang %></p>
+                  </div>
                 </div>
               </a>
+
             <% }) %>
           <% } else { %>
             <p class="col-span-full text-center text-gray-400">Tidak ada buku ditemukan untuk kategori ini.</p>
