@@ -25,12 +25,11 @@ const {
 const { uploadFields } = require("../middlewares/upload");
 const { findAllMahasiswa, showTambahMahasiswaForm, tambahMahasiswa, showEditMahasiswa, updateMahasiswa, hapusMahasiswa } = require("../controllers/admin/MahasiswaController");
 const { findAllPetugas, tambahPetugas, showEditPetugas, updatePetugas, hapusPetugas } = require("../controllers/admin/PetugasController");
+const { showDashboardAdmin } = require("../controllers/admin/dashboardcontroller");
 
 // const adminController = require('../controllers/admin/adminController');
 
-router.get("/dashboard", authenticate, (req, res) => {
-  res.render("admin/dashboard");
-});
+router.get("/dashboard", authenticate, showDashboardAdmin);
 
 router.get("/tambahkategori", function (req, res, next) {
   res.render("admin/tambahkategori");

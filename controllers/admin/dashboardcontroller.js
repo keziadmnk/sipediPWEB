@@ -1,36 +1,41 @@
 const { Op } = require("sequelize");
 const { Peminjaman } = require("../../models/PeminjamanModel");
+const { Pengguna } = require('../../models/PenggunaModel');
+const { Buku } = require('../../models/BukuModel');
+const { Kategori } = require('../../models/KategoriModel');
+const { Role } = require('../../models/RoleModel');
 
-const findStatusStatistik = async (req, res) => {
+
+const showDashboardAdmin = async (req, res) => {
   try {
-    const totalpeminjaman = await Peminjaman.count();
-    const totaldipinjam = await Peminjaman.count({
-      where: { status_peminjaman: "Dipinjam" },
+    // Hitung jumlah petugas (role = 2)
+    const jumlahPetugas = await Pengguna.count({
+      where: { id_role: 2 }
     });
-    const totaldikembalikan = await Peminjaman.count({
-  where: {
-    status_peminjaman: {
-      [Op.or]: ["Dikembalikan", "Terlambat"]
-    },
-    tanggal_pengembalian: {
-      [Op.ne]: null // sudah ada tanggal pengembalian
-    }
-  }
-});
 
-    const totalterlambat = await Peminjaman.count({
-      where: { status_peminjaman: "Terlambat" },
+    // Hitung jumlah mahasiswa (role = 3)
+    const jumlahMahasiswa = await Pengguna.count({
+      where: { id_role: 3 }
     });
-    res.render("petugas/dashboard", {
-      totalpeminjaman,
-      totaldipinjam,
-      totaldikembalikan,
-      totalterlambat,
+
+    // Hitung jumlah buku
+    const jumlahBuku = await Buku.count();
+
+    // Hitung jumlah kategori
+    const jumlahKategori = await Kategori.count();
+
+    // Render dashboard dengan data
+    res.render('admin/dashboard', {
+      jumlahPetugas,
+      jumlahMahasiswa,
+      jumlahBuku,
+      jumlahKategori
     });
+
   } catch (error) {
-    console.error("Error fetching dashboard stats:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error('Error loading admin dashboard:', error);
+    res.status(500).send('Terjadi kesalahan saat memuat dashboard');
   }
 };
 
-module.exports = { findStatusStatistik }
+module.exports = {  showDashboardAdmin }
