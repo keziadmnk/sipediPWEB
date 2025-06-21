@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Stok Buku Fisik</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20mm; /* Margin standar untuk cetak */
+            font-size: 10pt;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            font-size: 18pt;
+            margin-bottom: 20px;
+            color: #276749; /* Warna hijau dari tema Anda */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #276749; /* Warna header tabel */
+            color: white;
+            font-size: 9pt;
+            text-transform: uppercase;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .text-green-500 { color: #22c55e; } /* Tailwind green-500 */
+        .text-orange-500 { color: #f97316; } /* Tailwind orange-500 */
+        .text-red-500 { color: #ef4444; }   /* Tailwind red-500 */
+
+        /* Sembunyikan elemen tertentu saat dicetak jika diperlukan */
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Laporan Stok Buku Fisik</h1>
+    <p style="text-align: right; margin-bottom: 10px;">Tanggal Cetak: <%= new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) %></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>ISBN</th>
+                <th>Judul Buku</th>
+                <th>Stok Tersedia</th>
+                <th>Stok Dipinjam</th>
+                <th>Total Stok</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (stokData.length > 0) { %>
+                <% stokData.forEach(stok => { %>
+                    <tr>
+                        <td><%= stok.no %></td>
+                        <td><%= stok.isbn %></td>
+                        <td><%= stok.judul_buku %></td>
+                        <td><%= stok.stok_tersedia %></td>
+                        <td><%= stok.stok_dipinjam %></td>
+                        <td><%= stok.total_stok %></td>
+                        <td>
+                            <span class="<%= stok.status.color %>">
+                                <%= stok.status.message %>
+                            </span>
+                        </td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="7" style="text-align: center;">Tidak ada data stok buku fisik.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+    <script>
+        // Otomatis memicu dialog cetak saat halaman dimuat
+        window.onload = function() {
+            window.print();
+            // Opsional: Tutup tab setelah cetak (tidak selalu didukung oleh browser)
+            // window.onafterprint = function() {
+            //     window.close();
+            // }
+        };
+    </script>
+</body>
+</html>
