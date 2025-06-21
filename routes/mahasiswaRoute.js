@@ -6,13 +6,14 @@ const { showRiwayatPeminjaman, getDetailPeminjaman } = require('../controllers/m
 const { detailBuku, cariBuku } = require('../controllers/mahasiswa/tampilBukuController');
 const { findAkun, updateFoto } = require('../controllers/mahasiswa/AkunController');
 const { uploadSingle } = require('../middlewares/upload');
+const { showDashboardMahasiswa } = require('../controllers/mahasiswa/DashboardController');
 var router = express.Router();
 
-router.get('/dashboard', authenticate, (req, res) => {
-  res.render('mahasiswa/dashboard'); 
-});
+// router.get('/dashboard', authenticate, (req, res) => {
+//   res.render('mahasiswa/dashboard'); 
+// });
 
-
+router.get('/dashboard', authenticate, showDashboardMahasiswa);
 
 router.get('/akun', authenticate, findAkun);
 router.post('/akun/upload', authenticate, uploadSingle('foto'), updateFoto);
