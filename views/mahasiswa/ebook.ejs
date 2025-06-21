@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Koleksi Buku - SIPEDI</title>
+  <title>E-Book - SIPEDI</title>
   <link href="/css/styles.css" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
@@ -15,6 +15,129 @@
     }
   </style>
 </head>
-<body>
-    
+
+<body class="bg-[#F8FFF6] font-sans">
+  <!-- Navbar -->
+  <%- include('../partials/navbarMahasiswa') %>
+
+  <!-- Konten Utama -->
+  <main class="mt-20">
+    <div class="flex min-h-screen">
+      <!-- Sidebar Kategori -->
+      <aside class="w-64 bg-white shadow-sm p-6">
+        <h3 class="text-sm font-semibold text-gray-700 mb-6">Kategori E-Book</h3>
+        <ul class="space-y-3 text-sm">
+          <li>
+            <a href="/mahasiswa/ebook"
+               class="block py-2 <%= !selectedKategori ? 'text-green-600 font-semibold' : 'text-gray-600 hover:text-green-600' %>">
+              Semua E-Book
+            </a>
+          </li>
+          <% if (kategori && kategori.length > 0) { %>
+            <% kategori.forEach(item => { %>
+              <li>
+                <a href="/mahasiswa/ebook?kategori=<%= item.id_kategori %>"
+                class="block py-2 <%= selectedKategori == item.id_kategori ? 'text-green-600 font-semibold' : 'text-gray-600 hover:text-green-600' %>">
+                <%= item.nama_kategori %>
+              </a>
+              </li>
+            <% }) %>
+          <% } else { %>
+            <li><span class="text-gray-400 block py-2">Tidak ada kategori</span></li>
+          <% } %>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-6">
+        
+
+        <!-- Search Bar -->
+        <div class="mb-6">
+          <div class="max-w-md ml-auto">
+            <form method="GET" action="/mahasiswa/ebook">
+              <input 
+                type="text" 
+                name="search"
+                placeholder="Cari e-book..."
+                value="<%= searchQuery %>" 
+                class="text-sm w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              >
+            </form>
+          </div>
+        </div>
+
+        <!-- Grid E-Book -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-sm">
+          <% if (ebook && ebook.length > 0) { %>
+            <% ebook.forEach(b => { %>
+              <a href="/mahasiswa/detailbuku/<%= b.nomor_isbn %>" class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out block">
+                <div class="p-4">
+                  <!-- Kotak Gambar Sampul -->
+                  <div class="w-full h-48 bg-gray-100 overflow-hidden shadow-md mb-4 relative">
+                    <img 
+                      src="/uploads/covers/<%= b.upload_sampul %>" 
+                      alt="<%= b.judul_buku %>" 
+                      class="w-full h-full object-cover"
+                      onerror="this.src='/images/placeholder-book.png'">
+                    <!-- E-Book Badge -->
+                    <div class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                      <i class="fas fa-book-open mr-1"></i>E-Book
+                    </div>
+                  </div>
+                  
+                  <!-- Kotak Judul dan Pengarang -->
+                  <div>
+                    <h3 class="font-semibold text-gray-800 mb-1 line-clamp-2 hover:text-green-600 transition-colors duration-200"><%= b.judul_buku %></h3>
+                    <p class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200"><%= b.pengarang %></p>
+                  </div>
+                </div>
+              </a>
+            <% }) %>
+          <% } else { %>
+            <div class="col-span-full text-center py-12">
+              <div class="text-gray-400 mb-4">
+                <i class="fas fa-book-open text-6xl"></i>
+              </div>
+              <p class="text-gray-500 text-lg font-medium">Tidak ada e-book ditemukan</p>
+              <p class="text-gray-400 text-sm mt-2">Coba ubah filter pencarian atau kategori</p>
+            </div>
+          <% } %>
+        </div>
+
+        <!-- Pagination Placeholder -->
+        <div class="mt-8 flex justify-center text-sm">
+          <nav class="flex space-x-2">
+            <button class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Previous</button>
+            <button class="px-3 py-2 bg-green-600 text-white rounded-md">1</button>
+            <button class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">2</button>
+            <button class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">3</button>
+            <button class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Next</button>
+          </nav>
+        </div>
+      </main>
+    </div>
+     <!-- Footer -->
+    <footer
+      class="bg-[#2f5d40] text-[#d1d5db] mt-6 px-4 sm:px-6 md:px-10 lg:px-16 py-6"
+    >
+      <div
+        class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+      >
+        <p class="text-sm select-none">© 2024 SIPEDI. All rights reserved.</p>
+        <ul class="flex space-x-6 text-sm font-semibold">
+          <li>
+            <a class="hover:underline" href="#"> Privacy Policy </a>
+          </li>
+          <li>
+            <a class="hover:underline" href="#"> Terms of Service </a>
+          </li>
+          <li>
+            <a class="hover:underline" href="#"> Contact </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+  </main>
 </body>
+</html>
