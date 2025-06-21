@@ -99,7 +99,15 @@ module.exports = {
   ]),
   
   // Untuk single file jika diperlukan
-  uploadSingle: (fieldName) => upload.single(fieldName),
+  uploadSingle: (fieldName) => {
+    return multer({
+      storage: storage,
+      fileFilter: fileFilter,
+      limits: { 
+        fileSize: 10 * 1024 * 1024, // 10MB limit
+      },
+    }).single(fieldName);
+  },
   
   // Export upload object jika diperlukan
   upload: upload

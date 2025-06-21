@@ -49,6 +49,9 @@ const updateFoto = async (req, res) => {
             const newPath = `/uploads/profil/${req.file.filename}`;
             mahasiswa.foto = newPath;
             await mahasiswa.save();
+            console.log('Foto berhasil diupdate:', newPath);
+        } else {
+            console.log('Tidak ada file yang diupload');
         }
 
         res.redirect('/mahasiswa/akun');

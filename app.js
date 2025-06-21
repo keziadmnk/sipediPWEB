@@ -18,7 +18,6 @@ var bukuRouter = require('./routes/bukuRoute');
 
 const { authenticate, authorize } = require('./middlewares/authenticate');
 const session = require('express-session');
-const multer = require('multer');
 
 var app = express();
 

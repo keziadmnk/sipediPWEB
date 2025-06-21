@@ -46,7 +46,7 @@
                 <i class="fas fa-arrow-left"> </i>
               </button>
             </a>
-            Detail Peminjaman
+            Detail Pengembalian
           </div>
           <hr class="border-[#2f6f4e] mb-6" />
           <form
@@ -209,17 +209,50 @@
               <div>
                 <label
                   class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
-                  for="lokasi-buku"
+                  for="total-denda"
                 >
                   Total Denda
                 </label>
                 <input
                   class="w-48 rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
-                  id="lokasi-buku"
+                  id="total-denda"
                   readonly=""
                   type="text"
-                  value="Rp5000"
+                  value="<%= datapengembalian.denda ? 'Rp' + parseFloat(datapengembalian.denda).toFixed(0).replace(/\\B(?=(\\d{3})+(?!\\d))/g, '.') : 'Rp0' %>"
                 />
+              </div>
+            </div>
+
+            <!-- Informasi Pengembalian -->
+            <div>
+              <h2 class="mb-4 text-[#2f6f4e] font-bold text-sm">
+                Informasi Pengembalian
+              </h2>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="tanggal-pengembalian"
+                >
+                  Tanggal Pengembalian
+                </label>
+                <input
+                  class="w-48 rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="tanggal-pengembalian"
+                  readonly=""
+                  type="text"
+                  value="<%= datapengembalian.tanggal_pengembalian ? datapengembalian.tanggal_pengembalian.toLocaleDateString() : '-' %>"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="status-peminjaman"
+                >
+                  Status Peminjaman
+                </label>
+                <div class="w-48 px-2 py-1 text-xs font-semibold rounded <%= datapengembalian.status_peminjaman === 'Dikembalikan' ? 'bg-green-100 text-green-800' : datapengembalian.status_peminjaman === 'Terlambat' ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800' %>">
+                  <%= datapengembalian.status_peminjaman %>
+                </div>
               </div>
             </div>
           </form>

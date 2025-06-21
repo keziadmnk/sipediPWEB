@@ -23,7 +23,7 @@ const {
 
 // Import upload middleware
 const { uploadFields } = require("../middlewares/upload");
-const { findAllMahasiswa, showTambahMahasiswaForm, tambahMahasiswa } = require("../controllers/admin/MahasiswaController");
+const { findAllMahasiswa, showTambahMahasiswaForm, tambahMahasiswa, hapusMahasiswa } = require("../controllers/admin/MahasiswaController");
 const { findAllPetugas, tambahPetugas, hapusPetugas } = require("../controllers/admin/PetugasController");
 
 // const adminController = require('../controllers/admin/adminController');
@@ -95,5 +95,7 @@ router.get('/editbuku/:nomor_isbn', authenticate, showEditBuku);
 router.post('/editbuku/:nomor_isbn', authenticate, uploadFields, updateBuku);
 
 router.post('/hapuspetugas/:id_pengguna', authenticate, hapusPetugas);
+
+router.post('/hapusmahasiswa/:id_pengguna', authenticate, hapusMahasiswa);
 
 module.exports = router;
