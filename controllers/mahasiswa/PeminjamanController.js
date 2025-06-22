@@ -250,6 +250,8 @@ const showBuktiPeminjaman = async (req, res) => {
       // Jika tidak ada lokasi_penyimpanan di peminjaman, ambil dari buku
       lokasi_penyimpanan:
         peminjaman.lokasi_penyimpanan || peminjaman.Buku.lokasi_penyimpanan,
+      // Tambahkan formattedId dari virtual field
+      formattedId: peminjaman.formattedId,
     };
 
     console.log("Peminjaman data:", peminjamanData); // Debug log
@@ -296,7 +298,7 @@ const downloadBuktiPeminjaman = async (req, res) => {
     const boxY = doc.y;
     doc
       .fontSize(14).font('Helvetica-Bold').text('Kode Peminjaman Anda:', 70, boxY + 22, { align: 'left'})
-      .fontSize(20).font('Helvetica-Bold').text(String(peminjamanData.id_peminjaman), 70, boxY + 20, { align: 'right', width: 452 });
+      .fontSize(20).font('Helvetica-Bold').text(peminjamanData.formattedId || `PJ${peminjamanData.id_peminjaman}`, 70, boxY + 20, { align: 'right', width: 452 });
     
     doc.rect(50, boxY, 512, 60).stroke();
     doc.moveDown(4);
@@ -325,6 +327,7 @@ const downloadBuktiPeminjaman = async (req, res) => {
 
     // Informasi Peminjam
     drawSection('Informasi Peminjam', {
+      'Kode Peminjaman': peminjamanData.formattedId || `PJ${peminjamanData.id_peminjaman}`,
       'Nama Lengkap': peminjamanData.Pengguna.nama_lengkap,
       'NIM': peminjamanData.id_pengguna,
       'Email': peminjamanData.Pengguna.email
