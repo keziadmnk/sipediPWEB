@@ -18,7 +18,6 @@ var bukuRouter = require("./routes/bukuRoute");
 
 const { authenticate, authorize } = require("./middlewares/authenticate");
 const session = require("express-session");
-
 var app = express();
 
 app.set("views", path.join(__dirname, "views"));
