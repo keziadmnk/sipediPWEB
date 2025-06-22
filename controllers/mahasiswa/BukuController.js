@@ -18,7 +18,8 @@ exports.getDaftarUlasan = async (req, res) => {
         const userId = req.user.userId; // ID pengguna dari token
 
         const buku = await Buku.findByPk(id, {
-            attributes: ['nomor_isbn', 'judul_buku', 'pengarang', 'deskripsi']
+            // Ditambahkan 'upload_sampul' di sini
+            attributes: ['nomor_isbn', 'judul_buku', 'pengarang', 'deskripsi', 'upload_sampul']
         });
 
         if (!buku) {
@@ -287,7 +288,7 @@ exports.getDetailBuku = async (req, res) => {
         });
 
         // Pastikan averageRating adalah number sebelum dikirim ke tampilan
-        const averageRating = ulasanStats.averageRating ? parseFloat(ulasanStats.averageRating) : 0; // Ubah di sini!
+        const averageRating = ulasanStats.averageRating ? parseFloat(ulasanStats.averageRating) : 0;
         const totalReviews = ulasanStats.totalReviews || 0;
 
         res.render("mahasiswa/detailbuku", {
