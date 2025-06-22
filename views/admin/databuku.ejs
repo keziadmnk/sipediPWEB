@@ -1,161 +1,180 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIPEDI - Data Buku</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-      rel="stylesheet"
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPEDI - Data Buku</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        rel="stylesheet"
     />
-  <style>
-      /* Custom scrollbar for sidebar */
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background-color: #2f855a;
-        border-radius: 3px;
-      }
-  </style>
-  </head>
-  <body class="bg-[#f5fef7] min-h-screen flex flex-col ml-56 ">
-    <div class="flex flex-1">
-      <%- include('../partials/asideAdmin') %>
-
-      <div class="flex-1 flex flex-col">
-        <header
-          class="flex justify-end items-center px-8 py-4 border-b border-[#cbd5d0]"
-        >
-          <a
-            href="/admin/profil"
-            aria-label="User profile"
-            class="text-[#276749] text-xl focus:outline-none"
-          >
-            <i class="fas fa-user-circle"></i>
-          </a>
-        </header>
-
-        <main class="flex-1 p-8">
-           <div class="flex justify-between items-center mb-6">
-              <h2 class="text-[#276749] font-semibold text-lg mb-6">Data Buku</h2>
-              <button class="bg-[#276749] text-white py-2 px-4 rounded-lg hover:bg-green-700 ml-4 text-sm"><a href="/admin/tambahbuku">Tambah Buku</a>
-          </button>
-           </div>
-
-          <div
-            class="overflow-x-auto rounded-lg shadow-md border border-transparent"
-          >
-            <table class="min-w-full text-xs text-left text-[#4a5568]">
-              <thead
-                class="bg-[#276749] text-[#d1d5db] text-[10px] font-semibold rounded-t-lg"
-              >
-                <tr>
-                  <th class="px-3 py-2 rounded-tl-lg" scope="col">
-                    Id Buku
-                  </th>
-                  <th class="px-3 py-2" scope="col">Judul Buku</th>
-                  <th class="px-3 py-2" scope="col">Jenis Buku</th>
-                  <th class="px-3 py-2" scope="col">Pengarang</th>
-                  <th class="px-3 py-2" scope="col">
-                    Lokasi
-                  </th>
-                  <th class="px-3 py-2" scope="col">Jumlah Stok</th>
-                  <th class="px-3 py-2" scope="col">Detail</th>
-                  <th class="px-3 py-2" scope="col">Status</th>
-                  <th class="px-3 py-2 rounded-tr-lg" scope="col">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% databuku.forEach(buku => { %>
-          <tr>
-            <td class="px-3 py-2"><%= buku.nomor_isbn %></td>
-            <td class="px-3 py-2"><%= buku.judul_buku %></td>
-            <td class="px-3 py-2">
-              <% if (buku.jenis && buku.jenis.length > 0) { %>
-                <% buku.jenis.forEach((jenis, index) => { %>
-                  <%= jenis.nama_jenis %><% if (index < buku.jenis.length - 1) { %>, <% } %>
-                <% }); %>
-              <% } else { %>
-                <span class="text-gray-400">-</span>
-              <% } %>
-            </td>
-            <td class="px-3 py-2"><%= buku.pengarang %></td>
-            <td class="px-3 py-2"><%= buku.lokasi_penyimpanan %></td>
-            <td class="px-3 py-2"><%= buku.jumlah_stok %></td>
-            <td class="px-3 py-2 text-[#276749] text-center">
-                    <a
-                      href="/admin/detailbuku/<%= buku.nomor_isbn %>"
-                    >
-                      <i class="fas fa-info-circle"></i>
-                    </a>
-                  </td>
-            <td class="px-3 py-2 <%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %>">
-                    <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak Tersedia' %>
-                  </td>
-            <td class="px-3 py-2 flex items-center space-x-2">
-              <a href="/admin/editbuku/<%= buku.nomor_isbn %>" class="bg-yellow-400 text-white py-1 px-3 rounded-md hover:bg-yellow-500 inline-block">
-                <i class="fas fa-pencil-alt"></i>
-              </a>
-              <button 
-              class="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700 btn-hapus"
-              data-isbn="<%= buku.nomor_isbn %>"
-              data-judul="<%= buku.judul_buku %>"
-              >
-                <i class="fas fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        <% }); %>
-        </tbody>
-      </table>
-    </div>
-  
-
-
-
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    let isbnToDelete = '';
-
-    // Event listener untuk tombol hapus
-    document.querySelectorAll('.btn-hapus').forEach(button => {
-      button.addEventListener('click', function() {
-        isbnToDelete = this.getAttribute('data-isbn');
-        const judul = this.getAttribute('data-judul');
-
-        // Tampilkan konfirmasi hapus
-        const confirmDelete = confirm(`Apakah Anda yakin ingin menghapus buku "${judul}"?`);
-        if (confirmDelete) {
-          // Kirim request hapus menggunakan fetch API
-          fetch(`/admin/buku/${isbnToDelete}`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            }
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              // Tampilkan pesan sukses dan reload halaman
-              alert('Buku berhasil dihapus!');
-              location.reload();
-            } else {
-              // Tampilkan pesan error
-              alert('Gagal menghapus buku: ' + data.message);
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat menghapus buku');
-          });
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* Custom scrollbar for sidebar */
+        ::-webkit-scrollbar {
+            width: 6px;
         }
-      });
-    });
-  });
-</script>
+        ::-webkit-scrollbar-thumb {
+            background-color: #2f855a;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-[#f5fef7] min-h-screen flex flex-col ml-56 ">
+    <div class="flex flex-1">
+        <%- include('../partials/asideAdmin') %>
+
+        <div class="flex-1 flex flex-col">
+            <header
+                class="flex justify-end items-center px-8 py-4 border-b border-[#cbd5d0]"
+            >
+                <a
+                    href="/admin/profil"
+                    aria-label="User profile"
+                    class="text-[#276749] text-xl focus:outline-none"
+                >
+                    <i class="fas fa-user-circle"></i>
+                </a>
+            </header>
+
+            <main class="flex-1 p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-[#276749] font-semibold text-lg mb-6">Data Buku</h2>
+                    <button class="bg-[#276749] text-white py-2 px-4 rounded-lg hover:bg-green-700 ml-4 text-sm"><a href="/admin/tambahbuku">Tambah Buku</a>
+                </button>
+                </div>
+
+                <div
+                    class="overflow-x-auto rounded-lg shadow-md border border-transparent"
+                >
+                    <table class="min-w-full text-xs text-left text-[#4a5568]">
+                        <thead
+                            class="bg-[#276749] text-[#d1d5db] text-[10px] font-semibold rounded-t-lg"
+                        >
+                            <tr>
+                                <th class="px-3 py-2 rounded-tl-lg" scope="col">
+                                    Id Buku
+                                </th>
+                                <th class="px-3 py-2" scope="col">Judul Buku</th>
+                                <th class="px-3 py-2" scope="col">Jenis Buku</th>
+                                <th class="px-3 py-2" scope="col">Pengarang</th>
+                                <th class="px-3 py-2" scope="col">
+                                    Lokasi
+                                </th>
+                                <th class="px-3 py-2" scope="col">Jumlah Stok</th>
+                                <th class="px-3 py-2" scope="col">Detail</th>
+                                <th class="px-3 py-2" scope="col">Status</th>
+                                <th class="px-3 py-2 rounded-tr-lg" scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% databuku.forEach(buku => { %>
+                                <tr>
+                                    <td class="px-3 py-2"><%= buku.nomor_isbn %></td>
+                                    <td class="px-3 py-2"><%= buku.judul_buku %></td>
+                                    <td class="px-3 py-2">
+                                        <% if (buku.jenis && buku.jenis.length > 0) { %>
+                                            <% buku.jenis.forEach((jenis, index) => { %>
+                                                <%= jenis.nama_jenis %><% if (index < buku.jenis.length - 1) { %>, <% } %>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <span class="text-gray-400">-</span>
+                                        <% } %>
+                                    </td>
+                                    <td class="px-3 py-2"><%= buku.pengarang %></td>
+                                    <td class="px-3 py-2"><%= buku.lokasi_penyimpanan %></td>
+                                    <td class="px-3 py-2"><%= buku.jumlah_stok %></td>
+                                    <td class="px-3 py-2 text-[#276749] text-center">
+                                        <a
+                                            href="/admin/detailbuku/<%= buku.nomor_isbn %>"
+                                        >
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
+                                    </td>
+                                    <td class="px-3 py-2 <%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %>">
+                                        <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak Tersedia' %>
+                                    </td>
+                                    <td class="px-3 py-2 flex items-center space-x-2">
+                                        <a href="/admin/editbuku/<%= buku.nomor_isbn %>" class="bg-yellow-400 text-white py-1 px-3 rounded-md hover:bg-yellow-500 inline-block">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <button
+                                        class="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700 btn-hapus"
+                                        data-isbn="<%= buku.nomor_isbn %>"
+                                        data-judul="<%= buku.judul_buku %>"
+                                        >
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Event listener for delete buttons using SweetAlert2
+            document.querySelectorAll('.btn-hapus').forEach(button => {
+                button.addEventListener('click', function() {
+                    const isbnToDelete = this.getAttribute('data-isbn');
+                    const judul = this.getAttribute('data-judul');
+
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: `Anda akan menghapus buku "${judul}" secara permanen!`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Send delete request using fetch API
+                            fetch(`/admin/buku/${isbnToDelete}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire(
+                                        'Berhasil Dihapus!',
+                                        'Buku telah berhasil dihapus.',
+                                        'success'
+                                    ).then(() => {
+                                        location.reload(); // Reload page on success
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Gagal!',
+                                        'Gagal menghapus buku: ' + data.message,
+                                        'error'
+                                    );
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire(
+                                    'Error!',
+                                    'Terjadi kesalahan saat menghapus buku.',
+                                    'error'
+                                );
+                            });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
