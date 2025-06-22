@@ -179,7 +179,7 @@ const updateMahasiswa = async (req, res) => {
         type: 'error',
         text: 'Nama Lengkap dan Email adalah field wajib yang harus diisi.'
       };
-      return res.redirect(/admin/editmahasiswa/${id_pengguna});
+      return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
     }
 
     // 2. Cari mahasiswa yang akan diupdate
@@ -205,7 +205,7 @@ const updateMahasiswa = async (req, res) => {
         type: 'error',
         text: 'Email sudah digunakan oleh mahasiswa lain.'
       };
-      return res.redirect(/admin/editmahasiswa/${id_pengguna});
+      return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
     }
 
     // 4. Validasi password jika diisi
@@ -215,7 +215,7 @@ const updateMahasiswa = async (req, res) => {
           type: 'error',
           text: 'Password dan Konfirmasi Password harus diisi keduanya jika ingin mengubah password.'
         };
-        return res.redirect(/admin/editmahasiswa/${id_pengguna});
+        return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
       }
 
       if (password !== confirm_password) {
@@ -223,7 +223,7 @@ const updateMahasiswa = async (req, res) => {
           type: 'error',
           text: 'Password dan Konfirmasi Password tidak cocok.'
         };
-        return res.redirect(/admin/editmahasiswa/${id_pengguna});
+        return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
       }
     }
 
@@ -254,7 +254,7 @@ const updateMahasiswa = async (req, res) => {
       type: 'error',
       text: 'Gagal update mahasiswa: ' + error.message
     };
-    res.redirect(/admin/editmahasiswa/${req.params.id_pengguna});
+    res.redirect(`/admin/editmahasiswa/${req.params.id_pengguna}`);
   }
 };
 

@@ -181,7 +181,7 @@ const updatePetugas = async (req, res) => {
                 type: 'error',
                 text: 'Nama Lengkap dan Email adalah field wajib yang harus diisi.'
             };
-            return res.redirect(/admin/editpetugas/${id_pengguna});
+            return res.redirect(`/admin/editpetugas/${id_pengguna}`);
         }
 
         // 2. Cari petugas yang akan diupdate
@@ -207,7 +207,7 @@ const updatePetugas = async (req, res) => {
                 type: 'error',
                 text: 'Email sudah digunakan oleh petugas lain.'
             };
-            return res.redirect(/admin/editpetugas/${id_pengguna});
+            return res.redirect(`/admin/editpetugas/${id_pengguna}`);
         }
 
         // 4. Validasi password jika diisi
@@ -217,7 +217,7 @@ const updatePetugas = async (req, res) => {
                     type: 'error',
                     text: 'Password dan Konfirmasi Password harus diisi keduanya jika ingin mengubah password.'
                 };
-                return res.redirect(/admin/editpetugas/${id_pengguna});
+                return res.redirect(`/admin/editpetugas/${id_pengguna}`);
             }
 
             if (password !== confirm_password) {
@@ -225,7 +225,7 @@ const updatePetugas = async (req, res) => {
                     type: 'error',
                     text: 'Password dan Konfirmasi Password tidak cocok.'
                 };
-                return res.redirect(/admin/editpetugas/${id_pengguna});
+                return res.redirect(`/admin/editpetugas/${id_pengguna}`);
             }
         }
 
@@ -256,7 +256,7 @@ const updatePetugas = async (req, res) => {
             type: 'error',
             text: 'Gagal update petugas: ' + error.message
         };
-        res.redirect(/admin/editpetugas/${req.params.id_pengguna});
+        res.redirect(`/admin/editpetugas/${req.params.id_pengguna}`);
     }
 };
 
