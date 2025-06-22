@@ -7,6 +7,7 @@
     <title>SIPEDI</title>
     <link rel="stylesheet" href="/stylesheets/output.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         /* Custom scrollbar for sidebar */
         ::-webkit-scrollbar {
@@ -72,15 +73,13 @@
                                             <%= mahasiswa.email %>
                                         </td>
                                         <td class="px-3 py-2 text-center">
-                                            <!-- Tombol aksi edit/hapus -->
                                             <div class="flex justify-center gap-1">
                                                 <a href="/admin/editmahasiswa/<%= mahasiswa.id_pengguna %>"
                                                     class="bg-yellow-400 text-white py-1 px-3 rounded-md hover:bg-yellow-500">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </a>
                                                 <form action="/admin/hapusmahasiswa/<%= mahasiswa.id_pengguna %>"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Yakin ingin menghapus mahasiswa ini?')">
+                                                    method="POST" class="delete-form">
                                                     <button type="submit"
                                                         class="bg-red-600 text-white py-1 px-3 rounded-md hover:bg-red-700">
                                                         <i class="fas fa-trash"></i>
@@ -94,8 +93,33 @@
 
                         </table>
                     </div>
+                </main>
             </div>
+    </div>
 
+    <script>
+        // SweetAlert2 for delete confirmation
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data mahasiswa ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit(); // Submit the form if confirmed
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -90,7 +90,7 @@ const tambahMahasiswa = async (req, res) => {
     // 5. Buat pengguna baru
     await Pengguna.create({
       id_pengguna: id_pengguna,
-      username: email, // Atau Anda bisa menggunakan id_pengguna sebagai username jika diinginkan
+      username: username, // Atau Anda bisa menggunakan id_pengguna sebagai username jika diinginkan
       password: hashedPassword,
       nama_lengkap: nama_lengkap,
       email: email,

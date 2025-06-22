@@ -6,6 +6,7 @@
     <title>Edit Ulasan untuk <%= buku.judul_buku %></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .rating {
             display: inline-block;
@@ -29,13 +30,6 @@
         .rating > label:hover ~ input:checked ~ label,
         .rating > input:checked ~ label:hover ~ label {
             color: #fde047; /* yellow-300 */
-        }
-        /* Gaya untuk modal */
-        .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
     </style>
 </head>
@@ -99,7 +93,7 @@
                 </div>
             </form>
 
-            <%# Form Hapus Ulasan - Pemicu Modal %>
+            <%# Form Hapus Ulasan - Pemicu SweetAlert2 %>
             <div class="text-center mt-4">
                 <button id="deleteButton" type="button" class="bg-red-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-700">
                     Hapus
@@ -111,64 +105,30 @@
         </div>
     </main>
 
-    <%# Custom Confirmation Modal %>
-    <div id="customConfirmModal" class="fixed inset-0 hidden modal-overlay z-50">
-        <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full text-center">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Konfirmasi Penghapusan</h3>
-            <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus ulasan ini?</p>
-            <div class="flex justify-center gap-4">
-                <button id="modalCancelBtn" class="bg-gray-200 text-gray-800 font-semibold px-6 py-2 rounded-lg hover:bg-gray-300">
-                    Batal
-                </button>
-                <button id="modalConfirmBtn" class="bg-red-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-700">
-                    Oke, Hapus
-                </button>
-            </div>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const deleteButton = document.getElementById('deleteButton');
             const deleteUlasanForm = document.getElementById('deleteUlasanForm');
-            const customConfirmModal = document.getElementById('customConfirmModal');
-            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const judulBuku = "<%= buku.judul_buku %>"; // Pass book title for better context in alert
 
-            // Fungsi untuk menampilkan modal
-            function showModal() {
-                customConfirmModal.classList.remove('hidden');
-            }
-
-            // Fungsi untuk menyembunyikan modal
-            function hideModal() {
-                customConfirmModal.classList.add('hidden');
-            }
-
-            // Ketika tombol "Hapus" diklik (yang memicu modal)
             if (deleteButton) {
-                deleteButton.addEventListener('click', showModal);
-            }
-
-            // Ketika tombol "Oke, Hapus" di modal diklik
-            if (modalConfirmBtn) {
-                modalConfirmBtn.addEventListener('click', function() {
-                    hideModal(); // Sembunyikan modal
-                    deleteUlasanForm.submit(); // Submit form penghapusan
+                deleteButton.addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: `Anda akan menghapus ulasan untuk buku "${judulBuku}" ini secara permanen!`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            deleteUlasanForm.submit(); // Submit the form if confirmed
+                        }
+                    });
                 });
             }
-
-            // Ketika tombol "Batal" di modal diklik
-            if (modalCancelBtn) {
-                modalCancelBtn.addEventListener('click', hideModal);
-            }
-
-            // Klik di luar modal untuk menutup (opsional, jika Anda mau)
-            customConfirmModal.addEventListener('click', function(event) {
-                if (event.target === customConfirmModal) {
-                    hideModal();
-                }
-            });
         });
     </script>
 </body>

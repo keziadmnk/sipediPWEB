@@ -6,14 +6,8 @@
     <title>Edit Kategori</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* Gaya untuk modal (sama seperti editUlasan.ejs) */
-        .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
         /* Custom background color from editbuku.ejs for consistency */
         .bg-custom {
             background-color: #E9F1ED;
@@ -75,7 +69,7 @@
                     >
                         Simpan
                     </button>
-                    <%# Tombol Hapus akan dipicu via JS & modal %>
+                    <%# Tombol Hapus akan dipicu via JS & SweetAlert2 %>
                     <button id="deleteButton" type="button" class="bg-red-600 text-white text-xs font-semibold rounded-md py-2 px-6 shadow-md hover:bg-red-700 transition">
                         Hapus
                     </button>
@@ -88,58 +82,30 @@
         </div> <%# Penutup div.bg-white.shadow-md %>
     </div> <%# Penutup div.flex-1.p-12 %>
 
-    <%# Custom Confirmation Modal (sama seperti editUlasan.ejs) %>
-    <div id="customConfirmModal" class="fixed inset-0 hidden modal-overlay z-50">
-        <div class="bg-white p-8 rounded-lg shadow-xl max-w-sm w-full text-center">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Konfirmasi Penghapusan</h3>
-            <p class="text-gray-600 mb-6">Apakah Anda yakin ingin menghapus kategori ini?</p>
-            <div class="flex justify-center gap-4">
-                <button id="modalCancelBtn" class="bg-gray-200 text-gray-800 font-semibold px-6 py-2 rounded-lg hover:bg-gray-300">
-                    Batal
-                </button>
-                <button id="modalConfirmBtn" class="bg-red-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-700">
-                    Oke, Hapus
-                </button>
-            </div>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const deleteButton = document.getElementById('deleteButton');
             const deleteKategoriForm = document.getElementById('deleteKategoriForm');
-            const customConfirmModal = document.getElementById('customConfirmModal');
-            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
-            const modalCancelBtn = document.getElementById('modalCancelBtn');
-
-            function showModal() {
-                customConfirmModal.classList.remove('hidden');
-            }
-
-            function hideModal() {
-                customConfirmModal.classList.add('hidden');
-            }
+            const categoryName = document.getElementById('nama_kategori').value; // Get the current category name
 
             if (deleteButton) {
-                deleteButton.addEventListener('click', showModal);
-            }
-
-            if (modalConfirmBtn) {
-                modalConfirmBtn.addEventListener('click', function() {
-                    hideModal();
-                    deleteKategoriForm.submit();
+                deleteButton.addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        text: `Anda akan menghapus kategori "${categoryName}" secara permanen!`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            deleteKategoriForm.submit(); // Submit the form if confirmed
+                        }
+                    });
                 });
             }
-
-            if (modalCancelBtn) {
-                modalCancelBtn.addEventListener('click', hideModal);
-            }
-
-            customConfirmModal.addEventListener('click', function(event) {
-                if (event.target === customConfirmModal) {
-                    hideModal();
-                }
-            });
         });
     </script>
 </body>
