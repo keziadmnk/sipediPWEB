@@ -84,7 +84,6 @@ const tambahPetugas = async (req, res) => {
             return res.redirect('/admin/tambahpetugas');
         }
 
-
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const rolePetugas = await Role.findOne({ where: { nama_role: 'petugas' } });
