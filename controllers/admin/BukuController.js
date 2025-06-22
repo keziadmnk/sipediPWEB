@@ -135,7 +135,6 @@ const tambahBuku = async (req, res) => {
       finalPdf = null; 
     }
 
-    // Buat buku baru
     const bukuBaru = await Buku.create({
       nomor_isbn: isbn,
       judul_buku,
@@ -416,7 +415,6 @@ const updateBuku = async (req, res) => {
       finalPdf = null; 
     }
 
-    // Update data buku
     await buku.update({
       nomor_isbn: isbn, 
       judul_buku,

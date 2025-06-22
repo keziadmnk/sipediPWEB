@@ -13,7 +13,7 @@ const findStatusStatistik = async (req, res) => {
       [Op.or]: ["Dikembalikan", "Terlambat"]
     },
     tanggal_pengembalian: {
-      [Op.ne]: null // sudah ada tanggal pengembalian
+      [Op.ne]: null 
     }
   }
 });

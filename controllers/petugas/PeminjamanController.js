@@ -87,11 +87,9 @@ const kembalikanBuku = async (req, res) => {
         return res.status(404).send("Buku tidak ditemukan");
     }
 
-    // Increment book stock
     buku.jumlah_stok += 1;
     
 
-    // Update loan status
     const tanggalWajibPengembalian = new Date(peminjaman.tanggal_wajib_pengembalian);
     const tanggalPengembalian = new Date();
     
@@ -100,8 +98,6 @@ const kembalikanBuku = async (req, res) => {
     if (tanggalPengembalian > tanggalWajibPengembalian) {
       peminjaman.status_peminjaman = 'Terlambat';
       
-      // Perhitungan yang lebih akurat untuk selisih hari
-      // Set kedua tanggal ke tengah malam untuk perhitungan yang akurat
       const wajibMidnight = new Date(tanggalWajibPengembalian);
       wajibMidnight.setHours(0, 0, 0, 0);
       
@@ -111,7 +107,6 @@ const kembalikanBuku = async (req, res) => {
       const timeDiff = pengembalianMidnight.getTime() - wajibMidnight.getTime();
       const daysLate = timeDiff / (1000 * 3600 * 24);
       
-      // Log untuk debugging
       console.log('Tanggal Wajib Pengembalian:', tanggalWajibPengembalian.toDateString());
       console.log('Tanggal Pengembalian:', tanggalPengembalian.toDateString());
       console.log('Wajib (midnight):', wajibMidnight.toDateString());
@@ -119,7 +114,7 @@ const kembalikanBuku = async (req, res) => {
       console.log('Selisih waktu (ms):', timeDiff);
       console.log('Hari keterlambatan:', daysLate);
       
-      peminjaman.denda = daysLate * 5000; // Rp 5.000 per hari
+      peminjaman.denda = daysLate * 5000; 
       console.log('Total denda:', peminjaman.denda);
     } else {
       peminjaman.status_peminjaman = 'Dikembalikan';

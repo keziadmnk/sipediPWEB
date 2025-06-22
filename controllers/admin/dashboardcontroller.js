@@ -24,7 +24,6 @@ const showDashboardAdmin = async (req, res) => {
     
     const jumlahKategori = await Kategori.count();
 
-    // Render dashboard dengan data
     res.render('admin/dashboard', {
       jumlahPetugas,
       jumlahMahasiswa,
