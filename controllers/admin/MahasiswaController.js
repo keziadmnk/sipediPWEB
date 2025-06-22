@@ -27,7 +27,6 @@ const showTambahMahasiswaForm = async (req, res) => {
   }
 };
 
-
 const tambahMahasiswa = async (req, res) => {
   try {
     const { id_pengguna, nama_lengkap, username, email, nomor_hp, alamat, password, confirm_password } = req.body;
