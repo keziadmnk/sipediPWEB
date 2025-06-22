@@ -31,6 +31,10 @@ const cariBuku = async (req, res) => {
   try {
     const selectedKategori = req.query.kategori || null; // Filter kategori dari query parameter
     const searchQuery = req.query.search || '';  // Ambil query pencarian dari URL
+    const { page = 1 } = req.query;
+    const currentPage = parseInt(page);
+    const limit = 10; // Jumlah buku per halaman
+    const offset = (currentPage - 1) * limit;
 
     const whereClause = {};
 
@@ -46,11 +50,24 @@ const cariBuku = async (req, res) => {
       };
     }
 
+    // Get total count for pagination
+    const totalBooks = await Buku.count({
+      where: whereClause,
+      include: [
+        { model: Kategori, as: 'kategori' }
+      ]
+    });
+
+    const totalPages = Math.ceil(totalBooks / limit);
+
     const buku = await Buku.findAll({
       where: whereClause,
       include: [
         { model: Kategori, as: 'kategori' } // Include kategori untuk ditampilkan
-      ]
+      ],
+      limit: limit,
+      offset: offset,
+      order: [['judul_buku', 'ASC']], // Urutkan berdasarkan judul buku
     });
 
     const kategori = await Kategori.findAll(); // Ambil semua kategori untuk filter dropdown
@@ -59,7 +76,17 @@ const cariBuku = async (req, res) => {
       kategori,
       buku,
       selectedKategori: selectedKategori ? parseInt(selectedKategori) : null, // Kirim kategori yang dipilih
-      searchQuery  // Kirimkan query pencarian ke tampilan
+      searchQuery,  // Kirimkan query pencarian ke tampilan
+      pagination: {
+        currentPage,
+        totalPages,
+        totalBooks,
+        limit,
+        hasNextPage: currentPage < totalPages,
+        hasPrevPage: currentPage > 1,
+        nextPage: currentPage + 1,
+        prevPage: currentPage - 1,
+      },
     });
 
   } catch (error) {
@@ -70,9 +97,12 @@ const cariBuku = async (req, res) => {
 
 const findAllBuku = async (req, res) => {
   try {
-    const { search, kategori } = req.query;
+    const { search, kategori, page = 1 } = req.query;
     const selectedKategori = kategori || null;
     const searchQuery = search || "";
+    const currentPage = parseInt(page);
+    const limit = 10; // Jumlah buku per halaman
+    const offset = (currentPage - 1) * limit;
 
     // Build where clause for search
     let whereClause = {};
@@ -90,6 +120,20 @@ const findAllBuku = async (req, res) => {
       whereClause.id_kategori = selectedKategori;
     }
 
+    // Get total count for pagination
+    const totalBooks = await Buku.count({
+      where: whereClause,
+      include: [
+        {
+          model: Kategori,
+          as: "kategori",
+          attributes: ["nama_kategori"],
+        },
+      ],
+    });
+
+    const totalPages = Math.ceil(totalBooks / limit);
+
     const buku = await Buku.findAll({
       where: whereClause,
       include: [
@@ -97,6 +141,11 @@ const findAllBuku = async (req, res) => {
           model: Kategori,
           as: "kategori",
           attributes: ["nama_kategori"],
+        },
+        {
+          model: Jenis,
+          as: "jenis",
+          attributes: ["nama_jenis"],
         },
       ],
       attributes: [
@@ -106,6 +155,9 @@ const findAllBuku = async (req, res) => {
         "upload_sampul",
         "jumlah_stok",
       ],
+      limit: limit,
+      offset: offset,
+      order: [['judul_buku', 'ASC']], // Urutkan berdasarkan judul buku
     });
 
     // Get all categories for sidebar
@@ -118,6 +170,16 @@ const findAllBuku = async (req, res) => {
       kategori: kategoriList,
       selectedKategori,
       searchQuery,
+      pagination: {
+        currentPage,
+        totalPages,
+        totalBooks,
+        limit,
+        hasNextPage: currentPage < totalPages,
+        hasPrevPage: currentPage > 1,
+        nextPage: currentPage + 1,
+        prevPage: currentPage - 1,
+      },
     });
   } catch (error) {
     console.error("Error fetching books:", error);
@@ -127,9 +189,12 @@ const findAllBuku = async (req, res) => {
 
 const findAllEbook = async (req, res) => {
   try {
-    const { search, kategori } = req.query;
+    const { search, kategori, page = 1 } = req.query;
     const selectedKategori = kategori || null;
     const searchQuery = search || "";
+    const currentPage = parseInt(page);
+    const limit = 10; // Jumlah buku per halaman
+    const offset = (currentPage - 1) * limit;
 
     // Build where clause for search
     let whereClause = {};
@@ -146,6 +211,27 @@ const findAllEbook = async (req, res) => {
     if (selectedKategori) {
       whereClause.id_kategori = selectedKategori;
     }
+
+    // Get total count for pagination
+    const totalBooks = await Buku.count({
+      where: whereClause,
+      include: [
+        {
+          model: Kategori,
+          as: "kategori",
+          attributes: ["nama_kategori"],
+        },
+        {
+          model: Jenis,
+          as: "jenis",
+          attributes: ["nama_jenis"],
+          where: { nama_jenis: "e-book" },
+          required: true,
+        },
+      ],
+    });
+
+    const totalPages = Math.ceil(totalBooks / limit);
 
     // Get all e-books (books with jenis 'e-book')
     const ebook = await Buku.findAll({
@@ -171,6 +257,9 @@ const findAllEbook = async (req, res) => {
         "upload_sampul",
         "jumlah_stok",
       ],
+      limit: limit,
+      offset: offset,
+      order: [['judul_buku', 'ASC']], // Urutkan berdasarkan judul buku
     });
 
     // Get all categories for sidebar
@@ -183,6 +272,16 @@ const findAllEbook = async (req, res) => {
       kategori: kategoriList,
       selectedKategori,
       searchQuery,
+      pagination: {
+        currentPage,
+        totalPages,
+        totalBooks,
+        limit,
+        hasNextPage: currentPage < totalPages,
+        hasPrevPage: currentPage > 1,
+        nextPage: currentPage + 1,
+        prevPage: currentPage - 1,
+      },
     });
   } catch (error) {
     console.error("Error fetching e-books:", error);

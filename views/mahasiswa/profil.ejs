@@ -19,46 +19,92 @@
     <!-- Header menggunakan partial EJS -->
     <%- include('../partials/navbarMahasiswa') %>
 
-<!-- Hero Section -->
-  <main class="mt-20">
-    <!-- Hero Section -->
-    <div class="relative w-full overflow-hidden">
-      <img
-        alt="Library bookshelves with books, blurred background with green overlay"
-        class="w-full object-cover object-center opacity-70"
-        height="180"
-        src="/images/Perpustakaan_Universitas_Andalas.jpg"
-        style="max-height: 250px"
-        width="1200"
-      />
-    </div>
-
-        <!-- Sejarah Section -->
-        <section class="max-w-6xl mx-auto p-6 md:p-10 text-justify">
-            <p class="text-[10px] md:text-[12px] text-green-900 leading-relaxed">
-                <span class="font-semibold italic">Perpustakaan Universitas Andalas didirikan</span> pada tahun 1966 di kompleks fakultas kedokteran Unand Jl. Perintis Kemerdekaan Jati. Tahun 1973 perpustakaan fakultas kedokteran digabung dengan perpustakaan pusat, sedangkan perpustakaan fakultas yang berlokasi di kampus Air Tawar menjadi perpustakaan cabang Air Tawar. Pada tahun 1974 perpustakaan berubah status menjadi Direktorat Perpustakaan dan Dokumentasi Unand. Dan tahun 1982 Perpustakaan cabang Air Tawar digabung dengan perpustakaan pusat yang berlokasi di fakultas kedokteran. Pada tahun 1998 terjadi perubahan status perpustakaan menjadi unit pelaksana teknis atau UPT. Pada tahun 1988 perpustakaan pusat pindah ke kampus Unand Limau Manis dan menempati sebagian lantai dua gedung rektorat. Tahun 2002 Perpustakaan pusat pindah ke gedung baru. Dan pada tahun 2015 UPT perpustakaan unand mendapatkan akreditasi perpustakaan nasional Republik Indonesia.
-            </p>
-        </section>
-
-        <!-- Jam Operasional Section -->
-        <section class="bg-[#FDFCDD] py-10">
-            <div class="max-w-6xl mx-auto px-6 md:flex md:items-center md:justify-between">
-                <div class="md:w-1/2">
-                    <img src="/images/perpus.jpg" alt="Rak Buku" class="rounded shadow-md w-full h-auto" />
-                </div>
-                <div class="md:w-1/2 mt-6 md:mt-0 md:pl-10 text-right">
-                    <h2 class="text-[10px] md:text-xl font-semibold text-green-800 mb-4">Jam Operasional :</h2>
-                    <ul class="text-[10px] md:text-lg text-green-700 leading-relaxed">
-                        <li>Senin – Kamis : 07.30 – 18.00 WIB</li>
-                        <li>Jumat         : 07.30 – 16.30 WIB</li>
-                        <li>Sabtu         : 09.00 – 16.00 WIB</li>
-                    </ul>
-                </div>
+    <main class="mt-16"> <!-- Adjusted margin for fixed navbar -->
+        <!-- Hero Section -->
+        <section class="relative bg-cover bg-center text-white" style="background-image: url('/images/Perpustakaan_Universitas_Andalas.jpg');">
+            <div class="absolute inset-0 bg-green-900 bg-opacity-60"></div>
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">
+                    Perpustakaan Universitas Andalas
+                </h1>
+                <p class="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
+                    Pusat Ilmu Pengetahuan dan Jendela Dunia bagi Sivitas Akademika
+                </p>
             </div>
         </section>
-         <!-- Footer -->
+
+        <div class="bg-gray-50 py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <!-- Visi & Misi Section -->
+                <section class="mb-16">
+                    <div class="grid md:grid-cols-2 gap-8 text-center">
+                        <!-- Visi Card -->
+                        <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+                            <div class="flex justify-center items-center mx-auto bg-green-100 rounded-full h-16 w-16 mb-4">
+                                <i class="fas fa-eye text-3xl text-green-600"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Visi</h2>
+                            <p class="text-gray-600">
+                                Menjadi perpustakaan unggul dan pusat sumber belajar yang inovatif berbasis teknologi informasi.
+                            </p>
+                        </div>
+                        <!-- Misi Card -->
+                        <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+                            <div class="flex justify-center items-center mx-auto bg-green-100 rounded-full h-16 w-16 mb-4">
+                                <i class="fas fa-bullseye text-3xl text-green-600"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Misi</h2>
+                            <p class="text-gray-600">
+                                Menyediakan layanan informasi yang relevan, cepat, dan akurat untuk mendukung Tri Dharma Perguruan Tinggi.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sejarah Section -->
+                <section class="mb-16">
+                    <div class="bg-white p-8 md:p-10 rounded-xl shadow-lg">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center flex items-center justify-center">
+                            <i class="fas fa-history mr-3 text-green-600"></i>
+                            Sejarah Singkat
+                        </h2>
+                        <p class="text-gray-700 leading-relaxed text-justify md:text-base text-sm columns-1 md:columns-2 gap-x-8">
+                            Perpustakaan Universitas Andalas didirikan pada tahun 1966 di kompleks fakultas kedokteran Unand Jl. Perintis Kemerdekaan Jati. Tahun 1973 perpustakaan fakultas kedokteran digabung dengan perpustakaan pusat, sedangkan perpustakaan fakultas yang berlokasi di kampus Air Tawar menjadi perpustakaan cabang Air Tawar. Pada tahun 1974 perpustakaan berubah status menjadi Direktorat Perpustakaan dan Dokumentasi Unand. Dan tahun 1982 Perpustakaan cabang Air Tawar digabung dengan perpustakaan pusat yang berlokasi di fakultas kedokteran. Pada tahun 1998 terjadi perubahan status perpustakaan menjadi unit pelaksana teknis atau UPT. Pada tahun 1988 perpustakaan pusat pindah ke kampus Unand Limau Manis dan menempati sebagian lantai dua gedung rektorat. Tahun 2002 Perpustakaan pusat pindah ke gedung baru. Dan pada tahun 2015 UPT perpustakaan unand mendapatkan akreditasi perpustakaan nasional Republik Indonesia.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Jam Operasional Section -->
+                <section>
+                    <div class="relative bg-cover bg-center rounded-xl shadow-lg overflow-hidden" style="background-image: url('/images/perpus.jpg');">
+                        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                        <div class="relative max-w-4xl mx-auto p-10 md:p-16 text-white text-center">
+                            <h2 class="text-3xl font-bold mb-6">Jam Operasional</h2>
+                            <div class="grid sm:grid-cols-3 gap-6 text-lg">
+                                <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
+                                    <p class="font-semibold">Senin – Kamis</p>
+                                    <p>07.30 – 18.00 WIB</p>
+                                </div>
+                                <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
+                                    <p class="font-semibold">Jumat</p>
+                                    <p>07.30 – 16.30 WIB</p>
+                                </div>
+                                <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
+                                    <p class="font-semibold">Sabtu</p>
+                                    <p>09.00 – 16.00 WIB</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+     <!-- Footer -->
     <footer
-      class="bg-[#2f5d40] text-[#d1d5db] mt-6 px-4 sm:px-6 md:px-10 lg:px-16 py-6"
+      class="bg-[#2f5d40] text-[#d1d5db] px-4 sm:px-6 md:px-10 lg:px-16 py-6"
     >
       <div
         class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
@@ -77,6 +123,5 @@
         </ul>
       </div>
     </footer>
-    </main>
 </body>
 </html>
