@@ -40,7 +40,6 @@ const Peminjaman = sequelize.define('Peminjaman', {
     tableName: 'peminjaman',
     timestamps: false,
     getterMethods: {
-        // Virtual field untuk format ID yang rapi
         formattedId() {
             return `PJ${this.id_peminjaman}`;
         }

@@ -109,7 +109,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const deleteButton = document.getElementById('deleteButton');
             const deleteUlasanForm = document.getElementById('deleteUlasanForm');
-            const judulBuku = "<%= buku.judul_buku %>"; // Pass book title for better context in alert
+            const judulBuku = "<%= buku.judul_buku %>";
 
             if (deleteButton) {
                 deleteButton.addEventListener('click', function() {
@@ -124,7 +124,7 @@
                         cancelButtonText: 'Batal'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            deleteUlasanForm.submit(); // Submit the form if confirmed
+                            deleteUlasanForm.submit();
                         }
                     });
                 });

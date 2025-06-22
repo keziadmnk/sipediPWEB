@@ -20,9 +20,6 @@ router.get('/detailpengembalian/:id_peminjaman', authenticate, findDetailPengemb
 router.get('/detaildenda/:id_peminjaman', authenticate, findDetailDenda);
 router.post('/peminjaman/kembalikan/:id_peminjaman', authenticate, kembalikanBuku);
 
-// router.get('/profil', function(req, res, next) {
-//   res.render('petugas/profil');  
-// });
 
 router.get('/stokbuku', authenticate, getStokBukuFisik);
 

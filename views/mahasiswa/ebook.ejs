@@ -152,15 +152,13 @@
               <% 
                 let startPage = Math.max(1, pagination.currentPage - 2);
                 let endPage = Math.min(pagination.totalPages, pagination.currentPage + 2);
-                
-                // Adjust if we're near the beginning
+              
                 if (endPage - startPage < 4 && pagination.totalPages > 4) {
                   if (startPage === 1) {
                     endPage = Math.min(pagination.totalPages, startPage + 4);
                   }
                 }
                 
-                // Adjust if we're near the end
                 if (endPage - startPage < 4 && pagination.totalPages > 4) {
                   if (endPage === pagination.totalPages) {
                     startPage = Math.max(1, endPage - 4);
@@ -258,8 +256,8 @@
       if (ebookPageSelector) {
         ebookPageSelector.addEventListener('change', function() {
           const selectedPage = this.value;
-          const currentKategori = '<%= selectedKategori %>'; // EJS variable
-          const currentSearchQuery = '<%= searchQuery %>'; // EJS variable
+          const currentKategori = '<%= selectedKategori %>'; 
+          const currentSearchQuery = '<%= searchQuery %>'; 
           
           let url = `/mahasiswa/ebook?page=${selectedPage}`;
           

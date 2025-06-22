@@ -1,5 +1,5 @@
 var express = require('express');
-const { authenticate } = require('../middlewares/authenticate'); // Middleware untuk autentikasi
+const { authenticate } = require('../middlewares/authenticate'); 
 const { showKatalogBuku} = require('../controllers/admin/KategoriController');
 const { showFormPeminjaman, prosesPeminjaman, showBuktiPeminjaman, downloadBuktiPeminjaman } = require('../controllers/mahasiswa/PeminjamanController');
 const { showRiwayatPeminjaman, getDetailPeminjaman } = require('../controllers/mahasiswa/RiwayatController');
@@ -9,9 +9,6 @@ const { uploadSingle } = require('../middlewares/upload');
 const { showDashboardMahasiswa } = require('../controllers/mahasiswa/DashboardController');
 var router = express.Router();
 
-// router.get('/dashboard', authenticate, (req, res) => {
-//   res.render('mahasiswa/dashboard'); 
-// });
 
 router.get('/dashboard', authenticate, showDashboardMahasiswa);
 
@@ -23,19 +20,12 @@ router.get('/profil', authenticate, function(req, res, next) {
   res.render('mahasiswa/profil'); 
 });
 
-// router.get('/riwayatpeminjaman', function(req, res, next) {
-//   res.render('mahasiswa/riwayatpeminjaman'); 
-// });
-
-// Route untuk bukti peminjaman
 router.get('/buktipeminjaman', authenticate, showBuktiPeminjaman);
 
-// Route untuk download bukti peminjaman
 router.get('/download-bukti-peminjaman/:id_peminjaman', authenticate, downloadBuktiPeminjaman);
 
 router.get('/koleksibuku', authenticate, findAllBuku);
 
-// Route untuk e-book
 router.get('/ebook', authenticate, findAllEbook);
 
 router.get('/formpeminjaman', authenticate, showFormPeminjaman);
@@ -43,7 +33,7 @@ router.get('/formpeminjaman', authenticate, showFormPeminjaman);
 router.post('/formpeminjaman', authenticate, prosesPeminjaman);
 
 router.get('/detailbuku', authenticate, function(req, res, next) {
-  res.render('mahasiswa/detailbuku'); // Pastikan ada file EJS untuk profil mahasiswa
+  res.render('mahasiswa/detailbuku'); 
 });
 
 router.get('/detailbuku/:nomor_isbn', detailBuku);

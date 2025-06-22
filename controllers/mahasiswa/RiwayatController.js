@@ -3,20 +3,17 @@ const { Buku } = require("../../models/BukuModel");
 const { Pengguna } = require("../../models/PenggunaModel");
 const { Op } = require("sequelize");
 
-// Menampilkan halaman riwayat peminjaman mahasiswa
 const showRiwayatPeminjaman = async (req, res) => {
   try {
-    // Ambil ID pengguna dari session/token
     const id_pengguna = req.user?.id_pengguna || req.user?.id || req.user?.userId || req.user?.username;
 
-    console.log("User ID untuk riwayat:", id_pengguna); // Debug log
-    console.log("User object:", req.user); // Debug user object
+    console.log("User ID untuk riwayat:", id_pengguna); 
+    console.log("User object:", req.user); 
 
     if (!id_pengguna) {
       return res.status(401).send("User tidak terautentikasi");
     }
 
-    // Ambil semua data peminjaman mahasiswa dengan join ke tabel buku
     const riwayatPeminjaman = await Peminjaman.findAll({
       where: {
         id_pengguna: id_pengguna,
@@ -24,28 +21,25 @@ const showRiwayatPeminjaman = async (req, res) => {
       include: [
         {
           model: Buku,
-          attributes: ["judul_buku"], // Ambil judul buku
-          required: true, // INNER JOIN
+          attributes: ["judul_buku"], 
+          required: true, 
         },
       ],
-      order: [["tanggal_peminjaman", "DESC"]], // Urutkan berdasarkan tanggal peminjaman terbaru
+      order: [["tanggal_peminjaman", "DESC"]], 
     });
 
-    // Update status peminjaman berdasarkan tanggal
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     const updatedRiwayat = riwayatPeminjaman.map((peminjaman, index) => {
       let status = peminjaman.status_peminjaman;
 
-      // Jika status masih "Dipinjam", cek apakah sudah terlambat
       if (status === "Dipinjam") {
         const tanggalWajib = new Date(peminjaman.tanggal_wajib_pengembalian);
         tanggalWajib.setHours(0, 0, 0, 0);
 
         if (today > tanggalWajib) {
           status = "Terlambat";
-          // Optional: Update status di database
           Peminjaman.update(
             { status_peminjaman: "Terlambat" },
             { where: { id_peminjaman: peminjaman.id_peminjaman } }
@@ -67,7 +61,6 @@ const showRiwayatPeminjaman = async (req, res) => {
       };
     });
 
-    // Render halaman riwayat peminjaman
     res.render("mahasiswa/riwayatpeminjaman", {
       user: req.user,
       riwayatPeminjaman: updatedRiwayat,
@@ -78,7 +71,6 @@ const showRiwayatPeminjaman = async (req, res) => {
   }
 };
 
-// Fungsi helper untuk format tanggal
 const formatTanggal = (tanggal) => {
   if (!tanggal) return "-";
 
@@ -90,17 +82,15 @@ const formatTanggal = (tanggal) => {
   return `${day}-${month}-${year}`;
 };
 
-// Menampilkan detail peminjaman - DISEDERHANAKAN
 const getDetailPeminjaman = async (req, res) => {
   try {
     const { id_peminjaman } = req.params;
     const id_pengguna = req.user?.id_pengguna || req.user?.id || req.user?.userId || req.user?.username;
 
-    // Ambil detail peminjaman dengan join ke buku dan pengguna
     const detailPeminjaman = await Peminjaman.findOne({
       where: {
         id_peminjaman: id_peminjaman,
-        id_pengguna: id_pengguna, // Pastikan hanya bisa melihat detail peminjaman sendiri
+        id_pengguna: id_pengguna, 
       },
       include: [
         {
@@ -123,7 +113,6 @@ const getDetailPeminjaman = async (req, res) => {
       });
     }
 
-    // Hitung denda jika terlambat
     let denda = 0;
     if (
       detailPeminjaman.status_peminjaman === "Terlambat" ||

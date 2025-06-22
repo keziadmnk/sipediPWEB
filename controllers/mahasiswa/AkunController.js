@@ -4,7 +4,6 @@ const path = require('path');
 
 const findAkun = async (req, res) => {
     try {
-        // Gunakan userId dari JWT token (sesuai dengan yang dibuat di loginController.js)
         const idLogin = req.user.userId;
 
         if (!idLogin) {
@@ -37,7 +36,6 @@ const findAkun = async (req, res) => {
 
 const updateFoto = async (req, res) => {
     try {
-        // Gunakan userId dari JWT token (sesuai dengan yang dibuat di loginController.js)
         const idLogin = req.user.userId;
         
         if (!idLogin) {
@@ -50,7 +48,6 @@ const updateFoto = async (req, res) => {
             return res.status(404).send('Mahasiswa tidak ditemukan');
         }
 
-        // Hapus foto lama jika ada
         if (mahasiswa.foto && req.file) {
             const oldPath = path.join(__dirname, '../../public', mahasiswa.foto);
             if (fs.existsSync(oldPath)) {
@@ -59,7 +56,6 @@ const updateFoto = async (req, res) => {
         }
 
         if (req.file) {
-            // Path relatif untuk disimpan di DB dan diakses dari browser
             const newPath = `/uploads/profil/${req.file.filename}`;
             mahasiswa.foto = newPath;
             await mahasiswa.save();

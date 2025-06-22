@@ -50,7 +50,6 @@ router.post("/tambahkategori", tambahKategori);
 
 router.get("/kategori", findAllKategori);
 
-
 router.get("/editkategori/:id_kategori", showEditKategoriForm); 
 
 router.post("/editkategori/:id_kategori", updateKategori); 
@@ -61,13 +60,15 @@ router.get("/databuku", findAllBuku);
 
 router.get("/tambahbuku", showTambahBuku);
 
-
 router.delete('/buku/:nomor_isbn', authenticate, hapusBuku);
 
 router.post('/hapusbuku/:nomor_isbn', authenticate, hapusBuku);
 
 router.post(
-  "/tambahbuku", uploadFields, tambahBuku );
+  "/tambahbuku",
+  uploadFields, 
+  tambahBuku
+);
 
 router.get("/datamahasiswa", authenticate, findAllMahasiswa);
 
@@ -79,14 +80,12 @@ router.get("/tambahpetugas", authenticate, (req, res) => {
 
 router.post("/tambahpetugas", authenticate, tambahPetugas);
 
-router.get('/tambahmahasiswa', authenticate, showTambahMahasiswaForm); // Route to show the add student form
-router.post('/tambahmahasiswa', authenticate, tambahMahasiswa); // Route to process the add student form submission
+router.get('/tambahmahasiswa', authenticate, showTambahMahasiswaForm); 
+router.post('/tambahmahasiswa', authenticate, tambahMahasiswa); 
 
-// Route edit buku
 router.get('/editbuku/:nomor_isbn', authenticate, showEditBuku);
 router.post('/editbuku/:nomor_isbn', authenticate, uploadFields, updateBuku);
 
-// Route edit petugas
 router.get('/editpetugas/:id_pengguna', authenticate, showEditPetugas);
 router.post('/editpetugas/:id_pengguna', authenticate, updatePetugas);
 
@@ -96,7 +95,6 @@ router.post('/editmahasiswa/:id_pengguna', authenticate, updateMahasiswa);
 router.post('/hapuspetugas/:id_pengguna', authenticate, hapusPetugas);
 
 router.post('/hapusmahasiswa/:id_pengguna', authenticate, hapusMahasiswa);
-
 
 router.get("/laporanadmin", authenticate, showLaporanAdmin);
 

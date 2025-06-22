@@ -3,8 +3,8 @@ const { Jenis } = require("../../models/JenisModel");
 const { Kategori } = require("../../models/KategoriModel");
 const { Op } = require("sequelize");
 const { BukuJenis } = require("../../models/BukuJenisModel");
-const { Ulasan } = require("../../models/UlasanModel"); // Import Ulasan model
-const { Sequelize } = require("sequelize"); // Import Sequelize for aggregation
+const { Ulasan } = require("../../models/UlasanModel"); 
+const { Sequelize } = require("sequelize"); 
 
 
 const detailBuku = async (req, res) => {
@@ -22,14 +22,13 @@ const detailBuku = async (req, res) => {
       return res.status(404).send("Buku tidak ditemukan");
     }
 
-    // Fetch average rating and total reviews
     const ulasanStats = await Ulasan.findOne({
         attributes: [
             [Sequelize.fn('AVG', Sequelize.col('rating')), 'averageRating'],
             [Sequelize.fn('COUNT', Sequelize.col('id_ulasan')), 'totalReviews']
         ],
         where: { nomor_isbn: nomor_isbn },
-        raw: true // Return plain data
+        raw: true 
     });
 
     const averageRating = ulasanStats.averageRating ? parseFloat(ulasanStats.averageRating) : 0;
@@ -37,7 +36,7 @@ const detailBuku = async (req, res) => {
 
     res.render("mahasiswa/detailbuku", {
         buku,
-        rating: { // Pass rating data to the view
+        rating: { 
             rataRata: averageRating,
             totalUlasan: totalReviews
         }
@@ -51,28 +50,28 @@ const detailBuku = async (req, res) => {
 
 const cariBuku = async (req, res) => {
   try {
-    const selectedKategori = req.query.kategori || null; // Filter kategori dari query parameter
-    const searchQuery = req.query.search || '';  // Ambil query pencarian dari URL
+    const selectedKategori = req.query.kategori || null; 
+    const searchQuery = req.query.search || '';  
     const { page = 1 } = req.query;
     const currentPage = parseInt(page);
-    const limit = 10; // Jumlah buku per halaman
+    const limit = 10; 
     const offset = (currentPage - 1) * limit;
 
     const whereClause = {};
 
-    // Filter berdasarkan kategori jika ada
+    
     if (selectedKategori) {
       whereClause.id_kategori = selectedKategori;
     }
 
-    // Filter berdasarkan judul_buku jika ada query pencarian
+   
     if (searchQuery) {
       whereClause.judul_buku = {
         [Op.like]: `%${searchQuery}%`
       };
     }
 
-    // Get total count for pagination
+    
     const totalBooks = await Buku.count({
       where: whereClause,
       include: [
@@ -85,20 +84,20 @@ const cariBuku = async (req, res) => {
     const buku = await Buku.findAll({
       where: whereClause,
       include: [
-        { model: Kategori, as: 'kategori' } // Include kategori untuk ditampilkan
+        { model: Kategori, as: 'kategori' }
       ],
       limit: limit,
       offset: offset,
-      order: [['judul_buku', 'ASC']], // Urutkan berdasarkan judul buku
+      order: [['judul_buku', 'ASC']], 
     });
 
-    const kategori = await Kategori.findAll(); // Ambil semua kategori untuk filter dropdown
+    const kategori = await Kategori.findAll(); 
 
     res.render("mahasiswa/koleksibuku", {
       kategori,
       buku,
-      selectedKategori: selectedKategori ? parseInt(selectedKategori) : null, // Kirim kategori yang dipilih
-      searchQuery,  // Kirimkan query pencarian ke tampilan
+      selectedKategori: selectedKategori ? parseInt(selectedKategori) : null, 
+      searchQuery,  
       pagination: {
         currentPage,
         totalPages,
@@ -123,10 +122,10 @@ const findAllBuku = async (req, res) => {
     const selectedKategori = kategori || null;
     const searchQuery = search || "";
     const currentPage = parseInt(page);
-    const limit = 10; // Jumlah buku per halaman
+    const limit = 10; 
     const offset = (currentPage - 1) * limit;
 
-    // Build where clause for search
+    
     let whereClause = {};
     if (searchQuery) {
       whereClause = {
@@ -137,12 +136,10 @@ const findAllBuku = async (req, res) => {
       };
     }
 
-    // Add kategori filter if selected
     if (selectedKategori) {
       whereClause.id_kategori = selectedKategori;
     }
 
-    // Get total count for pagination
     const totalBooks = await Buku.count({
       where: whereClause,
       include: [
@@ -179,10 +176,9 @@ const findAllBuku = async (req, res) => {
       ],
       limit: limit,
       offset: offset,
-      order: [['judul_buku', 'ASC']], // Urutkan berdasarkan judul buku
+      order: [['judul_buku', 'ASC']],
     });
 
-    // Get all categories for sidebar
     const kategoriList = await Kategori.findAll({
       attributes: ["id_kategori", "nama_kategori"],
     });
@@ -215,10 +211,9 @@ const findAllEbook = async (req, res) => {
     const selectedKategori = kategori || null;
     const searchQuery = search || "";
     const currentPage = parseInt(page);
-    const limit = 10; // Jumlah buku per halaman
+    const limit = 10; 
     const offset = (currentPage - 1) * limit;
 
-    // Build where clause for search
     let whereClause = {};
     if (searchQuery) {
       whereClause = {
@@ -229,12 +224,10 @@ const findAllEbook = async (req, res) => {
       };
     }
 
-    // Add kategori filter if selected
     if (selectedKategori) {
       whereClause.id_kategori = selectedKategori;
     }
 
-    // Get total count for pagination
     const totalBooks = await Buku.count({
       where: whereClause,
       include: [
@@ -255,7 +248,6 @@ const findAllEbook = async (req, res) => {
 
     const totalPages = Math.ceil(totalBooks / limit);
 
-    // Get all e-books (books with jenis 'e-book')
     const ebook = await Buku.findAll({
       where: whereClause,
       include: [
@@ -268,8 +260,8 @@ const findAllEbook = async (req, res) => {
           model: Jenis,
           as: "jenis",
           attributes: ["nama_jenis"],
-          where: { nama_jenis: "e-book" }, // Only get books with jenis 'e-book'
-          required: true, // INNER JOIN to ensure only e-books are returned
+          where: { nama_jenis: "e-book" }, 
+          required: true, 
         },
       ],
       attributes: [
@@ -281,10 +273,9 @@ const findAllEbook = async (req, res) => {
       ],
       limit: limit,
       offset: offset,
-      order: [['judul_buku', 'ASC']], // Urutkan berdasarkan judul buku
+      order: [['judul_buku', 'ASC']],
     });
 
-    // Get all categories for sidebar
     const kategoriList = await Kategori.findAll({
       attributes: ["id_kategori", "nama_kategori"],
     });
