@@ -8,7 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
-        /* Custom background color with 33% opacity */
         .bg-custom {
             background-color: #E9F1ED;
         }
@@ -174,7 +173,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Validasi password matching
+       
         document.getElementById('confirm_password').addEventListener('input', function () {
             const password = document.getElementById('password').value;
             const confirmPassword = this.value;
@@ -186,7 +185,7 @@
             }
         });
 
-        // Reset validasi saat password diubah
+        
         document.getElementById('password').addEventListener('input', function () {
             const confirmPassword = document.getElementById('confirm_password');
             if (confirmPassword.value) {
@@ -194,11 +193,10 @@
             }
         });
 
-        // Form validation
         document.querySelector("form").addEventListener("submit", function (e) {
             const requiredFields = [
                 "nama_lengkap",
-                "username", // Added username to required fields
+                "username", 
                 "email"
             ];
             let hasError = false;
@@ -215,7 +213,6 @@
 
             if (hasError) {
                 e.preventDefault();
-                // Check if SweetAlert2 is available for a nicer alert
                 if (typeof Swal !== 'undefined' && Swal.fire) {
                     Swal.fire({
                         icon: 'error',
@@ -229,7 +226,6 @@
             }
         });
 
-        // Display SweetAlert2 messages if they exist
         document.addEventListener('DOMContentLoaded', function() {
             const messageElement = document.querySelector('.mb-6.p-4.rounded-lg');
             if (messageElement && typeof Swal !== 'undefined' && Swal.fire) {
@@ -241,7 +237,7 @@
                     showConfirmButton: false,
                     timer: 2000
                 });
-                // Remove the original message div after displaying SweetAlert
+              
                 messageElement.remove();
             }
         });

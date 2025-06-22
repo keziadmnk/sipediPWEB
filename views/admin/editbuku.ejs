@@ -19,19 +19,18 @@
 </head>
 <body class="bg-green-50 flex ml-56">
 
-  <!-- Sidebar -->
+  
   <%- include('../partials/asideAdmin') %>
 
-  <!-- Content -->
   <div class="flex-1 p-12">
-    <!-- Header -->
+
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-semibold">Edit Buku</h1>
     </div>
 
-    <!-- Form Edit Buku -->
+
     <div class="bg-white shadow-md rounded-lg p-10">
-       <!-- Form Edit Buku -->
+    
       <div class="bg-white shadow-md rounded-lg p-10">
         <form
           action="/admin/editbuku/<%= databuku.nomor_isbn %>"
@@ -83,7 +82,6 @@
               </div>
             </div>
 
-            <!-- Baris 3 -->
             <div>
               <label
                 for="kategori"
@@ -120,7 +118,7 @@
               />
             </div>
 
-            <!-- Baris 4 -->
+      
             <div>
               <label
                 for="pengarang"
@@ -156,7 +154,6 @@
               </select>
             </div>
 
-            <!-- Baris 5 -->
             <div>
               <label
                 for="penerbit"
@@ -189,7 +186,7 @@
               />
             </div>
 
-            <!-- Baris 6 -->
+            
             <div>
               <label
                 for="lokasi_penyimpanan"
@@ -238,7 +235,7 @@
               />
             </div>
 
-            <!-- Baris 7 -->
+       
             <div>
               <label
                 for="deskripsi"
@@ -294,7 +291,7 @@
             </div>
           </div>
 
-          <!-- Tombol -->
+        
           <div class="flex justify-end gap-4 mt-6">
             <a
               href="/admin/databuku"

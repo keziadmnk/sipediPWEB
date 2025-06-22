@@ -21,18 +21,14 @@ const {
   updateBuku
 } = require("../controllers/admin/BukuController");
 
-// Import upload middleware
 const { uploadFields } = require("../middlewares/upload");
 const { findAllMahasiswa, showTambahMahasiswaForm, tambahMahasiswa, showEditMahasiswa, updateMahasiswa, hapusMahasiswa } = require("../controllers/admin/MahasiswaController");
 const { findAllPetugas, tambahPetugas, showEditPetugas, updatePetugas, hapusPetugas } = require("../controllers/admin/PetugasController");
 const { showDashboardAdmin, showProfilAdmin } = require("../controllers/admin/dashboardcontroller");
 const { showLaporanAdmin } = require("../controllers/admin/LaporanController");
 
-// const adminController = require('../controllers/admin/adminController');
-
 router.get("/dashboard", authenticate, showDashboardAdmin);
 
-// Route untuk profil admin
 router.get("/profil", authenticate, showProfilAdmin);
 
 router.get("/tambahkategori", function (req, res, next) {
@@ -44,7 +40,7 @@ router.get('/editbuku', authenticate, (req, res) => {
 });
 
 router.get('/detailbuku', authenticate, function(req, res, next) {
-  res.render('admin/detailbuku'); // Pastikan ada file EJS untuk profil mahasiswa
+  res.render('admin/detailbuku'); 
 });
 
 
@@ -54,11 +50,10 @@ router.post("/tambahkategori", tambahKategori);
 
 router.get("/kategori", findAllKategori);
 
-// Rute BARU untuk menampilkan form edit kategori
-router.get("/editkategori/:id_kategori", showEditKategoriForm); // id_kategori dari parameter
 
-// Rute BARU untuk memproses update kategori
-router.post("/editkategori/:id_kategori", updateKategori); // id_kategori dari parameter
+router.get("/editkategori/:id_kategori", showEditKategoriForm); 
+
+router.post("/editkategori/:id_kategori", updateKategori); 
 
 router.post("/deletekategori/:id_kategori", deleteKategori);
 
@@ -66,19 +61,13 @@ router.get("/databuku", findAllBuku);
 
 router.get("/tambahbuku", showTambahBuku);
 
-// Route untuk menghapus buku - perbaiki route path
+
 router.delete('/buku/:nomor_isbn', authenticate, hapusBuku);
 
-// Alternative route jika ingin menggunakan POST method
 router.post('/hapusbuku/:nomor_isbn', authenticate, hapusBuku);
 
-
-
 router.post(
-  "/tambahbuku",
-  uploadFields, // Gunakan middleware upload
-  tambahBuku
-);
+  "/tambahbuku", uploadFields, tambahBuku );
 
 router.get("/datamahasiswa", authenticate, findAllMahasiswa);
 
@@ -101,7 +90,6 @@ router.post('/editbuku/:nomor_isbn', authenticate, uploadFields, updateBuku);
 router.get('/editpetugas/:id_pengguna', authenticate, showEditPetugas);
 router.post('/editpetugas/:id_pengguna', authenticate, updatePetugas);
 
-// Route edit mahasiswa
 router.get('/editmahasiswa/:id_pengguna', authenticate, showEditMahasiswa);
 router.post('/editmahasiswa/:id_pengguna', authenticate, updateMahasiswa);
 
@@ -109,7 +97,7 @@ router.post('/hapuspetugas/:id_pengguna', authenticate, hapusPetugas);
 
 router.post('/hapusmahasiswa/:id_pengguna', authenticate, hapusMahasiswa);
 
-// Route untuk laporan admin
+
 router.get("/laporanadmin", authenticate, showLaporanAdmin);
 
 module.exports = router;

@@ -9,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* Custom scrollbar for sidebar */
+        
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -98,11 +98,9 @@
     </div>
 
     <script>
-        // SweetAlert2 for delete confirmation
         document.querySelectorAll('.delete-form').forEach(form => {
             form.addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent default form submission
-
+                event.preventDefault(); 
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
                     text: "Data petugas ini akan dihapus secara permanen!",
@@ -114,7 +112,7 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        this.submit(); // Submit the form if confirmed
+                        this.submit(); 
                     }
                 });
             });

@@ -8,20 +8,20 @@ const { Role } = require('../../models/RoleModel');
 
 const showDashboardAdmin = async (req, res) => {
   try {
-    // Hitung jumlah petugas (role = 2)
+
     const jumlahPetugas = await Pengguna.count({
       where: { id_role: 2 }
     });
 
-    // Hitung jumlah mahasiswa (role = 3)
+    
     const jumlahMahasiswa = await Pengguna.count({
       where: { id_role: 3 }
     });
 
-    // Hitung jumlah buku
+    
     const jumlahBuku = await Buku.count();
 
-    // Hitung jumlah kategori
+    
     const jumlahKategori = await Kategori.count();
 
     // Render dashboard dengan data
@@ -40,7 +40,7 @@ const showDashboardAdmin = async (req, res) => {
 
 const showProfilAdmin = async (req, res) => {
   try {
-    // Gunakan userId dari JWT token
+   
     const idLogin = req.user.userId;
 
     if (!idLogin) {

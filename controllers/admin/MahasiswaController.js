@@ -1,4 +1,3 @@
-// controllers/admin/MahasiswaController.js
 const bcrypt = require("bcrypt");
 const { Pengguna, Role } = require('../../models/relation');
 
@@ -8,7 +7,7 @@ const findAllMahasiswa = async (req, res) => {
       include: [
         {
           model: Role,
-          where: { nama_role: 'mahasiswa' }, // pastikan ini cocok dengan isi tabel Role
+          where: { nama_role: 'mahasiswa' }, 
         },
       ],
     });
@@ -21,7 +20,7 @@ const findAllMahasiswa = async (req, res) => {
 };
 const showTambahMahasiswaForm = async (req, res) => {
   try {
-    res.render('admin/tambahmahasiswa', { message: null }); // Render the form, initially no message
+    res.render('admin/tambahmahasiswa', { message: null }); 
   } catch (error) {
     console.error("Error showing tambah mahasiswa form:", error);
     res.status(500).send("Terjadi kesalahan pada server saat memuat form.");
@@ -50,7 +49,7 @@ const tambahMahasiswa = async (req, res) => {
       return res.redirect('/admin/tambahmahasiswa');
     }
 
-    // 2. Cek apakah NIM atau email sudah terdaftar
+    
     const existingMahasiswa = await Pengguna.findOne({
       where: {
         [require('sequelize').Op.or]: [ //
@@ -74,10 +73,9 @@ const tambahMahasiswa = async (req, res) => {
       return res.redirect('/admin/tambahmahasiswa');
     }
 
-    // 3. Hash password
+   
     const hashedPassword = await bcrypt.hash(password, 10); //
 
-    // 4. Dapatkan ID role 'mahasiswa'
     const roleMahasiswa = await Role.findOne({ where: { nama_role: 'mahasiswa' } }); //
     if (!roleMahasiswa) {
       req.session.message = {
@@ -87,15 +85,15 @@ const tambahMahasiswa = async (req, res) => {
       return res.redirect('/admin/tambahmahasiswa');
     }
 
-    // 5. Buat pengguna baru
+    
     await Pengguna.create({
       id_pengguna: id_pengguna,
-      username: username, // Atau Anda bisa menggunakan id_pengguna sebagai username jika diinginkan
+      username: username, 
       password: hashedPassword,
       nama_lengkap: nama_lengkap,
       email: email,
-      alamat: alamat || null, // Allow null if not provided
-      nomor_hp: nomor_hp || null, // Allow null if not provided
+      alamat: alamat || null, 
+      nomor_hp: nomor_hp || null, 
       id_role: roleMahasiswa.id_role
     });
 
@@ -115,12 +113,12 @@ const tambahMahasiswa = async (req, res) => {
   }
 };
 
-// Tampilkan form edit mahasiswa
+
 const showEditMahasiswa = async (req, res) => {
   try {
     const { id_pengguna } = req.params;
     
-    // Ambil data mahasiswa berdasarkan ID
+   
     const mahasiswa = await Pengguna.findByPk(id_pengguna, {
       include: [
         {
@@ -138,7 +136,7 @@ const showEditMahasiswa = async (req, res) => {
       return res.redirect('/admin/datamahasiswa');
     }
 
-    // Ambil pesan dari session jika ada
+    
     const message = req.session.message;
     delete req.session.message;
 
@@ -153,13 +151,13 @@ const showEditMahasiswa = async (req, res) => {
   }
 };
 
-// Proses update mahasiswa
+
 const updateMahasiswa = async (req, res) => {
   try {
     const { id_pengguna } = req.params;
     const { nama_lengkap, email, nomor_hp, alamat, password, confirm_password } = req.body;
 
-    // 1. Validasi input wajib
+    
     if (!nama_lengkap || !email) {
       req.session.message = {
         type: 'error',
@@ -168,7 +166,7 @@ const updateMahasiswa = async (req, res) => {
       return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
     }
 
-    // 2. Cari mahasiswa yang akan diupdate
+    
     const mahasiswa = await Pengguna.findByPk(id_pengguna);
     if (!mahasiswa) {
       req.session.message = {
@@ -178,11 +176,11 @@ const updateMahasiswa = async (req, res) => {
       return res.redirect('/admin/datamahasiswa');
     }
 
-    // 3. Cek apakah email sudah digunakan oleh mahasiswa lain
+   
     const existingMahasiswa = await Pengguna.findOne({
       where: {
         email: email,
-        id_pengguna: { [require('sequelize').Op.ne]: id_pengguna } // Exclude current mahasiswa
+        id_pengguna: { [require('sequelize').Op.ne]: id_pengguna } 
       }
     });
 
@@ -194,7 +192,7 @@ const updateMahasiswa = async (req, res) => {
       return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
     }
 
-    // 4. Validasi password jika diisi
+   
     if (password || confirm_password) {
       if (!password || !confirm_password) {
         req.session.message = {
@@ -213,7 +211,7 @@ const updateMahasiswa = async (req, res) => {
       }
     }
 
-    // 5. Update data mahasiswa
+  
     const updateData = {
       nama_lengkap,
       email,
@@ -221,7 +219,7 @@ const updateMahasiswa = async (req, res) => {
       alamat: alamat || null
     };
 
-    // Hash password baru jika diisi
+   
     if (password) {
       updateData.password = await bcrypt.hash(password, 10);
     }
