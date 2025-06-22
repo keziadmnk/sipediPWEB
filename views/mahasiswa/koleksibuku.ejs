@@ -84,6 +84,10 @@
         <div class="mb-6">
           <div class="max-w-md ml-auto">
             <form method="GET" action="/mahasiswa/koleksibuku" class="relative search-container">
+              <!-- Hidden input untuk kategori -->
+              <% if (selectedKategori) { %>
+                <input type="hidden" name="kategori" value="<%= selectedKategori %>">
+              <% } %>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <i class="fas fa-search text-gray-400"></i>
@@ -112,12 +116,19 @@
               <a href="/mahasiswa/detailbuku/<%= b.nomor_isbn %>" class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out block">
                 <div class="p-4">
                   <!-- Kotak Gambar Sampul -->
-                  <div class="w-full h-48 bg-gray-100 overflow-hidden shadow-md mb-4">
+                  <div class="w-full h-48 bg-gray-100 overflow-hidden shadow-md mb-4 relative">
                     <img 
                       src="/uploads/covers/<%= b.upload_sampul %>" 
                       alt="<%= b.judul_buku %>" 
                       class="w-full h-full object-cover "
                       onerror="this.src='/images/placeholder-book.png'">
+                    
+                    <!-- E-Book Badge -->
+                    <% if (b.jenis && b.jenis.some(j => j.nama_jenis === 'E-Book')) { %>
+                      <div class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold flex items-center">
+                        <i class="fas fa-book-open mr-1"></i>E-Book
+                      </div>
+                    <% } %>
                   </div>
                   
                   <!-- Kotak Judul dan Pengarang -->
@@ -134,16 +145,99 @@
           <% } %>
         </div>
 
-        <!-- Pagination Placeholder -->
-        <div class="mt-8 flex justify-center text-sm">
-          <nav class="flex space-x-2">
-            <button class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Previous</button>
-            <button class="px-3 py-2 bg-green-600 text-white rounded-md">1</button>
-            <button class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">2</button>
-            <button class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">3</button>
-            <button class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Next</button>
-          </nav>
-        </div>
+        <!-- Pagination -->
+        <% if (typeof pagination !== 'undefined' && pagination.totalPages > 1) { %>
+          <div class="mt-8 flex justify-center text-sm">
+            <nav class="flex items-center space-x-2">
+              <!-- Previous Button -->
+              <% if (pagination.hasPrevPage) { %>
+                <a href="/mahasiswa/koleksibuku?page=<%= pagination.prevPage %><%= selectedKategori ? '&kategori=' + selectedKategori : '' %><%= searchQuery ? '&search=' + searchQuery : '' %>" 
+                   class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-200">
+                  <i class="fas fa-chevron-left mr-1"></i>Previous
+                </a>
+              <% } else { %>
+                <button disabled class="px-3 py-2 text-gray-300 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed">
+                  <i class="fas fa-chevron-left mr-1"></i>Previous
+                </button>
+              <% } %>
+
+              <!-- Page Numbers -->
+              <% 
+                let startPage = Math.max(1, pagination.currentPage - 2);
+                let endPage = Math.min(pagination.totalPages, pagination.currentPage + 2);
+                
+                // Adjust if we're near the beginning
+                if (endPage - startPage < 4 && pagination.totalPages > 4) {
+                  if (startPage === 1) {
+                    endPage = Math.min(pagination.totalPages, startPage + 4);
+                  }
+                }
+                
+                // Adjust if we're near the end
+                if (endPage - startPage < 4 && pagination.totalPages > 4) {
+                  if (endPage === pagination.totalPages) {
+                    startPage = Math.max(1, endPage - 4);
+                  }
+                }
+              %>
+
+              <!-- First page -->
+              <% if (startPage > 1) { %>
+                <a href="/mahasiswa/koleksibuku?page=1<%= selectedKategori ? '&kategori=' + selectedKategori : '' %><%= searchQuery ? '&search=' + searchQuery : '' %>" 
+                   class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-200">
+                  1
+                </a>
+                <% if (startPage > 2) { %>
+                  <span class="px-2 text-gray-400">...</span>
+                <% } %>
+              <% } %>
+
+              <!-- Page numbers -->
+              <% for (let i = startPage; i <= endPage; i++) { %>
+                <% if (i === pagination.currentPage) { %>
+                  <button class="px-3 py-2 bg-green-600 text-white rounded-md font-medium">
+                    <%= i %>
+                  </button>
+                <% } else { %>
+                  <a href="/mahasiswa/koleksibuku?page=<%= i %><%= selectedKategori ? '&kategori=' + selectedKategori : '' %><%= searchQuery ? '&search=' + searchQuery : '' %>" 
+                     class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-200">
+                    <%= i %>
+                  </a>
+                <% } %>
+              <% } %>
+
+              <!-- Last page -->
+              <% if (endPage < pagination.totalPages) { %>
+                <% if (endPage < pagination.totalPages - 1) { %>
+                  <span class="px-2 text-gray-400">...</span>
+                <% } %>
+                <a href="/mahasiswa/koleksibuku?page=<%= pagination.totalPages %><%= selectedKategori ? '&kategori=' + selectedKategori : '' %><%= searchQuery ? '&search=' + searchQuery : '' %>" 
+                   class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-200">
+                  <%= pagination.totalPages %>
+                </a>
+              <% } %>
+
+              <!-- Next Button -->
+              <% if (pagination.hasNextPage) { %>
+                <a href="/mahasiswa/koleksibuku?page=<%= pagination.nextPage %><%= selectedKategori ? '&kategori=' + selectedKategori : '' %><%= searchQuery ? '&search=' + searchQuery : '' %>" 
+                   class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-200">
+                  Next<i class="fas fa-chevron-right ml-1"></i>
+                </a>
+              <% } else { %>
+                <button disabled class="px-3 py-2 text-gray-300 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed">
+                  Next<i class="fas fa-chevron-right ml-1"></i>
+                </button>
+              <% } %>
+            </nav>
+          </div>
+
+          <!-- Pagination Info -->
+          <div class="mt-4 text-center text-sm text-gray-600">
+            Menampilkan <%= ((pagination.currentPage - 1) * pagination.limit) + 1 %> - 
+            <%= Math.min(pagination.currentPage * pagination.limit, pagination.totalBooks) %> 
+            dari <%= pagination.totalBooks %> buku
+          </div>
+        <% } %>
       </main>
     </div>
      <!-- Footer -->
