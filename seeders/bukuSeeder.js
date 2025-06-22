@@ -154,7 +154,7 @@ const bukuData = [
         jumlah_stok: 5,
         lokasi_penyimpanan: 'Ruang Sirkulasi Utama – Sayap Kiri Lantai 1',
         upload_pdf: null,
-        upload_sampul: 'buku_18.jpeg',
+        upload_sampul: 'buku-18.jpeg',
         id_kategori: 7 // Hukum
     },
     {
