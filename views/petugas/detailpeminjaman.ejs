@@ -49,6 +49,29 @@
             Detail Peminjaman
           </div>
           <hr class="border-[#2f6f4e] mb-6" />
+
+          <% 
+          const tanggalWajib = new Date(datapeminjaman.tanggal_wajib_pengembalian);
+          const tanggalSekarang = new Date();
+          const isTerlambat = tanggalSekarang > tanggalWajib;
+          const selisihHari = isTerlambat ? Math.ceil((tanggalSekarang - tanggalWajib) / (1000 * 60 * 60 * 24)) : 0;
+          const dendaPerHari = 5000;
+          const dendaTotal = selisihHari * dendaPerHari;
+          %>
+
+          <% if (isTerlambat && datapeminjaman.status_peminjaman === 'Dipinjam') { %>
+          <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+            <div class="flex items-center">
+              <i class="fas fa-exclamation-triangle mr-2"></i>
+              <strong>PERHATIAN: Buku Terlambat!</strong>
+            </div>
+            <div class="mt-2 text-sm">
+              <p>Buku ini terlambat <strong><%= selisihHari %> hari</strong> dari tanggal wajib pengembalian.</p>
+              <p>Denda yang akan dikenakan: <strong>Rp<%= dendaTotal.toLocaleString('id-ID') %></strong> (Rp<%= dendaPerHari.toLocaleString('id-ID') %> per hari)</p>
+            </div>
+          </div>
+          <% } %>
+
           <form
             class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 text-[#2f6f4e] text-sm font-semibold"
           >
@@ -221,6 +244,38 @@
                   value="<%= datapeminjaman.Buku.lokasi_penyimpanan %>"
                 />
               </div>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="status-peminjaman"
+                >
+                  Status Peminjaman
+                </label>
+                <input
+                  class="w-48 rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="status-peminjaman"
+                  readonly=""
+                  type="text"
+                  value="<%= datapeminjaman.status_peminjaman %>"
+                />
+              </div>
+              <% if (datapeminjaman.tanggal_pengembalian) { %>
+              <div class="mb-4">
+                <label
+                  class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
+                  for="tanggal-pengembalian"
+                >
+                  Tanggal Pengembalian
+                </label>
+                <input
+                  class="w-48 rounded border border-[#2f6f4e] bg-[#f0f6f1] px-2 py-1 text-xs font-normal text-[#2f6f4e]"
+                  id="tanggal-pengembalian"
+                  readonly=""
+                  type="text"
+                  value="<%= datapeminjaman.tanggal_pengembalian.toLocaleDateString() %>"
+                />
+              </div>
+              <% } %>
               <div>
                 <label
                   class="block mb-1 font-semibold text-xs text-[#2f6f4e]"
@@ -238,6 +293,31 @@
               </div>
             </div>
           </form>
+
+          <% if (datapeminjaman.status_peminjaman === 'Dipinjam') { %>
+          <div class="mt-6 pt-6 border-t border-[#2f6f4e]">
+            <div class="flex justify-between items-center">
+              <div>
+                <h3 class="text-[#2f6f4e] font-semibold text-sm mb-2">Aksi Peminjaman</h3>
+                <% if (isTerlambat) { %>
+                <p class="text-red-600 text-xs mb-2">
+                  <i class="fas fa-exclamation-circle mr-1"></i>
+                  Buku terlambat <%= selisihHari %> hari. Denda: Rp<%= dendaTotal.toLocaleString('id-ID') %>
+                </p>
+                <% } %>
+              </div>
+              <form action="/petugas/peminjaman/kembalikan/<%= datapeminjaman.id_peminjaman %>" method="POST">
+                <button
+                  type="submit"
+                  class="bg-[#276749] hover:bg-[#225a3d] text-white rounded-full px-4 py-2 transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md cursor-pointer font-semibold text-sm"
+                >
+                  <i class="fas fa-undo mr-2"></i>
+                  Kembalikan Buku
+                </button>
+              </form>
+            </div>
+          </div>
+          <% } %>
         </div>
       </section>
     </main>
