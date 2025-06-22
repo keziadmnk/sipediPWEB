@@ -13,8 +13,8 @@ const bukuData = [
         jumlah_halaman: 200,
         jumlah_stok: 5,
         lokasi_penyimpanan: 'Rak A-1',
-        upload_pdf: null,
-        upload_sampul: null,
+        upload_pdf: 'The Basic of Information Security',
+        upload_sampul: 'buku_1.jpg',
         id_kategori: 13 // Pertanian dan Peternakan
     },
     {
@@ -28,7 +28,7 @@ const bukuData = [
         jumlah_stok: 3,
         lokasi_penyimpanan: 'Rak B-2',
         upload_pdf: null,
-        upload_sampul: null,
+        upload_sampul: 'buku_2.jpg',
         id_kategori: 9 // Ilmu Sosial dan Politik
     },
     {
@@ -41,8 +41,8 @@ const bukuData = [
         jumlah_halaman: 225,
         jumlah_stok: 4,
         lokasi_penyimpanan: 'Rak C-3',
-        upload_pdf: null,
-        upload_sampul: null,
+        upload_pdf: 'PDF_1.pdf',
+        upload_sampul: 'buku_3.jpg',
         id_kategori: 11 // Agama dan Filsafat
     },
     {
@@ -56,7 +56,7 @@ const bukuData = [
         jumlah_stok: 6,
         lokasi_penyimpanan: 'Rak D-4',
         upload_pdf: null,
-        upload_sampul: null,
+        upload_sampul: 'buku_4.png',
         id_kategori: 8 // Kesehatan dan Kedokteran
     },
     {
@@ -69,8 +69,8 @@ const bukuData = [
         jumlah_halaman: 195,
         jumlah_stok: 8,
         lokasi_penyimpanan: 'Rak E-5',
-        upload_pdf: null,
-        upload_sampul: null,
+        upload_pdf: 'PDF_1.pdf',
+        upload_sampul: 'buku_5.jpg',
         id_kategori: 2 // Ilmu Komputer
     },
     {
@@ -83,8 +83,8 @@ const bukuData = [
         jumlah_halaman: 366,
         jumlah_stok: 4,
         lokasi_penyimpanan: 'Rak F-6',
-        upload_pdf: null,
-        upload_sampul: null,
+        upload_pdf: 'PDF_1.pdf',
+        upload_sampul: 'buku_6.jpg',
         id_kategori: 11 // Agama dan Filsafat
     },
     {
@@ -97,8 +97,8 @@ const bukuData = [
         jumlah_halaman: 260,
         jumlah_stok: 5,
         lokasi_penyimpanan: 'Rak G-7',
-        upload_pdf: null,
-        upload_sampul: null,
+        upload_pdf: 'PDF_1.pdf',
+        upload_sampul: 'buku_7.jpg',
         id_kategori: 10 // Bahasa dan Sastra
     },
     {
@@ -112,7 +112,7 @@ const bukuData = [
         jumlah_stok: 3,
         lokasi_penyimpanan: 'Rak H-8',
         upload_pdf: null,
-        upload_sampul: null,
+        upload_sampul: 'buku_8.jpg',
         id_kategori: 12 // Arsitektur dan Desain
     },
     {
@@ -126,7 +126,7 @@ const bukuData = [
         jumlah_stok: 7,
         lokasi_penyimpanan: 'Rak I-9',
         upload_pdf: null,
-        upload_sampul: null,
+        upload_sampul: 'buku_9.jpg',
         id_kategori: 2 // Ilmu Komputer
     },
     {
@@ -140,7 +140,7 @@ const bukuData = [
         jumlah_stok: 4,
         lokasi_penyimpanan: 'Rak J-10',
         upload_pdf: null,
-        upload_sampul: null,
+        upload_sampul: 'buku_12.jpeg',
         id_kategori: 11 // Agama dan Filsafat
     },
     {
@@ -154,7 +154,7 @@ const bukuData = [
         jumlah_stok: 5,
         lokasi_penyimpanan: 'Rak K-11',
         upload_pdf: null,
-        upload_sampul: null,
+        upload_sampul: 'buku_18.jpg',
         id_kategori: 7 // Hukum
     },
     {
@@ -167,7 +167,7 @@ const bukuData = [
         jumlah_halaman: 170,
         jumlah_stok: 6,
         lokasi_penyimpanan: 'Rak L-12',
-        upload_pdf: null,
+        upload_pdf: 'PDF_1.pdf',
         upload_sampul: null,
         id_kategori: 11 // Agama dan Filsafat
     },
@@ -195,8 +195,8 @@ const bukuData = [
         jumlah_halaman: 296,
         jumlah_stok: 4,
         lokasi_penyimpanan: 'Rak N-14',
-        upload_pdf: null,
-        upload_sampul: null,
+        upload_pdf: 'PDF_1.pdf',
+        upload_sampul: 'buku_13.jpeg',
         id_kategori: 7 // Hukum
     },
     {
@@ -209,7 +209,7 @@ const bukuData = [
         jumlah_halaman: 426,
         jumlah_stok: 3,
         lokasi_penyimpanan: 'Rak O-15',
-        upload_pdf: null,
+        upload_pdf: 'PDF_1.pdf',
         upload_sampul: null,
         id_kategori: 11 // Agama dan Filsafat
     }
@@ -219,36 +219,24 @@ const bukuData = [
 const bukuJenisData = [
     // E-Book (id_jenis: 1)
     { nomor_isbn: '978-623-500-418-1', id_jenis: 1 },
-    { nomor_isbn: '6020651622', id_jenis: 1 },
     { nomor_isbn: '978-623-218-529-6', id_jenis: 1 },
-    { nomor_isbn: '978-623-329-861-2', id_jenis: 1 },
-    { nomor_isbn: '978-623-8483-60-0', id_jenis: 1 },
     { nomor_isbn: '978-623-220-036-4', id_jenis: 1 },
     { nomor_isbn: '978-623-02-0145-5', id_jenis: 1 },
-    { nomor_isbn: '979-420-531-1', id_jenis: 1 },
-    { nomor_isbn: '978-623-012-677-2', id_jenis: 1 },
-    { nomor_isbn: '979-7691-004', id_jenis: 1 },
-    { nomor_isbn: '978-602-723-826-7', id_jenis: 1 },
     { nomor_isbn: '978-623-231-325-5', id_jenis: 1 },
-    { nomor_isbn: '978-602-445-850-8', id_jenis: 1 },
     { nomor_isbn: '978-623-218-976-8', id_jenis: 1 },
     { nomor_isbn: '978-979-769-479-1', id_jenis: 1 },
     
     // Buku Fisik (id_jenis: 2)
-    { nomor_isbn: '978-623-500-418-1', id_jenis: 2 },
     { nomor_isbn: '6020651622', id_jenis: 2 },
     { nomor_isbn: '978-623-218-529-6', id_jenis: 2 },
     { nomor_isbn: '978-623-329-861-2', id_jenis: 2 },
     { nomor_isbn: '978-623-8483-60-0', id_jenis: 2 },
-    { nomor_isbn: '978-623-220-036-4', id_jenis: 2 },
     { nomor_isbn: '978-623-02-0145-5', id_jenis: 2 },
     { nomor_isbn: '979-420-531-1', id_jenis: 2 },
     { nomor_isbn: '978-623-012-677-2', id_jenis: 2 },
     { nomor_isbn: '979-7691-004', id_jenis: 2 },
     { nomor_isbn: '978-602-723-826-7', id_jenis: 2 },
-    { nomor_isbn: '978-623-231-325-5', id_jenis: 2 },
     { nomor_isbn: '978-602-445-850-8', id_jenis: 2 },
-    { nomor_isbn: '978-623-218-976-8', id_jenis: 2 },
     { nomor_isbn: '978-979-769-479-1', id_jenis: 2 }
 ];
 
