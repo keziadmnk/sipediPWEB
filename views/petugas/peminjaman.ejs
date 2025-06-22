@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Daftar Peminjaman</title>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-
     <link rel="stylesheet" href="/stylesheets/output.css" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -18,6 +16,40 @@
       ::-webkit-scrollbar-thumb {
         background-color: #2f855a;
         border-radius: 3px;
+      }
+      /* Custom Alert Overlay */
+      .custom-alert-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .custom-alert-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .custom-alert-box {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+      }
+      .custom-alert-overlay.show .custom-alert-box {
+        transform: translateY(0);
       }
     </style>
   </head>
@@ -103,30 +135,76 @@
       </main>
     </div>
 
+    <div id="customAlertOverlay" class="custom-alert-overlay">
+      <div class="custom-alert-box">
+        <h3 id="alertTitle" class="text-xl font-bold mb-4 text-[#276749]">Konfirmasi Pengembalian</h3>
+        <p id="alertMessage" class="text-gray-700 text-sm mb-6 leading-relaxed text-left"></p>
+        <div class="flex justify-end space-x-3">
+          <button id="cancelAlert" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full text-sm">Batal</button>
+          <button id="confirmAlert" class="bg-[#276749] hover:bg-[#225a3d] text-white font-bold py-2 px-4 rounded-full text-sm">Konfirmasi</button>
+        </div>
+      </div>
+    </div>
+
     <script>
+      const customAlertOverlay = document.getElementById('customAlertOverlay');
+      const alertTitle = document.getElementById('alertTitle');
+      const alertMessage = document.getElementById('alertMessage');
+      const cancelAlertButton = document.getElementById('cancelAlert');
+      const confirmAlertButton = document.getElementById('confirmAlert');
+      let currentFormId = '';
+
+      function showCustomAlert(title, message, formId) {
+        alertTitle.textContent = title;
+        alertMessage.innerHTML = message; // Use innerHTML to render line breaks and bold
+        currentFormId = formId;
+        customAlertOverlay.classList.add('show');
+      }
+
+      function hideCustomAlert() {
+        customAlertOverlay.classList.remove('show');
+        currentFormId = '';
+      }
+
+      cancelAlertButton.addEventListener('click', hideCustomAlert);
+
+      confirmAlertButton.addEventListener('click', () => {
+        if (currentFormId) {
+          document.getElementById(currentFormId).submit();
+        }
+        hideCustomAlert();
+      });
+
       function konfirmasiKembalikan(idPeminjaman, namaMahasiswa, judulBuku, tanggalWajib) {
         const tanggalWajibPengembalian = new Date(tanggalWajib);
         const tanggalSekarang = new Date();
-        const isTerlambat = tanggalSekarang > tanggalWajibPengembalian;
         
-        let pesan = `Apakah Anda yakin akan mengembalikan buku?\n\n`;
-        pesan += `Mahasiswa: ${namaMahasiswa}\n`;
-        pesan += `Judul Buku: ${judulBuku}\n`;
-        pesan += `Tanggal Wajib Pengembalian: ${tanggalWajibPengembalian.toLocaleDateString('id-ID')}\n\n`;
+        // Normalize both dates to midnight for accurate comparison
+        const wajibMidnight = new Date(tanggalWajibPengembalian);
+        wajibMidnight.setHours(0, 0, 0, 0);
+        
+        const sekarangMidnight = new Date(tanggalSekarang);
+        sekarangMidnight.setHours(0, 0, 0, 0);
+
+        const isTerlambat = sekarangMidnight > wajibMidnight;
+        
+        let pesan = `Yakin ingin mengembalikan buku ini?<br><br>`;
+        pesan += `<strong>Mahasiswa:</strong> ${namaMahasiswa}<br>`;
+        pesan += `<strong>Judul Buku:</strong> ${judulBuku}<br>`;
+        pesan += `<strong>Tanggal Wajib Pengembalian:</strong> ${tanggalWajibPengembalian.toLocaleDateString('id-ID')}<br><br>`;
         
         if (isTerlambat) {
-          const selisihHari = Math.ceil((tanggalSekarang - tanggalWajibPengembalian) / (1000 * 60 * 60 * 24));
+          const selisihMs = sekarangMidnight.getTime() - wajibMidnight.getTime();
+          const selisihHari = Math.ceil(selisihMs / (1000 * 60 * 60 * 24));
           const denda = selisihHari * 5000;
-          pesan += `⚠️ PERHATIAN: Buku terlambat ${selisihHari} hari!\n`;
-          pesan += `Denda yang akan dikenakan: Rp${denda.toLocaleString('id-ID')}\n\n`;
-          pesan += `Silakan cek detail denda di halaman detail peminjaman.`;
+          pesan += `<p class="text-red-600 font-bold">⚠️ PERHATIAN: Buku terlambat ${selisihHari} hari!</p>`;
+          pesan += `<p class="text-red-600 font-bold">Denda yang akan dikenakan: Rp${denda.toLocaleString('id-ID')}</p><br>`;
+          pesan += `<span class="text-sm italic">Silakan cek detail denda di halaman detail peminjaman.</span>`;
         } else {
           pesan += `Buku akan dikembalikan tepat waktu.`;
         }
         
-        if (confirm(pesan)) {
-          document.getElementById(`formKembalikan${idPeminjaman}`).submit();
-        }
+        showCustomAlert('Konfirmasi Pengembalian', pesan, `formKembalikan${idPeminjaman}`);
       }
     </script>
   </body>

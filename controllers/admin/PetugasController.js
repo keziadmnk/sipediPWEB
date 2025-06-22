@@ -1,3 +1,5 @@
+// controllers/admin/MahasiswaController.js
+
 const { Pengguna, Role } = require('../../models/relation');
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
@@ -31,13 +33,14 @@ const showTambahPetugasForm = async (req, res) => {
 
 const tambahPetugas = async (req, res) => {
     try {
-        const { id_pengguna, nama_lengkap, email, nomor_hp, alamat, password, confirm_password } = req.body;
+        // FIX: Tambahkan 'username' ke dekonstruksi req.body
+        const { id_pengguna, nama_lengkap, username, email, nomor_hp, alamat, password, confirm_password } = req.body;
 
-       
+        // 1. Validasi input
         if (!id_pengguna || !nama_lengkap || !email || !password || !confirm_password) {
             req.session.message = {
                 type: 'error',
-                text: 'Semua field wajib (NIP, Nama Lengkap, Email, Password, Konfirmasi Password) harus diisi.'
+                text: 'Semua field wajib (NIP, Nama Lengkap, Username, Email, Password, Konfirmasi Password) harus diisi.'
             };
             return res.redirect('/admin/tambahpetugas');
         }
@@ -50,10 +53,10 @@ const tambahPetugas = async (req, res) => {
             return res.redirect('/admin/tambahpetugas');
         }
 
-        
+        // 2. Cek apakah NIM atau email sudah terdaftar
         const existingPetugas = await Pengguna.findOne({
             where: {
-                [require('sequelize').Op.or]: [ //
+                [require('sequelize').Op.or]: [
                     { id_pengguna: id_pengguna },
                     { email: email }
                 ]
@@ -73,10 +76,25 @@ const tambahPetugas = async (req, res) => {
             };
             return res.redirect('/admin/tambahpetugas');
         }
-
         
+        // Cek juga apakah username sudah terdaftar (jika username harus unik)
+        const existingUsername = await Pengguna.findOne({
+            where: { username: username }
+        });
+
+        if (existingUsername) {
+            req.session.message = {
+                type: 'error',
+                text: 'Username sudah terdaftar. Harap gunakan username lain.'
+            };
+            return res.redirect('/admin/tambahpetugas');
+        }
+
+
+        // 3. Hash password
         const hashedPassword = await bcrypt.hash(password, 10); //
 
+        // 4. Dapatkan ID role 'mahasiswa'
         const rolePetugas = await Role.findOne({ where: { nama_role: 'petugas' } }); //
         if (!rolePetugas) {
             req.session.message = {
@@ -88,12 +106,12 @@ const tambahPetugas = async (req, res) => {
 
         await Pengguna.create({
             id_pengguna: id_pengguna,
-            username: username, 
+            username: username, // Atau Anda bisa menggunakan id_pengguna sebagai username jika diinginkan
             password: hashedPassword,
             nama_lengkap: nama_lengkap,
             email: email,
-            alamat: alamat || null, 
-            nomor_hp: nomor_hp || null, 
+            alamat: alamat || null, // Allow null if not provided
+            nomor_hp: nomor_hp || null, // Allow null if not provided
             id_role: rolePetugas.id_role
         });
 
@@ -153,7 +171,7 @@ const showEditPetugas = async (req, res) => {
 const updatePetugas = async (req, res) => {
     try {
         const { id_pengguna } = req.params;
-        const { nama_lengkap, email, nomor_hp, alamat, password, confirm_password } = req.body;
+        const { nama_lengkap, email, nomor_hp, alamat, password, confirm_password } = req.body; // username tidak diupdate di sini
 
 
         if (!nama_lengkap || !email) {

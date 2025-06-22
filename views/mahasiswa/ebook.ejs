@@ -36,13 +36,10 @@
 </head>
 
 <body class="bg-[#F8FFF6] font-sans">
-  <!-- Navbar -->
   <%- include('../partials/navbarMahasiswa') %>
 
-  <!-- Konten Utama -->
   <main class="mt-20">
     <div class="flex min-h-screen">
-      <!-- Sidebar Kategori -->
       <aside class="w-64 bg-white shadow-sm p-6">
         <h3 class="text-sm font-semibold text-gray-700 mb-6">Kategori E-Book</h3>
         <ul class="space-y-3 text-sm">
@@ -67,9 +64,7 @@
         </ul>
       </aside>
 
-      <!-- Main Content -->
       <main class="flex-1 p-6">
-        <!-- Header Section -->
         <div class="mb-6">
           <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-6 shadow-sm border border-green-100">
             <h1 class="text-2xl font-bold text-gray-800 mb-2 flex items-center">
@@ -80,11 +75,9 @@
           </div>
         </div>
 
-        <!-- Search Bar -->
         <div class="mb-6">
           <div class="max-w-md ml-auto">
             <form method="GET" action="/mahasiswa/ebook" class="relative search-container">
-              <!-- Hidden input untuk kategori -->
               <% if (selectedKategori) { %>
                 <input type="hidden" name="kategori" value="<%= selectedKategori %>">
               <% } %>
@@ -109,25 +102,21 @@
           </div>
         </div>
 
-        <!-- Grid E-Book -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-sm">
           <% if (ebook && ebook.length > 0) { %>
             <% ebook.forEach(b => { %>
               <a href="/mahasiswa/detailbuku/<%= b.nomor_isbn %>" class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out block">
                 <div class="p-4">
-                  <!-- Kotak Gambar Sampul -->
                   <div class="w-full h-48 bg-gray-100 overflow-hidden shadow-md mb-4 relative">
                     <img 
                       src="/uploads/covers/<%= b.upload_sampul %>" 
                       alt="<%= b.judul_buku %>" 
                       class="w-full h-full object-cover">
-                    <!-- E-Book Badge -->
                     <div class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
                       <i class="fas fa-book-open mr-1"></i>E-Book
                     </div>
                   </div>
                   
-                  <!-- Kotak Judul dan Pengarang -->
                   <div>
                     <h3 class="font-semibold text-gray-800 mb-1 line-clamp-2 hover:text-green-600 transition-colors duration-200"><%= b.judul_buku %></h3>
                     <p class="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200"><%= b.pengarang %></p>
@@ -146,11 +135,9 @@
           <% } %>
         </div>
 
-        <!-- Pagination -->
         <% if (typeof pagination !== 'undefined' && pagination.totalPages > 1) { %>
           <div class="mt-8 flex justify-center text-sm">
             <nav class="flex items-center space-x-2">
-              <!-- Previous Button -->
               <% if (pagination.hasPrevPage) { %>
                 <a href="/mahasiswa/ebook?page=<%= pagination.prevPage %><%= selectedKategori ? '&kategori=' + selectedKategori : '' %><%= searchQuery ? '&search=' + searchQuery : '' %>" 
                    class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-200">
@@ -162,7 +149,6 @@
                 </button>
               <% } %>
 
-              <!-- Page Numbers -->
               <% 
                 let startPage = Math.max(1, pagination.currentPage - 2);
                 let endPage = Math.min(pagination.totalPages, pagination.currentPage + 2);
@@ -182,7 +168,6 @@
                 }
               %>
 
-              <!-- First page -->
               <% if (startPage > 1) { %>
                 <a href="/mahasiswa/ebook?page=1<%= selectedKategori ? '&kategori=' + selectedKategori : '' %><%= searchQuery ? '&search=' + searchQuery : '' %>" 
                    class="px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-200">
@@ -193,7 +178,6 @@
                 <% } %>
               <% } %>
 
-              <!-- Page numbers -->
               <% for (let i = startPage; i <= endPage; i++) { %>
                 <% if (i === pagination.currentPage) { %>
                   <button class="px-3 py-2 bg-green-600 text-white rounded-md font-medium">
@@ -207,7 +191,6 @@
                 <% } %>
               <% } %>
 
-              <!-- Last page -->
               <% if (endPage < pagination.totalPages) { %>
                 <% if (endPage < pagination.totalPages - 1) { %>
                   <span class="px-2 text-gray-400">...</span>
@@ -218,7 +201,6 @@
                 </a>
               <% } %>
 
-              <!-- Next Button -->
               <% if (pagination.hasNextPage) { %>
                 <a href="/mahasiswa/ebook?page=<%= pagination.nextPage %><%= selectedKategori ? '&kategori=' + selectedKategori : '' %><%= searchQuery ? '&search=' + searchQuery : '' %>" 
                    class="px-3 py-2 text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors duration-200">
@@ -229,10 +211,17 @@
                   Next<i class="fas fa-chevron-right ml-1"></i>
                 </button>
               <% } %>
+
+              <div class="ml-4">
+                <select id="ebookPageSelector" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 bg-white text-gray-700">
+                  <% for (let i = 1; i <= pagination.totalPages; i++) { %>
+                    <option value="<%= i %>" <%= i === pagination.currentPage ? 'selected' : '' %>>Page <%= i %></option>
+                  <% } %>
+                </select>
+              </div>
             </nav>
           </div>
 
-          <!-- Pagination Info -->
           <div class="mt-4 text-center text-sm text-gray-600">
             Menampilkan <%= ((pagination.currentPage - 1) * pagination.limit) + 1 %> - 
             <%= Math.min(pagination.currentPage * pagination.limit, pagination.totalBooks) %> 
@@ -241,8 +230,7 @@
         <% } %>
       </main>
     </div>
-     <!-- Footer -->
-    <footer
+     <footer
       class="bg-[#2f5d40] text-[#d1d5db] mt-6 px-4 sm:px-6 md:px-10 lg:px-16 py-6"
     >
       <div
@@ -263,5 +251,29 @@
       </div>
     </footer>
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const ebookPageSelector = document.getElementById('ebookPageSelector');
+      if (ebookPageSelector) {
+        ebookPageSelector.addEventListener('change', function() {
+          const selectedPage = this.value;
+          const currentKategori = '<%= selectedKategori %>'; // EJS variable
+          const currentSearchQuery = '<%= searchQuery %>'; // EJS variable
+          
+          let url = `/mahasiswa/ebook?page=${selectedPage}`;
+          
+          if (currentKategori && currentKategori !== 'null' && currentKategori !== 'undefined') {
+            url += `&kategori=${currentKategori}`;
+          }
+          if (currentSearchQuery && currentSearchQuery !== 'null' && currentSearchQuery !== 'undefined') {
+            url += `&search=${encodeURIComponent(currentSearchQuery)}`;
+          }
+          
+          window.location.href = url;
+        });
+      }
+    });
+  </script>
 </body>
 </html>
