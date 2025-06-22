@@ -9,6 +9,108 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
+    <style>
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      /* Custom CSS for horizontal scrolling with scrollbar hidden */
+      .horizontal-scroll-container::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Webkit browsers */
+      }
+      .horizontal-scroll-container {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+      .category-item {
+        flex: 0 0 auto; /* Prevent items from growing/shrinking, base on content */
+      }
+      /* Custom styling for the category buttons to match the image */
+      .category-button {
+          background-color: oklch(96.2% 0.044 156.743); /* Equivalent to --color-green-100 */
+          color: oklch(37.3% 0.034 259.733); /* Equivalent to --color-gray-700 */
+          border-radius: 9999px; /* Full rounded corners */
+          padding: 1rem 6.2rem; /* py-2 px-6 */
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); /* shadow-sm */
+          transition-property: box-shadow, background-color;
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          transition-duration: 150ms; /* default transition duration */
+      }
+      .category-button:hover {
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-md */
+          background-color: oklch(78.92% 0.13678 147.322); /* Equivalent to --color-gray-200 from output.css */
+      }
+      /* Specific adjustment for arrow positioning based on the image */
+      .category-arrows-wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+      }
+      .category-arrows-wrapper button {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: white;
+          border: 1px solid oklch(70.7% 0.022 261.325); /* gray-400 equivalent */
+      }
+      .category-arrows-wrapper button#scrollLeftCategory {
+          left: -15px;
+      }
+      .category-arrows-wrapper button#scrollRightCategory {
+          right: -15px;
+      }
+
+      /* New styles for book carousel arrows */
+      .book-carousel-arrows-wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+      }
+      .book-carousel-arrows-wrapper button {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background-color: white; /* Match category arrows */
+          border: 1px solid oklch(70.7% 0.022 261.325); /* Match category arrows */
+          padding: 0.5rem; /* Smaller padding for smaller buttons */
+          border-radius: 9999px; /* Rounded buttons */
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); /* shadow-sm */
+          cursor: pointer;
+          z-index: 10;
+          transition: background-color 150ms ease-in-out;
+      }
+      .book-carousel-arrows-wrapper button:hover {
+          background-color: oklch(92.8% 0.006 264.531); /* gray-200 on hover */
+      }
+      .book-carousel-arrows-wrapper button#scrollLeftBook {
+          left: -15px; /* Adjust as needed */
+      }
+      .book-carousel-arrows-wrapper button#scrollRightBook {
+          right: -15px; /* Adjust as needed */
+      }
+
+      /* Styling for individual book items in the carousel */
+      .book-carousel-item {
+        flex: 0 0 auto; /* Ensures items don't shrink and maintain their size */
+        margin-right: 1rem; /* space-x-4 equivalent */
+        width: 120px; /* Default width based on h-[160px] with 3:4 aspect */
+      }
+     /* Untuk MEMPERBESAR BUKU, ubah nilai di kelas ini (atau buat kelas baru) */
+      .book-carousel-item.size-large { /* Anda bisa menambahkan kelas ini ke item buku di EJS */
+        width: 200px; /* Lebar yang lebih besar */
+      }
+      .book-carousel-item.size-large { /* Anda bisa menambahkan kelas ini ke item buku di EJS */
+        height: 200px; /* Lebar yang lebih besar */
+      }
+      .book-carousel-item.size-large img { /* Sesuaikan tinggi gambar agar rasio tetap */
+        width: 100px; /* Tinggi yang sesuai (misal, 3:4 dari 150px) */
+      }
+      .book-carousel-item.size-large img { /* Sesuaikan tinggi gambar agar rasio tetap */
+        height: 150px; /* Tinggi yang sesuai (misal, 3:4 dari 150px) */
+      }
+      
+    </style>
   </head>
 <body class="bg-gradient-to-br  to-emerald-50 font-sans">
   <%- include('../partials/navbarMahasiswa') %>
@@ -73,7 +175,6 @@
                           alt="Cover <%= buku.judul_buku %>"
                           class="w-full h-full object-cover"
                           src="/uploads/covers/<%= buku.upload_sampul %>"
-                          onerror="this.onerror=null; this.src='/images/placeholder-book.png';"
                         />
                       </div>
                       

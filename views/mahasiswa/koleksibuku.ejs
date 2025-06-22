@@ -120,8 +120,7 @@
                     <img 
                       src="/uploads/covers/<%= b.upload_sampul %>" 
                       alt="<%= b.judul_buku %>" 
-                      class="w-full h-full object-cover "
-                      onerror="this.src='/images/placeholder-book.png'">
+                      class="w-full h-full object-cover">
                     
                     <!-- E-Book Badge -->
                     <% if (b.jenis && b.jenis.some(j => j.nama_jenis === 'E-Book')) { %>

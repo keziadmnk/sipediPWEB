@@ -259,12 +259,10 @@ exports.updateUlasan = async (req, res) => {
 };
 
 
-// Anda bisa menambahkan fungsi detail buku di sini juga
+// Fungsi detail buku untuk halaman mahasiswa/detailbuku
 exports.getDetailBuku = async (req, res) => {
     try {
-        const { nomor_isbn } = req.params; // This should be nomor_isbn
-
-        console.log("getDetailBuku - Nomor ISBN diterima:", nomor_isbn);
+        const { nomor_isbn } = req.params;
 
         const buku = await Buku.findByPk(nomor_isbn, {
            include: [
@@ -274,11 +272,31 @@ exports.getDetailBuku = async (req, res) => {
         });
 
         if (!buku) {
-          console.error("getDetailBuku - Buku tidak ditemukan untuk ISBN:", nomor_isbn); // Log jika buku tidak ditemukan
+          console.error("getDetailBuku - Buku tidak ditemukan untuk ISBN:", nomor_isbn);
           return res.status(404).send("Buku tidak ditemukan");
         }
 
-        res.render("mahasiswa/detailbuku", {buku});
+        // Ambil rata-rata rating dan total ulasan dari tabel Ulasan
+        const ulasanStats = await Ulasan.findOne({
+            attributes: [
+                [Sequelize.fn('AVG', Sequelize.col('rating')), 'averageRating'],
+                [Sequelize.fn('COUNT', Sequelize.col('id_ulasan')), 'totalReviews']
+            ],
+            where: { nomor_isbn: nomor_isbn },
+            raw: true
+        });
+
+        // Pastikan averageRating adalah number sebelum dikirim ke tampilan
+        const averageRating = ulasanStats.averageRating ? parseFloat(ulasanStats.averageRating) : 0; // Ubah di sini!
+        const totalReviews = ulasanStats.totalReviews || 0;
+
+        res.render("mahasiswa/detailbuku", {
+            buku,
+            rating: { // Kirim objek rating ke tampilan
+                rataRata: averageRating,
+                totalUlasan: totalReviews
+            }
+        });
     } catch (error) {
         console.error("Error fetching detail buku:", error);
         res.status(500).send("Internal Server Error");
