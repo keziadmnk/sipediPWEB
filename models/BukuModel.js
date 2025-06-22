@@ -32,7 +32,7 @@ const Buku = sequelize.define('Buku', {
     },
     jumlah_stok: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
     lokasi_penyimpanan: {
         type: DataTypes.STRING(100),
