@@ -85,10 +85,11 @@
                   <%= peminjaman.status_peminjaman %>
                 </td>
                 <td class="px-3 py-3">
-                    <form action="/petugas/peminjaman/kembalikan/<%= peminjaman.id_peminjaman %>" method="POST">
+                    <form id="formKembalikan<%= peminjaman.id_peminjaman %>" action="/petugas/peminjaman/kembalikan/<%= peminjaman.id_peminjaman %>" method="POST">
                       <button
+                        type="button"
+                        onclick="konfirmasiKembalikan('<%= peminjaman.id_peminjaman %>', '<%= peminjaman.Pengguna.nama_lengkap %>', '<%= peminjaman.Buku.judul_buku %>', '<%= peminjaman.tanggal_wajib_pengembalian.toISOString() %>')"
                         class="bg-[#276749] hover:bg-[#225a3d] text-[10px] text-white rounded-full px-3 py-1 transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md cursor-pointer font-semibold"
-                        type="submit"
                       >
                         Kembalikan
                       </button>
@@ -101,5 +102,32 @@
         </div>
       </main>
     </div>
+
+    <script>
+      function konfirmasiKembalikan(idPeminjaman, namaMahasiswa, judulBuku, tanggalWajib) {
+        const tanggalWajibPengembalian = new Date(tanggalWajib);
+        const tanggalSekarang = new Date();
+        const isTerlambat = tanggalSekarang > tanggalWajibPengembalian;
+        
+        let pesan = `Apakah Anda yakin akan mengembalikan buku?\n\n`;
+        pesan += `Mahasiswa: ${namaMahasiswa}\n`;
+        pesan += `Judul Buku: ${judulBuku}\n`;
+        pesan += `Tanggal Wajib Pengembalian: ${tanggalWajibPengembalian.toLocaleDateString('id-ID')}\n\n`;
+        
+        if (isTerlambat) {
+          const selisihHari = Math.ceil((tanggalSekarang - tanggalWajibPengembalian) / (1000 * 60 * 60 * 24));
+          const denda = selisihHari * 5000;
+          pesan += `⚠️ PERHATIAN: Buku terlambat ${selisihHari} hari!\n`;
+          pesan += `Denda yang akan dikenakan: Rp${denda.toLocaleString('id-ID')}\n\n`;
+          pesan += `Silakan cek detail denda di halaman detail peminjaman.`;
+        } else {
+          pesan += `Buku akan dikembalikan tepat waktu.`;
+        }
+        
+        if (confirm(pesan)) {
+          document.getElementById(`formKembalikan${idPeminjaman}`).submit();
+        }
+      }
+    </script>
   </body>
 </html>
