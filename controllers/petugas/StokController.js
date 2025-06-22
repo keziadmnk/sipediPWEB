@@ -1,10 +1,7 @@
-// controllers/petugas/StokController.js
-
 const { Buku } = require("../../models/BukuModel");
 const { Peminjaman } = require("../../models/PeminjamanModel");
 const { Sequelize, Op } = require("sequelize");
 
-// Fungsi helper untuk mengambil data stok buku
 const fetchStokData = async () => {
   const daftarBuku = await Buku.findAll({
     attributes: [
@@ -60,10 +57,9 @@ const fetchStokData = async () => {
 };
 
 
-// Fungsi untuk menampilkan halaman stok buku fisik (sama seperti sebelumnya, tapi pakai fetchStokData)
 const getStokBukuFisik = async (req, res) => {
   try {
-    const stokData = await fetchStokData(); // Ambil data menggunakan helper
+    const stokData = await fetchStokData(); 
 
     res.render('petugas/stokbuku', { stokData });
 
@@ -73,12 +69,10 @@ const getStokBukuFisik = async (req, res) => {
   }
 };
 
-// FUNGSI BARU: Untuk mencetak laporan stok buku fisik
 const printStokBukuFisik = async (req, res) => {
   try {
-    const stokData = await fetchStokData(); // Ambil data menggunakan helper yang sama
+    const stokData = await fetchStokData(); 
 
-    // Render tampilan khusus cetak
     res.render('petugas/printstokbuku', { stokData });
 
   } catch (error) {
@@ -90,5 +84,5 @@ const printStokBukuFisik = async (req, res) => {
 
 module.exports = {
   getStokBukuFisik,
-  printStokBukuFisik, // Ekspor fungsi baru
+  printStokBukuFisik, 
 };

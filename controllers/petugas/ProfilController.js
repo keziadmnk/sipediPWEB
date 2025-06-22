@@ -81,7 +81,6 @@ const updateFotoPetugas = async (req, res) => {
             return res.status(404).send('Petugas tidak ditemukan');
         }
 
-        // Hapus foto lama jika ada
         if (petugas.foto && req.file) {
             const oldPath = path.join(__dirname, '../../public', petugas.foto);
             if (fs.existsSync(oldPath)) {
@@ -90,7 +89,6 @@ const updateFotoPetugas = async (req, res) => {
         }
 
         if (req.file) {
-            // Path relatif untuk disimpan di DB dan diakses dari browser
             const newPath = `/uploads/profil/${req.file.filename}`;
             petugas.foto = newPath;
             await petugas.save();
@@ -128,7 +126,6 @@ const updateBiodataPetugas = async (req, res) => {
             });
         }
 
-        // Validasi input wajib
         if (!nama_lengkap || !email) {
             return res.status(400).json({
                 success: false,
@@ -136,7 +133,6 @@ const updateBiodataPetugas = async (req, res) => {
             });
         }
 
-        // Cek apakah email sudah digunakan oleh pengguna lain
         const existingUser = await Pengguna.findOne({
             where: {
                 email: email,
@@ -151,9 +147,7 @@ const updateBiodataPetugas = async (req, res) => {
             });
         }
 
-        // Validasi password jika ada input password
         if (old_password || password || confirm_password) {
-            // Pastikan semua field password diisi
             if (!old_password || !password || !confirm_password) {
                 return res.status(400).json({
                     success: false,
@@ -161,7 +155,6 @@ const updateBiodataPetugas = async (req, res) => {
                 });
             }
 
-            // Validasi password lama
             const isOldPasswordValid = await bcrypt.compare(old_password, petugas.password);
             if (!isOldPasswordValid) {
                 return res.status(400).json({
@@ -170,7 +163,6 @@ const updateBiodataPetugas = async (req, res) => {
                 });
             }
 
-            // Validasi password baru dan konfirmasi
             if (password !== confirm_password) {
                 return res.status(400).json({
                     success: false,
@@ -178,7 +170,6 @@ const updateBiodataPetugas = async (req, res) => {
                 });
             }
 
-            // Validasi panjang password baru (minimal 6 karakter)
             if (password.length < 6) {
                 return res.status(400).json({
                     success: false,
@@ -187,7 +178,6 @@ const updateBiodataPetugas = async (req, res) => {
             }
         }
 
-        // Update data petugas
         const updateData = {
             nama_lengkap,
             email,
@@ -195,7 +185,6 @@ const updateBiodataPetugas = async (req, res) => {
             alamat: alamat || null
         };
 
-        // Hash password baru jika validasi berhasil
         if (old_password && password && confirm_password) {
             updateData.password = await bcrypt.hash(password, 10);
         }
