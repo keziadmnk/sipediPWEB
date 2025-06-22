@@ -8,10 +8,12 @@ const Role = sequelize.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+      field: 'id_role'
     },
     nama_role: {
       type: DataTypes.STRING(50),
       allowNull: false,
+      field: 'nama_role'
     },
   },
   {
@@ -19,6 +21,5 @@ const Role = sequelize.define(
     timestamps: false,
   }
 );
-
 
 module.exports = { Role };

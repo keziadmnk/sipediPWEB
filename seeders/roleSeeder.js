@@ -8,13 +8,19 @@ const roleData = [
 
 async function seedRole() {
     try {
+        console.log('Starting role seeding...');
         await Role.destroy({ where: {} });
+        console.log('Existing roles deleted');
         
+        const createdRoles = [];
         for (const role of roleData) {
-            await Role.create(role);
+            const createdRole = await Role.create(role);
+            createdRoles.push(createdRole);
+            console.log(`Created role: ${createdRole.nama_role} with ID: ${createdRole.id_role}`);
         }
         
         console.log('Role berhasil di-seed!');
+        console.log('Created roles:', createdRoles.map(r => `${r.nama_role} (ID: ${r.id_role})`));
     } catch (error) {
         console.error('Error seeding role:', error);
         throw error;

@@ -1,4 +1,5 @@
 const { Pengguna } = require('../models/PenggunaModel');
+const { Role } = require('../models/RoleModel');
 const bcrypt = require('bcrypt');
 
 const hashPassword = async (password) => {
@@ -15,7 +16,7 @@ const penggunaData = [
         alamat: 'Jl. Universitas Andalas, Padang',
         foto: null,
         nomor_hp: '081234567890',
-        id_role: 1 
+        role_name: 'Admin'
     },
     {
         id_pengguna: '1371118001234',
@@ -26,7 +27,7 @@ const penggunaData = [
         alamat: 'Jl. Veteran No. 1, Padang',
         foto: null,
         nomor_hp: '081234567891',
-        id_role: 2 
+        role_name: 'Petugas'
     },
     {
         id_pengguna: '2311521001',
@@ -37,7 +38,7 @@ const penggunaData = [
         alamat: 'Jl. Hamka No. 1, Padang',
         foto: null,
         nomor_hp: '081234567893',
-        id_role: 3 
+        role_name: 'Mahasiswa'
     },
     {
         id_pengguna: '2311521002',
@@ -48,7 +49,7 @@ const penggunaData = [
         alamat: 'Jl. Mahasiswa No. 2, Padang',
         foto: null,
         nomor_hp: '081234567894',
-        id_role: 3 
+        role_name: 'Mahasiswa'
     },
     {
         id_pengguna: '2311521003',
@@ -59,7 +60,7 @@ const penggunaData = [
         alamat: 'Jl. Kayu Kalek No. 3, Padang',
         foto: null,
         nomor_hp: '081234567895',
-        id_role: 3 
+        role_name: 'Mahasiswa'
     }
 ];
 
@@ -68,19 +69,52 @@ async function seedPengguna() {
         // Hapus data yang ada 
         await Pengguna.destroy({ where: {} });
         
+        // Get role mappings using raw query to be sure
+        const roles = await Role.findAll({
+            attributes: ['id_role', 'nama_role']
+        });
+        
+        const roleMap = {};
+        roles.forEach(role => {
+            roleMap[role.nama_role] = role.id_role;
+        });
+        
+        console.log('Role mappings:', roleMap);
+        
+        // If roles are not found, use default IDs (assuming they were created in order)
+        if (!roleMap['Admin']) {
+            console.log('Using default role IDs...');
+            roleMap['Admin'] = 1;
+            roleMap['Petugas'] = 2;
+            roleMap['Mahasiswa'] = 3;
+        }
+        
         for (const pengguna of penggunaData) {
             const hashedPassword = await hashPassword(pengguna.password);
+            const roleId = roleMap[pengguna.role_name];
+            
+            if (!roleId) {
+                throw new Error(`Role '${pengguna.role_name}' not found in database`);
+            }
+            
             await Pengguna.create({
-                ...pengguna,
-                password: hashedPassword
+                id_pengguna: pengguna.id_pengguna,
+                username: pengguna.username,
+                password: hashedPassword,
+                nama_lengkap: pengguna.nama_lengkap,
+                email: pengguna.email,
+                alamat: pengguna.alamat,
+                foto: pengguna.foto,
+                nomor_hp: pengguna.nomor_hp,
+                id_role: roleId
             });
         }
         
         console.log('Pengguna berhasil di-seed!');
         console.log('Informasi login:');
-        console.log('   Admin: username=admin, password=admin123');
-        console.log('   Petugas: username=petugas1/petugas2, password=petugas123');
-        console.log('   Mahasiswa: username=mahasiswa1/mahasiswa2/mahasiswa3, password=mahasiswa123');
+        console.log('   Admin: email=admin@gmail.com, password=admin123');
+        console.log('   Petugas: email=petugas@gmail.com, password=petugas123');
+        console.log('   Mahasiswa: email=mahasiswa1@student.unand.ac.id, password=mahasiswa123');
     } catch (error) {
         console.error('Error seeding pengguna:', error);
         throw error;

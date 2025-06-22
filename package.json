@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "css": "npx @tailwindcss/cli -i ./public/stylesheets/style.css -o ./public/stylesheets/output.css --watch",
-    "seeds": "node ./seeders/index.js"
+    "seeds": "node ./seeders/index.js",
+    "debug": "node ./seeders/debugSeeder.js"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.8",
