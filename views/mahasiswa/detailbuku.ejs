@@ -113,7 +113,7 @@
             
             <% if (isEbook && buku.upload_pdf) { %>
             <a href="/uploads/pdf/<%= buku.upload_pdf %>" target="_blank" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 text-sm">
-              E-Book
+              Download E-Book
             </a>
             <% } else { %>
             <button
@@ -135,8 +135,18 @@
             </div>
             <div class="grid grid-cols-3 px-4 py-2">
               <div><%= buku.nomor_isbn %></div>
-              <div class="<%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %> font-semibold">
-                <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak tersedia' %>
+              <div>
+                <% 
+                  const isEbookDetail = buku.jenis.some(j => j.nama_jenis === 'E-Book');
+                  const isFisikDetail = buku.jenis.some(j => j.nama_jenis === 'Buku Fisik');
+                %>
+                <% if (isEbookDetail && !isFisikDetail) { %>
+                    <span class="text-yellow-600 font-semibold">Tersedia E-Book</span>
+                <% } else { %>
+                    <span class="<%= buku.jumlah_stok > 0 ? 'text-green-600' : 'text-red-600' %> font-semibold">
+                        <%= buku.jumlah_stok > 0 ? 'Tersedia' : 'Tidak Tersedia' %>
+                    </span>
+                <% } %>
               </div>
               <div><%= buku.lokasi_penyimpanan || '-' %></div>
             </div>
