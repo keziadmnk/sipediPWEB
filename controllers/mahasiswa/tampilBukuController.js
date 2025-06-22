@@ -32,7 +32,7 @@ const detailBuku = async (req, res) => {
         raw: true // Return plain data
     });
 
-    const averageRating = ulasanStats.averageRating ? parseFloat(ulasanStats.averageRating).toFixed(1) : '0.0';
+    const averageRating = ulasanStats.averageRating ? parseFloat(ulasanStats.averageRating) : 0;
     const totalReviews = ulasanStats.totalReviews || 0;
 
     res.render("mahasiswa/detailbuku", {
