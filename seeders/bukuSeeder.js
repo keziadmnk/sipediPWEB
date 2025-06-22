@@ -12,8 +12,8 @@ const bukuData = [
         deskripsi: 'Buku ini membahas teori dan praktik komunikasi dalam penyuluhan pertanian, seperti proses komunikasi dengan petani, upaya difusi inovasi, serta strategi komunikasi lisan dan non-lisan.',
         jumlah_halaman: 200,
         jumlah_stok: 5,
-        lokasi_penyimpanan: 'Rak A-1',
-        upload_pdf: 'The Basic of Information Security',
+        lokasi_penyimpanan: 'American Corner – Sayap Kanan Lt.2',
+        upload_pdf: 'PDF_1.pdf',
         upload_sampul: 'buku_1.jpg',
         id_kategori: 13 // Pertanian dan Peternakan
     },
@@ -26,7 +26,7 @@ const bukuData = [
         deskripsi: 'Buku ini membahas konsep negara kesejahteraan sebagai pijakan dalam pembangunan nasional.',
         jumlah_halaman: 321,
         jumlah_stok: 3,
-        lokasi_penyimpanan: 'Rak B-2',
+        lokasi_penyimpanan: 'Minangkabau Corner Lt. 3',
         upload_pdf: null,
         upload_sampul: 'buku_2.jpg',
         id_kategori: 9 // Ilmu Sosial dan Politik
@@ -40,7 +40,7 @@ const bukuData = [
         deskripsi: 'Studi tentang keadilan biologis dan aplikasinya dalam keputusan pengadilan',
         jumlah_halaman: 225,
         jumlah_stok: 4,
-        lokasi_penyimpanan: 'Rak C-3',
+        lokasi_penyimpanan: 'Minangkabau Corner Lt. 3',
         upload_pdf: 'PDF_1.pdf',
         upload_sampul: 'buku_3.jpg',
         id_kategori: 11 // Agama dan Filsafat
@@ -54,7 +54,7 @@ const bukuData = [
         deskripsi: 'Panduan praktis advokasi dalam pelayanan kesehatan',
         jumlah_halaman: 108,
         jumlah_stok: 6,
-        lokasi_penyimpanan: 'Rak D-4',
+        lokasi_penyimpanan: 'Ruang Lokal Konten – Skripsi',
         upload_pdf: null,
         upload_sampul: 'buku_4.png',
         id_kategori: 8 // Kesehatan dan Kedokteran
@@ -68,7 +68,7 @@ const bukuData = [
         deskripsi: 'Referensi komprehensif untuk pembelajaran jaringan komputer',
         jumlah_halaman: 195,
         jumlah_stok: 8,
-        lokasi_penyimpanan: 'Rak E-5',
+        lokasi_penyimpanan: 'Ruang Referensi – Sayap Kiri Lantai 2',
         upload_pdf: 'PDF_1.pdf',
         upload_sampul: 'buku_5.jpg',
         id_kategori: 2 // Ilmu Komputer
@@ -82,7 +82,7 @@ const bukuData = [
         deskripsi: 'Mengulas peran agama sebagai fondasi peradaban dan nilai sosial-politik hari ini',
         jumlah_halaman: 366,
         jumlah_stok: 4,
-        lokasi_penyimpanan: 'Rak F-6',
+        lokasi_penyimpanan: 'Ruang Sirkulasi 2 – Sayap Kanan Lantai 1',
         upload_pdf: 'PDF_1.pdf',
         upload_sampul: 'buku_6.jpg',
         id_kategori: 11 // Agama dan Filsafat
@@ -96,7 +96,7 @@ const bukuData = [
         deskripsi: 'Buku ini menjelaskan teori sastra, teknik menulis, dan apresiasi sastra untuk umum & akademik.',
         jumlah_halaman: 260,
         jumlah_stok: 5,
-        lokasi_penyimpanan: 'Rak G-7',
+        lokasi_penyimpanan: 'Ruang Sirkulasi Utama – Sayap Kiri Lantai 1',
         upload_pdf: 'PDF_1.pdf',
         upload_sampul: 'buku_7.jpg',
         id_kategori: 10 // Bahasa dan Sastra
@@ -110,7 +110,7 @@ const bukuData = [
         deskripsi: 'Pembahasan mendalam sejarah dan gaya arsitektur klasik Eropa',
         jumlah_halaman: 561,
         jumlah_stok: 3,
-        lokasi_penyimpanan: 'Rak H-8',
+        lokasi_penyimpanan: 'Ruang Referensi – Sayap Kiri Lantai 2',
         upload_pdf: null,
         upload_sampul: 'buku_8.jpg',
         id_kategori: 12 // Arsitektur dan Desain
@@ -124,7 +124,7 @@ const bukuData = [
         deskripsi: 'Pengantar lengkap pemrograman Julia: struktur kontrol, larik, tipe data, meta-pemrograman, dan penanganan file. Cocok untuk pemula dan pembelajar mandiri.',
         jumlah_halaman: 464,
         jumlah_stok: 7,
-        lokasi_penyimpanan: 'Rak I-9',
+        lokasi_penyimpanan: 'Ruang Sirkulasi 2 – Sayap Kanan Lantai 1',
         upload_pdf: null,
         upload_sampul: 'buku_9.jpg',
         id_kategori: 2 // Ilmu Komputer
@@ -138,7 +138,7 @@ const bukuData = [
         deskripsi: 'Membahas persoalan klasik dan kontemporer agama dari sudut filsafat, menyelami kepercayaan dan kritik atheisme/agnostik.',
         jumlah_halaman: 286,
         jumlah_stok: 4,
-        lokasi_penyimpanan: 'Rak J-10',
+        lokasi_penyimpanan: 'American Corner – Sayap Kanan Lt.2',
         upload_pdf: null,
         upload_sampul: 'buku_12.jpeg',
         id_kategori: 11 // Agama dan Filsafat
@@ -152,9 +152,9 @@ const bukuData = [
         deskripsi: 'Kajian mendalam hubungan hukum dan masyarakat, aliran, perubahan sosial, dan postmodernisme hukum.',
         jumlah_halaman: 248,
         jumlah_stok: 5,
-        lokasi_penyimpanan: 'Rak K-11',
+        lokasi_penyimpanan: 'Ruang Sirkulasi Utama – Sayap Kiri Lantai 1',
         upload_pdf: null,
-        upload_sampul: 'buku_18.jpg',
+        upload_sampul: 'buku_18.jpeg',
         id_kategori: 7 // Hukum
     },
     {
@@ -166,9 +166,9 @@ const bukuData = [
         deskripsi: 'Membahas konsep nilai seperti kebajikan dan penerapannya dalam budaya dan sumber daya manusia.',
         jumlah_halaman: 170,
         jumlah_stok: 6,
-        lokasi_penyimpanan: 'Rak L-12',
+        lokasi_penyimpanan: 'Ruang Lokal Konten – Skripsi',
         upload_pdf: 'PDF_1.pdf',
-        upload_sampul: null,
+        upload_sampul: 'buku-17.jpg',
         id_kategori: 11 // Agama dan Filsafat
     },
     {
@@ -180,9 +180,9 @@ const bukuData = [
         deskripsi: 'Buku kurikulum informatika SD, mengenalkan komputasi dan teknologi informasi dasar kepada siswa.',
         jumlah_halaman: 106,
         jumlah_stok: 10,
-        lokasi_penyimpanan: 'Rak M-13',
+        lokasi_penyimpanan: 'Rak American Corner – Sayap Kanan Lt.2M-13',
         upload_pdf: null,
-        upload_sampul: null,
+        upload_sampul: 'buku_14.jpg',
         id_kategori: 5 // Pendidikan
     },
     {
@@ -194,7 +194,7 @@ const bukuData = [
         deskripsi: 'Buku kontemporer membahas praktik dan teori hubungan hukum dan masyarakat.',
         jumlah_halaman: 296,
         jumlah_stok: 4,
-        lokasi_penyimpanan: 'Rak N-14',
+        lokasi_penyimpanan: 'Ruang Sirkulasi 2 – Sayap Kanan Lantai 1',
         upload_pdf: 'PDF_1.pdf',
         upload_sampul: 'buku_13.jpeg',
         id_kategori: 7 // Hukum
@@ -208,9 +208,9 @@ const bukuData = [
         deskripsi: 'Kumpulan tema filsafat: agama, moral, sains, politik, budaya, dan pendidikan dengan pendekatan tematik.',
         jumlah_halaman: 426,
         jumlah_stok: 3,
-        lokasi_penyimpanan: 'Rak O-15',
-        upload_pdf: 'PDF_1.pdf',
-        upload_sampul: null,
+        lokasi_penyimpanan: 'Ruang Sirkulasi 2 – Sayap Kanan Lantai 1',
+        upload_pdf: null,
+        upload_sampul: 'buku_16.jpg',
         id_kategori: 11 // Agama dan Filsafat
     }
 ];
