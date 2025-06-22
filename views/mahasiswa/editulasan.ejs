@@ -60,7 +60,7 @@
                 <p class="text-gray-700 leading-relaxed"><%= ulasan.isi_ulasan %></p>
             </div>
 
-            <form id="editUlasanForm" action="/buku/<%= buku.nomor_isbn %>/ulasan/<%= ulasan.id_ulasan %>/edit" method="POST">
+            <form id="editUlasanForm" action="/buku/<%= buku.nomor_isbn %>/ulasan/<%= ulasan.id_ulasan %>/edit" method="POST" onsubmit="return validateEditUlasanForm()">
                 <div class="mb-6">
                     <p class="font-semibold text-gray-700 mb-2">
                         <%= user.nama %>
@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="mb-8">
-                     <textarea name="isi_ulasan" rows="8" class="w-full border rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Tulis ulasan baru disini..."><%= ulasan.isi_ulasan %></textarea>
+                     <textarea name="isi_ulasan" id="isiUlasanEdit" rows="8" class="w-full border rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Tulis ulasan baru disini..."><%= ulasan.isi_ulasan %></textarea>
                 </div>
 
                 <div class="flex justify-center gap-4">
@@ -121,7 +121,13 @@
                         confirmButtonColor: '#d33',
                         cancelButtonColor: '#3085d6',
                         confirmButtonText: 'Ya, hapus!',
-                        cancelButtonText: 'Batal'
+                        customClass: {
+                            popup: 'text-sm rounded-lg shadow-lg',
+                            title: 'text-xl font-bold text-gray-800',
+                            htmlContainer: 'text-gray-700',
+                            confirmButton: 'px-4 py-2 text-white text-sm rounded-full',
+                            cancelButton: 'px-4 py-2 text-white text-sm rounded-full'
+                        }
                     }).then((result) => {
                         if (result.isConfirmed) {
                             deleteUlasanForm.submit();
@@ -130,6 +136,68 @@
                 });
             }
         });
+
+        function validateEditUlasanForm() {
+            const isiUlasan = document.getElementById('isiUlasanEdit').value.trim();
+            const ratingInputs = document.querySelectorAll('input[name="rating"]');
+            let ratingSelected = false;
+
+            for (const input of ratingInputs) {
+                if (input.checked) {
+                    ratingSelected = true;
+                    break;
+                }
+            }
+
+            if (isiUlasan === '' && !ratingSelected) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan!',
+                    text: 'Mohon isi ulasan dan berikan rating sebelum memperbarui.',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#418163', // Example: green color
+                    customClass: {
+                        popup: 'text-sm rounded-lg shadow-lg',
+                        title: 'text-xl font-bold text-gray-800',
+                        htmlContainer: 'text-gray-700',
+                        confirmButton: 'px-4 py-2 text-white text-sm rounded-full'
+                    }
+                });
+                return false;
+            } else if (isiUlasan === '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan!',
+                    text: 'Mohon isi ulasan Anda.',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#418163',
+                     customClass: {
+                        popup: 'text-sm rounded-lg shadow-lg',
+                        title: 'text-xl font-bold text-gray-800',
+                        htmlContainer: 'text-gray-700',
+                        confirmButton: 'px-4 py-2 text-white text-sm rounded-full'
+                    }
+                });
+                return false;
+            } else if (!ratingSelected) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan!',
+                    text: 'Mohon berikan rating.',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#418163',
+                     customClass: {
+                        popup: 'text-sm rounded-lg shadow-lg',
+                        title: 'text-xl font-bold text-gray-800',
+                        htmlContainer: 'text-gray-700',
+                        confirmButton: 'px-4 py-2 text-white text-sm rounded-full'
+                    }
+                });
+                return false;
+            }
+
+            return true; // Allow form submission
+        }
     </script>
 </body>
 </html>
