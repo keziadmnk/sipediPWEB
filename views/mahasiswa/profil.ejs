@@ -16,11 +16,9 @@
     </style>
 </head>
 <body class="bg-[#F8FFF6] font-sans">
-    <!-- Header menggunakan partial EJS -->
     <%- include('../partials/navbarMahasiswa') %>
 
-    <main class="mt-16"> <!-- Adjusted margin for fixed navbar -->
-        <!-- Hero Section -->
+    <main class="mt-16"> 
         <section class="relative bg-cover bg-center text-white" style="background-image: url('/images/Perpustakaan_Universitas_Andalas.jpg');">
             <div class="absolute inset-0 bg-green-900 bg-opacity-60"></div>
             <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
@@ -36,10 +34,8 @@
         <div class="bg-gray-50 py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <!-- Visi & Misi Section -->
                 <section class="mb-16">
                     <div class="grid md:grid-cols-2 gap-8 text-center">
-                        <!-- Visi Card -->
                         <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
                             <div class="flex justify-center items-center mx-auto bg-green-100 rounded-full h-16 w-16 mb-4">
                                 <i class="fas fa-eye text-3xl text-green-600"></i>
@@ -49,7 +45,6 @@
                                 Menjadi perpustakaan unggul dan pusat sumber belajar yang inovatif berbasis teknologi informasi.
                             </p>
                         </div>
-                        <!-- Misi Card -->
                         <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
                             <div class="flex justify-center items-center mx-auto bg-green-100 rounded-full h-16 w-16 mb-4">
                                 <i class="fas fa-bullseye text-3xl text-green-600"></i>
@@ -62,7 +57,6 @@
                     </div>
                 </section>
 
-                <!-- Sejarah Section -->
                 <section class="mb-16">
                     <div class="bg-white p-8 md:p-10 rounded-xl shadow-lg">
                         <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center flex items-center justify-center">
@@ -75,7 +69,6 @@
                     </div>
                 </section>
 
-                <!-- Jam Operasional Section -->
                 <section>
                     <div class="relative bg-cover bg-center rounded-xl shadow-lg overflow-hidden" style="background-image: url('/images/perpus.jpg');">
                         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -102,7 +95,6 @@
             </div>
         </div>
     </main>
-     <!-- Footer -->
     <footer
       class="bg-[#2f5d40] text-[#d1d5db] px-4 sm:px-6 md:px-10 lg:px-16 py-6"
     >

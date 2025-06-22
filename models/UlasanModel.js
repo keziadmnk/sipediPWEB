@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
 const Ulasan = sequelize.define('Ulasan', {
-  id_ulasan: { // Kolom baru sebagai Primary Key
+  id_ulasan: { 
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
@@ -39,7 +39,7 @@ const Ulasan = sequelize.define('Ulasan', {
 }, {
   tableName: 'ulasan',
   timestamps: true,
-  // Tambahkan unique constraint untuk kombinasi nomor_isbn dan id_pengguna
+
   uniqueKeys: {
     unique_ulasan_per_buku_pengguna: {
       fields: ['nomor_isbn', 'id_pengguna']

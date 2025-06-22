@@ -44,7 +44,7 @@ router.get('/editbuku', authenticate, (req, res) => {
 });
 
 router.get('/detailbuku', authenticate, function(req, res, next) {
-  res.render('admin/detailbuku'); // Pastikan ada file EJS untuk profil mahasiswa
+  res.render('admin/detailbuku'); 
 });
 
 
@@ -54,11 +54,9 @@ router.post("/tambahkategori", tambahKategori);
 
 router.get("/kategori", findAllKategori);
 
-// Rute BARU untuk menampilkan form edit kategori
-router.get("/editkategori/:id_kategori", showEditKategoriForm); // id_kategori dari parameter
+router.get("/editkategori/:id_kategori", showEditKategoriForm); 
 
-// Rute BARU untuk memproses update kategori
-router.post("/editkategori/:id_kategori", updateKategori); // id_kategori dari parameter
+router.post("/editkategori/:id_kategori", updateKategori); 
 
 router.post("/deletekategori/:id_kategori", deleteKategori);
 
@@ -66,17 +64,15 @@ router.get("/databuku", findAllBuku);
 
 router.get("/tambahbuku", showTambahBuku);
 
-// Route untuk menghapus buku - perbaiki route path
 router.delete('/buku/:nomor_isbn', authenticate, hapusBuku);
 
-// Alternative route jika ingin menggunakan POST method
 router.post('/hapusbuku/:nomor_isbn', authenticate, hapusBuku);
 
 
 
 router.post(
   "/tambahbuku",
-  uploadFields, // Gunakan middleware upload
+  uploadFields, 
   tambahBuku
 );
 
@@ -90,18 +86,15 @@ router.get("/tambahpetugas", authenticate, (req, res) => {
 
 router.post("/tambahpetugas", authenticate, tambahPetugas);
 
-router.get('/tambahmahasiswa', authenticate, showTambahMahasiswaForm); // Route to show the add student form
-router.post('/tambahmahasiswa', authenticate, tambahMahasiswa); // Route to process the add student form submission
+router.get('/tambahmahasiswa', authenticate, showTambahMahasiswaForm); 
+router.post('/tambahmahasiswa', authenticate, tambahMahasiswa); 
 
-// Route edit buku
 router.get('/editbuku/:nomor_isbn', authenticate, showEditBuku);
 router.post('/editbuku/:nomor_isbn', authenticate, uploadFields, updateBuku);
 
-// Route edit petugas
 router.get('/editpetugas/:id_pengguna', authenticate, showEditPetugas);
 router.post('/editpetugas/:id_pengguna', authenticate, updatePetugas);
 
-// Route edit mahasiswa
 router.get('/editmahasiswa/:id_pengguna', authenticate, showEditMahasiswa);
 router.post('/editmahasiswa/:id_pengguna', authenticate, updateMahasiswa);
 
@@ -109,7 +102,6 @@ router.post('/hapuspetugas/:id_pengguna', authenticate, hapusPetugas);
 
 router.post('/hapusmahasiswa/:id_pengguna', authenticate, hapusMahasiswa);
 
-// Route untuk laporan admin
 router.get("/laporanadmin", authenticate, showLaporanAdmin);
 
 module.exports = router;

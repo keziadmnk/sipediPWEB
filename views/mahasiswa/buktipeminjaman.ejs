@@ -15,9 +15,9 @@
   </head>
   <body class="bg-[#f5fcf6] min-h-screen">
     <%- include('../partials/navbarMahasiswa') %>
-    <!-- Main container -->
+  
     <main class="max-w-5xl mx-auto mt-28 px-4 sm:px-6 lg:px-8">
-      <!-- Success message box -->
+      
       <section
         class="bg-white rounded-lg shadow-md border border-[#b6c9b5] p-6 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center"
         style="box-shadow: 0 4px 6px rgb(182 201 181 / 0.3)"
@@ -42,7 +42,7 @@
           </p>
         </div>
       </section>
-      <!-- Summary box -->
+      
       <section
         class="bg-white rounded-lg shadow-md border border-[#b6c9b5] p-6"
         style="box-shadow: 0 4px 6px rgb(182 201 181 / 0.3)"
@@ -95,7 +95,6 @@
         </div>
       </section>
       
-      <!-- Action buttons -->
       <div class="flex justify-end gap-4 mt-6">
         <button
           class="bg-gray-500 text-white text-xs font-semibold rounded px-4 py-2 cursor-pointer select-none hover:bg-gray-600"
@@ -116,7 +115,6 @@
 
     <script>
       function downloadBuktiPeminjaman(idPeminjaman) {
-        // Redirect ke endpoint download bukti peminjaman
         window.location.href = `/mahasiswa/download-bukti-peminjaman/${idPeminjaman}`;
       }
     </script>

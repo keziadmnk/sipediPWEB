@@ -115,9 +115,9 @@
 <body class="bg-gradient-to-br  to-emerald-50 font-sans">
   <%- include('../partials/navbarMahasiswa') %>
 
-  <!-- Hero Section -->
+ 
   <main class="mt-20">
-    <!-- Enhanced Hero Section -->
+    
     <div class="relative bg-gradient-to-br from-green-800 to-green-900 overflow-hidden">
       <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('/images/mahasiswa-dashboard1.png');"></div>
       <div class="relative z-10 py-16 text-center text-white">
@@ -148,7 +148,7 @@
 
     <div class="max-w-9xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
 
-      <!-- Enhanced Book Recommendation Section -->
+      
       <section class="py-8">
         <div class="bg-gradient-to-br from-green-50 to-emerald-50 py-6 my-8 rounded-xl shadow-sm border border-green-100">
           <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">
@@ -169,7 +169,7 @@
                 <div class="flex-none bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out mr-6" style="width: 200px; min-width: 200px;">
                   <a href="/buku/<%= buku.nomor_isbn %>" class="block">
                     <div class="p-4">
-                      <!-- Kotak Gambar Sampul -->
+                      
                       <div class="w-full h-48 bg-gray-100 overflow-hidden shadow-md mb-4">
                         <img
                           alt="Cover <%= buku.judul_buku %>"
@@ -178,7 +178,7 @@
                         />
                       </div>
                       
-                      <!-- Kotak Judul dan Pengarang -->
+                     
                       <div>
                         <h3 class="font-semibold text-gray-800 mb-1 line-clamp-2 hover:text-green-600 transition-colors duration-200 text-sm">
                           <%= buku.judul_buku %>
@@ -196,7 +196,7 @@
                 <div class="flex-none bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out mr-6" style="width: 200px; min-width: 200px;">
                   <a href="#" class="block">
                     <div class="p-4">
-                      <!-- Kotak Gambar Sampul -->
+                     
                       <div class="w-full h-48 bg-gray-100 overflow-hidden shadow-md mb-4">
                         <img
                           alt="Placeholder Cover"
@@ -205,7 +205,7 @@
                         />
                       </div>
                       
-                      <!-- Kotak Judul dan Pengarang -->
+                  
                       <div>
                         <h3 class="font-semibold text-gray-800 mb-1 line-clamp-2 hover:text-green-600 transition-colors duration-200 text-sm">
                           Cover Bertarung Melawan Masa Lalu
@@ -227,7 +227,7 @@
         </div>
       </section>
 
-      <!-- Enhanced Category Section -->
+    
       <section class="py-8">
         <div class="bg-gradient-to-br from-green-50 to-emerald-50 py-6 my-8 rounded-xl shadow-sm border border-green-100">
           <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">
@@ -265,7 +265,7 @@
 
     </div>
 
-    <!-- Enhanced Logo Section -->
+    
     <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 mx-4 sm:mx-6 md:mx-10 lg:mx-16 my-20 shadow-xl border border-green-100">
       <div class="flex flex-col lg:flex-row items-center justify-center gap-8">
         <div class="text-center lg:text-left">
@@ -304,7 +304,7 @@
       </div>
     </div>
 
-    <!-- Enhanced YouTube Section -->
+    
     <div class="mb-20">
       <iframe
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -319,7 +319,7 @@
       </iframe>
     </div>
 
-    <!-- Original Footer -->
+    
     <footer
       class="bg-[#2f5d40] text-[#FDFCDD] hover:text-[#FFFB8C] mt-6 px-4 sm:px-6 md:px-10 lg:px-16 py-6"
     >
@@ -370,9 +370,8 @@
     const scrollLeftBookButton = document.getElementById('scrollLeftBook');
     const scrollRightBookButton = document.getElementById('scrollRightBook');
 
-    const scrollAmount = 200; // Adjust scroll distance as needed
+    const scrollAmount = 200; 
 
-    // --- Category Scroll Logic ---
     scrollLeftCategoryButton.addEventListener('click', () => {
       categoriesContainer.scrollBy({
         left: -scrollAmount,
@@ -387,7 +386,6 @@
       });
     });
 
-    // --- Book Scroll Logic ---
     scrollLeftBookButton.addEventListener('click', () => {
       booksContainer.scrollBy({
         left: -scrollAmount,
@@ -402,23 +400,22 @@
       });
     });
 
-    // --- Always show buttons logic (removed hiding logic) ---
     const updateAllArrowsVisibility = () => {
-        // Category arrows
+       
         scrollLeftCategoryButton.style.display = 'block';
         scrollRightCategoryButton.style.display = 'block';
 
-        // Book arrows
+        
         scrollLeftBookButton.style.display = 'block';
         scrollRightBookButton.style.display = 'block';
     };
 
-    updateAllArrowsVisibility(); // Initial call
+    updateAllArrowsVisibility(); 
 
-    // Attach to scroll and resize events for both containers
+   
     categoriesContainer.addEventListener('scroll', updateAllArrowsVisibility);
-    window.addEventListener('resize', updateAllArrowsVisibility); // Re-evaluate on resize
+    window.addEventListener('resize', updateAllArrowsVisibility); 
     booksContainer.addEventListener('scroll', updateAllArrowsVisibility);
-    window.addEventListener('resize', updateAllArrowsVisibility); // Re-evaluate on resize
+    window.addEventListener('resize', updateAllArrowsVisibility); 
   </script>
 </body>

@@ -23,7 +23,6 @@
     <%- include('../partials/navbarMahasiswa') %>
 
     <main class="max-w-6xl mx-auto p-6 bg-white mt-28 rounded-lg shadow-md">
-      <%# Tombol Kembali %>
         <div class="mb-4">
             <a href="javascript:void(0);" onclick="handleSmartBackButton()" class="text-2xl text-gray-600 hover:text-gray-900">
                 <i class="fas fa-arrow-left"></i>
@@ -88,7 +87,7 @@
           </ul>
 
           <%
-            // Define boolean flags for book types for cleaner logic
+            
             const jenisList = buku.jenis.map(j => j.nama_jenis.toLowerCase());
             const isFisik = jenisList.includes("buku fisik");
             const isEbook = jenisList.includes("e-book") || jenisList.includes("ebook");
@@ -151,28 +150,20 @@
                 const referrer = document.referrer;
                 const currentBookISBN = "<%= buku.nomor_isbn %>";
                 
-                // Mendefinisikan pola URL untuk halaman ulasan dan edit ulasan
                 const ulasanMainPageFullPath = window.location.origin + `/buku/${currentBookISBN}/ulasan`;
                 const editUlasanPagePathPrefix = window.location.origin + `/buku/${currentBookISBN}/ulasan/`;
                 
                 if (referrer) {
-                    // Cek apakah referrer adalah halaman edit ulasan (misal: http://localhost:3000/buku/ISBN/ulasan/ID/edit)
                     if (referrer.startsWith(editUlasanPagePathPrefix) && referrer.endsWith('/edit')) {
-                        // Jika berasal dari halaman edit ulasan, langsung arahkan ke halaman koleksi buku.
-                        // Ini karena setelah edit, riwayat bisa kompleks. Redirect langsung lebih reliable.
-                        window.location.href = '/mahasiswa/koleksibuku'; // Atau '/mahasiswa/ebook' jika lebih sering dari sana
+                        window.location.href = '/mahasiswa/koleksibuku'; 
                     } 
-                    // Cek apakah referrer adalah halaman ulasan utama (misal: http://localhost:3000/buku/ISBN/ulasan)
                     else if (referrer === ulasanMainPageFullPath) {
-                        // Jika berasal dari halaman ulasan utama, juga langsung arahkan ke halaman koleksi buku.
-                        window.location.href = '/mahasiswa/koleksibuku'; // Atau '/mahasiswa/ebook'
+                        window.location.href = '/mahasiswa/koleksibuku'; 
                     } 
-                    else {
-                        // Jika bukan dari halaman ulasan/edit ulasan, lakukan kembali normal
+                    else {            
                         window.history.back();
                     }
                 } else {
-                    // Jika tidak ada referrer (misalnya, diakses langsung detail buku atau setelah refresh), kembali normal
                     window.history.back();
                 }
             }

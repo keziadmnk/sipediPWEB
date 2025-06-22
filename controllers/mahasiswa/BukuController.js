@@ -1,7 +1,6 @@
-const { Buku, Ulasan, Pengguna, Kategori, Jenis } = require("../../models/relation"); // Import models
-const { Op, Sequelize } = require("sequelize"); // Import Sequelize and Op for aggregation
+const { Buku, Ulasan, Pengguna, Kategori, Jenis } = require("../../models/relation");
+const { Op, Sequelize } = require("sequelize"); 
 
-// Helper function to format date
 const formatTanggal = (date) => {
     if (!date) return "-";
     const d = new Date(date);
@@ -11,14 +10,12 @@ const formatTanggal = (date) => {
     return `${day}-${month}-${year}`;
 };
 
-// GET /buku/:id/ulasan
 exports.getDaftarUlasan = async (req, res) => {
     try {
-        const { id } = req.params; // This is nomor_isbn
-        const userId = req.user.userId; // ID pengguna dari token
+        const { id } = req.params; 
+        const userId = req.user.userId; 
 
         const buku = await Buku.findByPk(id, {
-            // Ditambahkan 'upload_sampul' di sini
             attributes: ['nomor_isbn', 'judul_buku', 'pengarang', 'deskripsi', 'upload_sampul']
         });
 
@@ -38,7 +35,6 @@ exports.getDaftarUlasan = async (req, res) => {
             order: [['createdAt', 'DESC']]
         });
 
-        // Cek apakah user sudah mengulas buku ini
         const userUlasan = await Ulasan.findOne({
             where: {
                 nomor_isbn: id,
@@ -46,7 +42,6 @@ exports.getDaftarUlasan = async (req, res) => {
             }
         });
 
-        // Calculate average rating and distribution
         const totalUlasanCount = ulasans.length;
         let sumRatings = 0;
         const ratingDistribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
@@ -65,7 +60,7 @@ exports.getDaftarUlasan = async (req, res) => {
             rating: ulasan.rating,
             createdAt: formatTanggal(ulasan.createdAt),
             komentar: ulasan.isi_ulasan,
-            id_ulasan: ulasan.id_ulasan // Sertakan ID ulasan
+            id_ulasan: ulasan.id_ulasan 
         }));
 
         res.render('mahasiswa/ulasan', {
@@ -76,8 +71,8 @@ exports.getDaftarUlasan = async (req, res) => {
                 totalUlasan: totalUlasanCount,
                 distribusi: ratingDistribution
             },
-            userUlasanExists: !!userUlasan, // Menandakan apakah user sudah mengulas
-            userUlasanId: userUlasan ? userUlasan.id_ulasan : null // ID ulasan jika sudah ada
+            userUlasanExists: !!userUlasan, 
+            userUlasanId: userUlasan ? userUlasan.id_ulasan : null 
         });
 
     } catch (error) {
@@ -86,11 +81,9 @@ exports.getDaftarUlasan = async (req, res) => {
     }
 };
 
-// GET /buku/:id/ulasan/tulis
-// Digunakan untuk menampilkan form Tulis Ulasan (jika belum ada)
 exports.getFormUlasan = async (req, res) => {
     try {
-        const { id } = req.params; // nomor_isbn
+        const { id } = req.params; 
         const userId = req.user.userId;
 
         const buku = await Buku.findByPk(id, {
@@ -109,15 +102,14 @@ exports.getFormUlasan = async (req, res) => {
         });
 
         if (existingUlasan) {
-            // Jika ulasan sudah ada, redirect ke halaman edit ulasan
             return res.redirect(`/buku/${id}/ulasan/${existingUlasan.id_ulasan}/edit`);
         }
 
         res.render('mahasiswa/tulisUlasan', {
             buku: buku,
             user: req.user,
-            ulasan: null, // Tidak ada ulasan yang sudah ada
-            isEdit: false // Menandakan ini adalah form tulis ulasan baru
+            ulasan: null, 
+            isEdit: false 
         });
     } catch (error) {
         console.error("Error fetching form ulasan:", error);
@@ -125,11 +117,9 @@ exports.getFormUlasan = async (req, res) => {
     }
 };
 
-// POST /buku/:id/ulasan
-// Untuk membuat ulasan baru
 exports.createUlasan = async (req, res) => {
     try {
-        const bookId = req.params.id; // nomor_isbn
+        const bookId = req.params.id; 
         const { isi_ulasan, rating } = req.body;
         const userId = req.user.userId;
 
@@ -146,7 +136,6 @@ exports.createUlasan = async (req, res) => {
             return res.status(404).json({ success: false, message: "Buku tidak ditemukan." });
         }
 
-        // Cek apakah pengguna sudah mengulas buku ini sebelumnya
         const existingUlasan = await Ulasan.findOne({
             where: {
                 nomor_isbn: bookId,
@@ -155,17 +144,14 @@ exports.createUlasan = async (req, res) => {
         });
 
         if (existingUlasan) {
-            // Jika ulasan sudah ada, arahkan ke update
-            // Atau berikan pesan error bahwa sudah ada ulasan
             console.warn(`User ${userId} mencoba membuat ulasan kedua untuk buku ${bookId}. Mengarahkan ke update.`);
             await Ulasan.update(
                 { isi_ulasan: isi_ulasan, rating: parseInt(rating) },
                 { where: { id_ulasan: existingUlasan.id_ulasan } }
             );
-            return res.redirect(`/buku/${bookId}/ulasan`); // Redirect kembali setelah update
+            return res.redirect(`/buku/${bookId}/ulasan`);
         }
 
-        // Jika ulasan belum ada, buat yang baru
         await Ulasan.create({
             nomor_isbn: bookId,
             id_pengguna: userId,
@@ -180,7 +166,6 @@ exports.createUlasan = async (req, res) => {
     }
 };
 
-// GET /buku/:nomor_isbn/ulasan/:id_ulasan/edit
 exports.getEditUlasanForm = async (req, res) => {
     try {
         const { nomor_isbn, id_ulasan } = req.params;
@@ -198,7 +183,7 @@ exports.getEditUlasanForm = async (req, res) => {
             where: {
                 id_ulasan: id_ulasan,
                 nomor_isbn: nomor_isbn,
-                id_pengguna: userId // Pastikan hanya pemilik ulasan yang bisa mengedit
+                id_pengguna: userId 
             }
         });
 
@@ -206,11 +191,11 @@ exports.getEditUlasanForm = async (req, res) => {
             return res.status(404).send("Ulasan tidak ditemukan atau Anda tidak memiliki izin untuk mengeditnya.");
         }
 
-        res.render('mahasiswa/editUlasan', { // Menggunakan template editUlasan.ejs
+        res.render('mahasiswa/editUlasan', { 
             buku: buku,
             user: req.user,
-            ulasan: ulasan, // Kirim data ulasan yang ada
-            isEdit: true // Menandakan ini adalah form edit
+            ulasan: ulasan,
+            isEdit: true 
         });
 
     } catch (error) {
@@ -219,7 +204,6 @@ exports.getEditUlasanForm = async (req, res) => {
     }
 };
 
-// POST /buku/:nomor_isbn/ulasan/:id_ulasan/edit (atau PUT jika bisa)
 exports.updateUlasan = async (req, res) => {
     try {
         const { nomor_isbn, id_ulasan } = req.params;
@@ -238,7 +222,7 @@ exports.updateUlasan = async (req, res) => {
             where: {
                 id_ulasan: id_ulasan,
                 nomor_isbn: nomor_isbn,
-                id_pengguna: userId // Pastikan hanya pemilik ulasan yang bisa mengedit
+                id_pengguna: userId 
             }
         });
 
@@ -251,7 +235,7 @@ exports.updateUlasan = async (req, res) => {
             rating: parseInt(rating)
         });
 
-        res.redirect(`/buku/${nomor_isbn}/ulasan`); // Redirect kembali ke halaman daftar ulasan
+        res.redirect(`/buku/${nomor_isbn}/ulasan`); 
 
     } catch (error) {
         console.error("Error updating ulasan:", error);
@@ -260,7 +244,6 @@ exports.updateUlasan = async (req, res) => {
 };
 
 
-// Fungsi detail buku untuk halaman mahasiswa/detailbuku
 exports.getDetailBuku = async (req, res) => {
     try {
         const { nomor_isbn } = req.params;
@@ -277,7 +260,6 @@ exports.getDetailBuku = async (req, res) => {
           return res.status(404).send("Buku tidak ditemukan");
         }
 
-        // Ambil rata-rata rating dan total ulasan dari tabel Ulasan
         const ulasanStats = await Ulasan.findOne({
             attributes: [
                 [Sequelize.fn('AVG', Sequelize.col('rating')), 'averageRating'],
@@ -287,13 +269,12 @@ exports.getDetailBuku = async (req, res) => {
             raw: true
         });
 
-        // Pastikan averageRating adalah number sebelum dikirim ke tampilan
         const averageRating = ulasanStats.averageRating ? parseFloat(ulasanStats.averageRating) : 0;
         const totalReviews = ulasanStats.totalReviews || 0;
 
         res.render("mahasiswa/detailbuku", {
             buku,
-            rating: { // Kirim objek rating ke tampilan
+            rating: {
                 rataRata: averageRating,
                 totalUlasan: totalReviews
             }
@@ -304,7 +285,6 @@ exports.getDetailBuku = async (req, res) => {
     }
 };
 
-// Fungsi BARU untuk menghapus ulasan
 exports.deleteUlasan = async (req, res) => {
     try {
         const { nomor_isbn, id_ulasan } = req.params;
@@ -314,7 +294,7 @@ exports.deleteUlasan = async (req, res) => {
             where: {
                 id_ulasan: id_ulasan,
                 nomor_isbn: nomor_isbn,
-                id_pengguna: userId // Pastikan hanya pemilik ulasan yang bisa menghapus
+                id_pengguna: userId 
             }
         });
 
@@ -322,15 +302,14 @@ exports.deleteUlasan = async (req, res) => {
             return res.status(404).json({ success: false, message: "Ulasan tidak ditemukan atau Anda tidak memiliki izin untuk menghapusnya." });
         }
 
-        await ulasan.destroy(); // Hapus ulasan dari database
+        await ulasan.destroy(); 
 
-        // Mengatur pesan sukses untuk ditampilkan di halaman ulasan
         req.session.message = {
             type: 'success',
             text: 'Ulasan berhasil dihapus.'
         };
 
-        res.redirect(`/buku/${nomor_isbn}/ulasan`); // Redirect kembali ke halaman daftar ulasan
+        res.redirect(`/buku/${nomor_isbn}/ulasan`); 
 
     } catch (error) {
         console.error("Error deleting ulasan:", error);

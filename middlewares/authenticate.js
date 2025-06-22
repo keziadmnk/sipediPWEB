@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-// Middleware umum untuk autentikasi
 const authenticate = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
@@ -18,7 +17,6 @@ const authenticate = (req, res, next) => {
   });
 };
 
-// Middleware untuk mengecek role tertentu
 const authorize = (allowedRoles) => {
   return (req, res, next) => {
     const token = req.cookies.token;
@@ -34,7 +32,6 @@ const authorize = (allowedRoles) => {
 
       req.user = decoded;
 
-      // Cek apakah role user termasuk dalam allowedRoles
       if (!allowedRoles.includes(decoded.role.toLowerCase())) {
         return res.status(403).render('error', { 
           message: 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.',

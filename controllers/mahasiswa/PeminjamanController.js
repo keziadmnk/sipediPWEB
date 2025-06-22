@@ -3,19 +3,17 @@ const { Buku } = require("../../models/BukuModel");
 const { Pengguna } = require("../../models/PenggunaModel");
 const PDFDocument = require('pdfkit');
 
-// Menampilkan form peminjaman dengan data buku yang dipilih
 const showFormPeminjaman = async (req, res) => {
   try {
     const { nomor_isbn } = req.query;
 
-    console.log("Request user:", req.user); // Debug log
-    console.log("ISBN:", nomor_isbn); // Debug log
+    console.log("Request user:", req.user); 
+    console.log("ISBN:", nomor_isbn); 
 
     if (!nomor_isbn) {
       return res.status(400).send("ISBN buku tidak ditemukan");
     }
 
-    // Ambil data buku berdasarkan ISBN
     const buku = await Buku.findOne({
       where: { nomor_isbn: nomor_isbn },
     });
@@ -24,21 +22,18 @@ const showFormPeminjaman = async (req, res) => {
       return res.status(404).send("Buku tidak ditemukan");
     }
 
-    // Cek apakah user data tersedia
     if (!req.user) {
       return res.status(401).send("User tidak terautentikasi");
     }
 
-    // Cek berbagai kemungkinan nama field untuk id pengguna
     const userId = req.user.userId;
 
-    console.log("User ID:", userId); // Debug log
+    console.log("User ID:", userId); 
 
     if (!userId) {
       return res.status(400).send("ID pengguna tidak ditemukan dalam session");
     }
 
-    // Ambil data pengguna yang sedang login
     const pengguna = await Pengguna.findOne({
       where: { id_pengguna: userId },
     });
@@ -47,7 +42,6 @@ const showFormPeminjaman = async (req, res) => {
       return res.status(404).send("Data pengguna tidak ditemukan di database");
     }
 
-    // Render form peminjaman dengan data buku dan pengguna
     res.render("mahasiswa/formpeminjaman", {
       buku: buku,
       pengguna: pengguna,
@@ -60,24 +54,19 @@ const showFormPeminjaman = async (req, res) => {
   }
 };
 
-// Memproses peminjaman buku
 const prosesPeminjaman = async (req, res) => {
   try {
-    // Log untuk debugging
     console.log("Raw request body:", req.body);
     console.log("Request user:", req.user);
 
-    // Ambil data dari body
     const { nomor_isbn, tanggal_peminjaman } = req.body;
 
-    // Cek berbagai kemungkinan nama field untuk id pengguna
     const id_pengguna = req.user.userId;
 
     console.log("Process peminjaman - User ID:", id_pengguna);
     console.log("Process peminjaman - nomor_isbn:", nomor_isbn);
     console.log("Process peminjaman - tanggal_peminjaman:", tanggal_peminjaman);
 
-    // Validasi input
     if (!nomor_isbn || !tanggal_peminjaman) {
       return res.status(400).json({
         success: false,
@@ -92,8 +81,6 @@ const prosesPeminjaman = async (req, res) => {
       });
     }
 
-    // Validasi tanggal peminjaman tidak boleh sebelum hari ini
-    // Gunakan metode yang lebih akurat untuk mendapatkan tanggal hari ini dalam timezone lokal
     const today = new Date();
     const todayString = today.getFullYear() + '-' + 
                        String(today.getMonth() + 1).padStart(2, '0') + '-' + 
@@ -113,7 +100,6 @@ const prosesPeminjaman = async (req, res) => {
       });
     }
 
-    // Cek apakah buku masih tersedia
     const buku = await Buku.findOne({
       where: { nomor_isbn: nomor_isbn },
     });
@@ -132,7 +118,6 @@ const prosesPeminjaman = async (req, res) => {
       });
     }
 
-    // Cek apakah mahasiswa sudah meminjam buku yang sama dan belum dikembalikan
     const existingPeminjaman = await Peminjaman.findOne({
       where: {
         id_pengguna: id_pengguna,
@@ -148,27 +133,23 @@ const prosesPeminjaman = async (req, res) => {
       });
     }
 
-    // Hitung tanggal wajib pengembalian (3 hari setelah tanggal peminjaman)
     const tanggalWajibPengembalian = new Date(pinjamDate);
     tanggalWajibPengembalian.setDate(tanggalWajibPengembalian.getDate() + 3);
 
-    // Buat record peminjaman baru dengan tanggal yang sudah dinormalisasi
     const peminjaman = await Peminjaman.create({
       id_pengguna: id_pengguna,
       nomor_isbn: nomor_isbn,
-      tanggal_peminjaman: pinjamDate, // Sudah dinormalisasi ke 00:00:00
+      tanggal_peminjaman: pinjamDate, 
       tanggal_wajib_pengembalian: tanggalWajibPengembalian,
       status_peminjaman: "Dipinjam",
       denda: null,
     });
 
-    // Kurangi stok buku
     await Buku.update(
       { jumlah_stok: buku.jumlah_stok - 1 },
       { where: { nomor_isbn: nomor_isbn } }
     );
 
-    // Format tanggal untuk response
     const formatTanggal = (date) => {
       return new Date(date).toLocaleDateString("id-ID", {
         day: "2-digit",
@@ -177,7 +158,6 @@ const prosesPeminjaman = async (req, res) => {
       });
     };
 
-    // Response dengan URL redirect ke halaman bukti peminjaman
     res.json({
       success: true,
       message: "Peminjaman berhasil diproses",
@@ -196,7 +176,6 @@ const prosesPeminjaman = async (req, res) => {
   }
 };
 
-// Menampilkan halaman bukti peminjaman
 const showBuktiPeminjaman = async (req, res) => {
   try {
     const { id_peminjaman } = req.query;
@@ -205,19 +184,15 @@ const showBuktiPeminjaman = async (req, res) => {
       return res.status(400).send("ID peminjaman tidak ditemukan");
     }
 
-    // Cari data peminjaman berdasarkan ID dengan relasi ke buku dan pengguna
-    // Gunakan nama model tanpa alias karena tidak ada alias yang didefinisikan di relation.js
     const peminjaman = await Peminjaman.findOne({
       where: { id_peminjaman: id_peminjaman },
       include: [
         {
           model: Buku,
-          // Tidak menggunakan alias karena tidak didefinisikan di relation.js
           required: true,
         },
         {
           model: Pengguna,
-          // Tidak menggunakan alias karena tidak didefinisikan di relation.js
           required: true,
         },
       ],
@@ -227,7 +202,6 @@ const showBuktiPeminjaman = async (req, res) => {
       return res.status(404).send("Data peminjaman tidak ditemukan");
     }
 
-    // Format tanggal
     const formatTanggal = (date) => {
       return new Date(date).toLocaleDateString("id-ID", {
         day: "2-digit",
@@ -236,27 +210,20 @@ const showBuktiPeminjaman = async (req, res) => {
       });
     };
 
-    // Prepare data dengan format tanggal yang sudah diformat
-    // Akses data relasi menggunakan nama model (Buku dan Pengguna)
     const peminjamanData = {
       ...peminjaman.dataValues,
       tanggal_peminjaman: formatTanggal(peminjaman.tanggal_peminjaman),
       tanggal_wajib_pengembalian: formatTanggal(
         peminjaman.tanggal_wajib_pengembalian
       ),
-      // Akses menggunakan nama model dengan huruf kapital
       buku: peminjaman.Buku,
       pengguna: peminjaman.Pengguna,
-      // Jika tidak ada lokasi_penyimpanan di peminjaman, ambil dari buku
       lokasi_penyimpanan:
         peminjaman.lokasi_penyimpanan || peminjaman.Buku.lokasi_penyimpanan,
-      // Tambahkan formattedId dari virtual field
       formattedId: peminjaman.formattedId,
     };
 
-    console.log("Peminjaman data:", peminjamanData); // Debug log
-
-    // Render halaman bukti dengan data peminjaman
+    console.log("Peminjaman data:", peminjamanData); 
     res.render("mahasiswa/buktipeminjaman", {
       peminjaman: peminjamanData,
     });
@@ -287,14 +254,12 @@ const downloadBuktiPeminjaman = async (req, res) => {
 
     doc.pipe(res);
 
-    // Header
     doc
       .fontSize(20).font('Helvetica-Bold').text('Bukti Peminjaman', { align: 'center' })
       .fontSize(12).font('Helvetica').text('Sistem Informasi Perpustakaan Digital (SIPEDI)', { align: 'center' })
       .text('Universitas Andalas', { align: 'center' })
       .moveDown(2);
 
-    // Kode Peminjaman Box
     const boxY = doc.y;
     doc
       .fontSize(14).font('Helvetica-Bold').text('Kode Peminjaman Anda:', 70, boxY + 22, { align: 'left'})
@@ -303,7 +268,6 @@ const downloadBuktiPeminjaman = async (req, res) => {
     doc.rect(50, boxY, 512, 60).stroke();
     doc.moveDown(4);
 
-    // Helper function to draw a section
     const drawSection = (title, data) => {
       doc.fontSize(16).font('Helvetica-Bold').text(title, { underline: true }).moveDown(0.5);
       Object.entries(data).forEach(([key, value]) => {
@@ -315,7 +279,6 @@ const downloadBuktiPeminjaman = async (req, res) => {
       doc.moveDown(1);
     };
 
-    // Format tanggal function
     const formatTanggal = (date) => {
       if (!date) return '-';
       return new Date(date).toLocaleDateString("id-ID", {
@@ -325,7 +288,6 @@ const downloadBuktiPeminjaman = async (req, res) => {
       });
     };
 
-    // Informasi Peminjam
     drawSection('Informasi Peminjam', {
       'Kode Peminjaman': peminjamanData.formattedId || `PJ${peminjamanData.id_peminjaman}`,
       'Nama Lengkap': peminjamanData.Pengguna.nama_lengkap,
@@ -333,7 +295,6 @@ const downloadBuktiPeminjaman = async (req, res) => {
       'Email': peminjamanData.Pengguna.email
     });
 
-    // Informasi Buku
     drawSection('Informasi Buku', {
       'Judul Buku': peminjamanData.Buku.judul_buku,
       'Pengarang': peminjamanData.Buku.pengarang,
@@ -341,14 +302,12 @@ const downloadBuktiPeminjaman = async (req, res) => {
       'Lokasi': peminjamanData.Buku.lokasi_penyimpanan
     });
 
-    // Detail Peminjaman
     drawSection('Detail Peminjaman', {
       'Tanggal Pinjam': formatTanggal(peminjamanData.tanggal_peminjaman),
       'Wajib Kembali': formatTanggal(peminjamanData.tanggal_wajib_pengembalian),
       'Status': peminjamanData.status_peminjaman,
     });
     
-    // Footer
     doc.fontSize(9).font('Helvetica-Oblique')
       .text('Harap tunjukkan bukti ini kepada petugas perpustakaan saat pengambilan buku.', 50, 750, { align: 'center', width: 512 })
       .text(`Dokumen ini dibuat secara otomatis pada ${new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'long' })}.`, { align: 'center', width: 512 });

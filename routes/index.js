@@ -11,34 +11,28 @@ router.get('/', function(req, res, next) {
 });
 
 
-// Route untuk menampilkan Tambah Buku
 router.get('/tambahbuku', function(req, res, next) {
-  res.render('admin/tambahbuku');  // Render file databuju.ejs
+  res.render('admin/tambahbuku');  
 });
 
-// Route untuk menampilkan Koleksi Buku
 router.get('/koleksibuku', function(req, res, next) {
-  res.render('mahasiswa/koleksibuku');  // Render file databuju.ejs
+  res.render('mahasiswa/koleksibuku');  
 });
 
-// Contoh route untuk mahasiswa dashboard
 router.get('/mahasiswa/dashboard', authenticate, (req, res) => {
   res.render('mahasiswa/dashboard');
 });
 
-// Route untuk menampilkan Detail Buku
 router.get('/detailbuku', function(req, res, next) {
-  res.render('mahasiswa/detailbuku');  // Render file databuju.ejs
+  res.render('mahasiswa/detailbuku'); 
 });
 
-// Route untuk menampilkan Detail Buku
 router.get('/profil', function(req, res, next) {
-  res.render('mahasiswa/profil');  // Render file databuju.ejs
+  res.render('mahasiswa/profil'); 
 });
 
-// Route untuk menampilkan Kategori Buku
 router.get('/kategoribuku', function(req, res, next) {
-  res.render('admin/kategoribuku');  // Render file databuju.ejs
+  res.render('admin/kategoribuku');  
 });
 
 module.exports = router;
