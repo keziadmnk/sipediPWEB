@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "css": "npx @tailwindcss/cli -i ./public/stylesheets/style.css -o ./public/stylesheets/output.css --watch"
+    "css": "npx @tailwindcss/cli -i ./public/stylesheets/style.css -o ./public/stylesheets/output.css --watch",
+    "seeds": "node ./seeders/index.js"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.8",

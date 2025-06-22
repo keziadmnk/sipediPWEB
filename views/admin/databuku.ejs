@@ -53,9 +53,6 @@
               >
                 <tr>
                   <th class="px-3 py-2 rounded-tl-lg" scope="col">
-                    Cover
-                  </th>
-                  <th class="px-3 py-2" scope="col">
                     Id Buku
                   </th>
                   <th class="px-3 py-2" scope="col">Judul Buku</th>
@@ -73,23 +70,6 @@
               <tbody>
                 <% databuku.forEach(buku => { %>
           <tr>
-            <td class="px-3 py-2">
-              <div class="w-16 h-20 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
-                <% if (buku.upload_sampul) { %>
-                  <img 
-                    src="/uploads/covers/<%= buku.upload_sampul %>" 
-                    alt="Cover <%= buku.judul_buku %>" 
-                    class="w-full h-full object-cover"
-                  />
-                <% } else { %>
-                  <img 
-                    src="/images/coverbuku.jpeg" 
-                    alt="Default Cover" 
-                    class="w-full h-full object-cover"
-                  />
-                <% } %>
-              </div>
-            </td>
             <td class="px-3 py-2"><%= buku.nomor_isbn %></td>
             <td class="px-3 py-2"><%= buku.judul_buku %></td>
             <td class="px-3 py-2">
