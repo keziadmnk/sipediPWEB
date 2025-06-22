@@ -14,6 +14,17 @@ const showRiwayatPeminjaman = async (req, res) => {
       return res.status(401).send("User tidak terautentikasi");
     }
 
+    await Peminjaman.update(
+      { status_peminjaman: "Dipinjam" },
+      { 
+        where: { 
+          id_pengguna: id_pengguna,
+          status_peminjaman: "Terlambat",
+          tanggal_pengembalian: null
+        } 
+      }
+    );
+
     const riwayatPeminjaman = await Peminjaman.findAll({
       where: {
         id_pengguna: id_pengguna,
@@ -33,18 +44,28 @@ const showRiwayatPeminjaman = async (req, res) => {
 
     const updatedRiwayat = riwayatPeminjaman.map((peminjaman, index) => {
       let status = peminjaman.status_peminjaman;
+      let dendaDisplay = 0;
 
-      if (status === "Dipinjam") {
-        const tanggalWajib = new Date(peminjaman.tanggal_wajib_pengembalian);
-        tanggalWajib.setHours(0, 0, 0, 0);
-
-        if (today > tanggalWajib) {
-          status = "Terlambat";
+      if (!peminjaman.tanggal_pengembalian) {
+        if (status === "Terlambat") {
+          status = "Dipinjam";
           Peminjaman.update(
-            { status_peminjaman: "Terlambat" },
+            { status_peminjaman: "Dipinjam" },
             { where: { id_peminjaman: peminjaman.id_peminjaman } }
           );
         }
+        
+        if (status === "Dipinjam") {
+          const tanggalWajib = new Date(peminjaman.tanggal_wajib_pengembalian);
+          tanggalWajib.setHours(0, 0, 0, 0);
+
+          if (today > tanggalWajib) {
+            const selisihHari = Math.ceil((today - tanggalWajib) / (1000 * 60 * 60 * 24));
+            dendaDisplay = selisihHari * 5000;
+          }
+        }
+      } else {
+        dendaDisplay = peminjaman.denda || 0;
       }
 
       return {
@@ -57,7 +78,8 @@ const showRiwayatPeminjaman = async (req, res) => {
         tanggal_wajib_pengembalian: formatTanggal(peminjaman.tanggal_wajib_pengembalian),
         tanggal_pengembalian: peminjaman.tanggal_pengembalian ? formatTanggal(peminjaman.tanggal_pengembalian) : "-",
         status_peminjaman: status,
-        denda: peminjaman.denda || 0,
+        denda: dendaDisplay,
+        isTerlambat: dendaDisplay > 0 && !peminjaman.tanggal_pengembalian,
       };
     });
 
@@ -125,7 +147,13 @@ const getDetailPeminjaman = async (req, res) => {
         : new Date();
       const tanggalWajib = new Date(detailPeminjaman.tanggal_wajib_pengembalian);
 
-      const selisihHari = Math.ceil((tanggalKembali - tanggalWajib) / (5000 * 60 * 60 * 24));
+      const kembaliMidnight = new Date(tanggalKembali);
+      kembaliMidnight.setHours(0, 0, 0, 0);
+      
+      const wajibMidnight = new Date(tanggalWajib);
+      wajibMidnight.setHours(0, 0, 0, 0);
+
+      const selisihHari = Math.ceil((kembaliMidnight - wajibMidnight) / (1000 * 60 * 60 * 24));
 
       if (selisihHari > 0) {
         denda = selisihHari * 5000;

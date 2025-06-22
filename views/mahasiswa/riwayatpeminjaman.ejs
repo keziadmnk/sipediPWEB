@@ -29,6 +29,22 @@
         <h1>Riwayat Peminjaman</h1>
       </div>
 
+      <!-- Informasi Denda -->
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <div class="flex items-start">
+          <i class="fas fa-info-circle text-blue-600 mt-1 mr-3"></i>
+          <div class="text-sm text-blue-800">
+            <h3 class="font-semibold mb-2">Informasi Denda Keterlambatan:</h3>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Denda keterlambatan: <strong>Rp5.000 per hari</strong></li>
+              <li>Status tetap "Dipinjam" meskipun sudah lewat batas waktu (belum dikembalikan)</li>
+              <li>Silakan bayar denda ke petugas perpustakaan sebelum mengembalikan buku</li>
+              <li>Status "Terlambat" hanya muncul setelah buku dikembalikan dengan denda</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <% if (riwayatPeminjaman && riwayatPeminjaman.length > 0) { %>
       <div class="overflow-x-auto">
         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -42,6 +58,7 @@
               <th class="py-3 px-3 text-center">Tanggal Wajib Pengembalian</th>
               <th class="py-3 px-3 text-center">Tanggal Pengembalian</th>
               <th class="py-3 px-3 text-center">Bukti</th>
+              <th class="py-3 px-3 text-center">Denda</th>
               <th class="py-3 px-3 text-center rounded-tr-lg">Status</th>
             </tr>
           </thead>
@@ -75,6 +92,19 @@
                 </a>
               </td>
 
+              <td class="py-3 px-3 text-center">
+                <% if (item.denda > 0) { %>
+                  <span class="text-red-600 font-semibold text-xs">
+                    Rp<%= item.denda.toLocaleString('id-ID') %>
+                  </span>
+                  <% if (item.isTerlambat) { %>
+                    <br><span class="text-red-500 text-xs">(Belum dibayar)</span>
+                  <% } %>
+                <% } else { %>
+                  <span class="text-green-600 text-xs">Rp0</span>
+                <% } %>
+              </td>
+
               <td class="py-3 px-3 text-center font-bold">
                 <% if (item.status_peminjaman === 'Dikembalikan') { %>
                 <span
@@ -87,10 +117,18 @@
                   >Terlambat</span
                 >
                 <% } else if (item.status_peminjaman === 'Dipinjam') { %>
-                <span
-                  class="text-yellow-600 bg-yellow-100 px-2 py-1 rounded-full text-xs"
-                  >Dipinjam</span
-                >
+                  <% if (item.isTerlambat) { %>
+                  <span
+                    class="text-orange-600 bg-orange-100 px-2 py-1 rounded-full text-xs"
+                    title="Buku terlambat, silakan bayar denda ke petugas"
+                    >Dipinjam</span
+                  >
+                  <% } else { %>
+                  <span
+                    class="text-yellow-600 bg-yellow-100 px-2 py-1 rounded-full text-xs"
+                    >Dipinjam</span
+                  >
+                  <% } %>
                 <% } %>
               </td>
             </tr>

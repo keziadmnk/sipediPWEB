@@ -53,8 +53,16 @@
           <% 
           const tanggalWajib = new Date(datapeminjaman.tanggal_wajib_pengembalian);
           const tanggalSekarang = new Date();
-          const isTerlambat = tanggalSekarang > tanggalWajib;
-          const selisihHari = isTerlambat ? Math.ceil((tanggalSekarang - tanggalWajib) / (1000 * 60 * 60 * 24)) : 0;
+          
+          // Normalize both dates to midnight for accurate comparison
+          const wajibMidnight = new Date(tanggalWajib);
+          wajibMidnight.setHours(0, 0, 0, 0);
+          
+          const sekarangMidnight = new Date(tanggalSekarang);
+          sekarangMidnight.setHours(0, 0, 0, 0);
+          
+          const isTerlambat = sekarangMidnight > wajibMidnight;
+          const selisihHari = isTerlambat ? Math.ceil((sekarangMidnight - wajibMidnight) / (1000 * 60 * 60 * 24)) : 0;
           const dendaPerHari = 5000;
           const dendaTotal = selisihHari * dendaPerHari;
           %>
@@ -288,7 +296,7 @@
                   id="total-denda"
                   readonly=""
                   type="text"
-                  value="<%= datapeminjaman.denda ? 'Rp' + datapeminjaman.denda.toLocaleString('id-ID') : 'Rp0' %>"
+                  value="<%= isTerlambat ? 'Rp' + dendaTotal.toLocaleString('id-ID') : 'Rp0' %>"
                 />
               </div>
             </div>
@@ -321,5 +329,49 @@
         </div>
       </section>
     </main>
+
+    <script>
+      function updateDenda() {
+        const tanggalWajib = new Date('<%= datapeminjaman.tanggal_wajib_pengembalian.toISOString() %>');
+        const tanggalSekarang = new Date();
+        
+        const wajibMidnight = new Date(tanggalWajib);
+        wajibMidnight.setHours(0, 0, 0, 0);
+        
+        const sekarangMidnight = new Date(tanggalSekarang);
+        sekarangMidnight.setHours(0, 0, 0, 0);
+        
+        const isTerlambat = sekarangMidnight > wajibMidnight;
+        const selisihHari = isTerlambat ? Math.ceil((sekarangMidnight - wajibMidnight) / (1000 * 60 * 60 * 24)) : 0;
+        const dendaPerHari = 5000;
+        const dendaTotal = selisihHari * dendaPerHari;
+        
+        const totalDendaInput = document.getElementById('total-denda');
+        if (totalDendaInput) {
+          totalDendaInput.value = isTerlambat ? `Rp${dendaTotal.toLocaleString('id-ID')}` : 'Rp0';
+        }
+        
+        const warningDiv = document.querySelector('.bg-red-100');
+        if (warningDiv && isTerlambat) {
+          const warningText = warningDiv.querySelector('p:first-of-type');
+          const dendaText = warningDiv.querySelector('p:last-of-type');
+          if (warningText) {
+            warningText.innerHTML = `Buku ini terlambat <strong>${selisihHari} hari</strong> dari tanggal wajib pengembalian.`;
+          }
+          if (dendaText) {
+            dendaText.innerHTML = `Denda yang akan dikenakan: <strong>Rp${dendaTotal.toLocaleString('id-ID')}</strong> (Rp${dendaPerHari.toLocaleString('id-ID')} per hari)`;
+          }
+        }
+        
+        const actionSection = document.querySelector('.text-red-600.text-xs');
+        if (actionSection && isTerlambat) {
+          actionSection.innerHTML = `<i class="fas fa-exclamation-circle mr-1"></i>Buku terlambat ${selisihHari} hari. Denda: Rp${dendaTotal.toLocaleString('id-ID')}`;
+        }
+      }
+      
+      setInterval(updateDenda, 60000);
+      
+      updateDenda();
+    </script>
   </body>
 </html>

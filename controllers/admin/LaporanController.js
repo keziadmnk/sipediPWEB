@@ -55,25 +55,35 @@ const showLaporanAdmin = async (req, res) => {
       const tanggalWajib = new Date(peminjaman.tanggal_wajib_pengembalian);
       tanggalWajib.setHours(0, 0, 0, 0);
 
-      
-      if (peminjaman.status_peminjaman === "Dipinjam" && today > tanggalWajib) {
-        const selisihHari = Math.ceil((today - tanggalWajib) / (5000 * 60 * 60 * 24));
-        const denda = selisihHari * 5000;
+      // Jika tidak ada tanggal pengembalian, status HARUS "Dipinjam" (tidak pernah "Terlambat")
+      if (!peminjaman.tanggal_pengembalian) {
+        // Jika status di database "Terlambat" tapi tidak ada tanggal pengembalian, ini anomali
+        // Perbaiki dengan mengembalikan ke status "Dipinjam"
+        if (peminjaman.status_peminjaman === "Terlambat") {
+          peminjaman.status_peminjaman = "Dipinjam";
+          // Update database untuk memperbaiki anomali
+          await Peminjaman.update(
+            { status_peminjaman: "Dipinjam" },
+            { where: { id_peminjaman: peminjaman.id_peminjaman } }
+          );
+        }
+        
+        // Jika status "Dipinjam" dan sudah lewat batas waktu, hitung denda untuk ditampilkan
+        if (peminjaman.status_peminjaman === "Dipinjam" && today > tanggalWajib) {
+          const selisihHari = Math.ceil((today - tanggalWajib) / (1000 * 60 * 60 * 24));
+          const denda = selisihHari * 5000;
 
-      
-        await Peminjaman.update(
-          {
-            status_peminjaman: "Terlambat",
-            denda: denda
-          },
-          {
-            where: { id_peminjaman: peminjaman.id_peminjaman }
-          }
-        );
-
-       
-        peminjaman.status_peminjaman = "Terlambat";
-        peminjaman.denda = denda;
+          // JANGAN ubah status di database, hanya tambahkan denda untuk ditampilkan
+          peminjaman.dendaDisplay = denda; // Denda untuk ditampilkan saja
+          peminjaman.isTerlambat = true; // Flag untuk menandai keterlambatan
+        } else {
+          peminjaman.dendaDisplay = 0;
+          peminjaman.isTerlambat = false;
+        }
+      } else {
+        // Jika ada tanggal pengembalian, gunakan status dan denda dari database
+        peminjaman.dendaDisplay = peminjaman.denda || 0;
+        peminjaman.isTerlambat = false;
       }
     }
 

@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20mm; /* Margin standar untuk cetak */
+            margin: 20mm; 
             font-size: 10pt;
             color: #333;
         }
@@ -15,7 +15,7 @@
             text-align: center;
             font-size: 18pt;
             margin-bottom: 20px;
-            color: #276749; /* Warna hijau dari tema Anda */
+            color: #276749; 
         }
         table {
             width: 100%;
@@ -28,7 +28,7 @@
             text-align: left;
         }
         th {
-            background-color: #276749; /* Warna header tabel */
+            background-color: #276749; 
             color: white;
             font-size: 9pt;
             text-transform: uppercase;
@@ -36,11 +36,10 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        .text-green-500 { color: #22c55e; } /* Tailwind green-500 */
-        .text-orange-500 { color: #f97316; } /* Tailwind orange-500 */
-        .text-red-500 { color: #ef4444; }   /* Tailwind red-500 */
+        .text-green-500 { color: #22c55e; } 
+        .text-orange-500 { color: #f97316; } 
+        .text-red-500 { color: #ef4444; }  
 
-        /* Sembunyikan elemen tertentu saat dicetak jika diperlukan */
         @media print {
             .no-print {
                 display: none;
@@ -90,13 +89,8 @@
     </table>
 
     <script>
-        // Otomatis memicu dialog cetak saat halaman dimuat
         window.onload = function() {
             window.print();
-            // Opsional: Tutup tab setelah cetak (tidak selalu didukung oleh browser)
-            // window.onafterprint = function() {
-            //     window.close();
-            // }
         };
     </script>
 </body>

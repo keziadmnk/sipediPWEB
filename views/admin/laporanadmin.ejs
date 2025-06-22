@@ -133,24 +133,33 @@
                                                         class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
                                                         Dikembalikan
                                                     </span>
-                                                    <% } else if (item.status_peminjaman==='Terlambat' ) { %>
-                                                        <span
-                                                            class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">
-                                                            Terlambat
-                                                        </span>
-                                                        <% } else { %>
-                                                            <span
-                                                                class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
-                                                                Dipinjam
-                                                            </span>
-                                                            <% } %>
+                                                <% } else if (item.status_peminjaman==='Terlambat' ) { %>
+                                                    <span
+                                                        class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full">
+                                                        Terlambat
+                                                    </span>
+                                                <% } else if (item.status_peminjaman==='Dipinjam' && item.isTerlambat) { %>
+                                                    <span
+                                                        class="px-2 py-1 text-xs font-medium bg-orange-100 text-orange-800 rounded-full"
+                                                        title="Buku terlambat, belum dikembalikan">
+                                                        Dipinjam
+                                                    </span>
+                                                <% } else { %>
+                                                    <span
+                                                        class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                                                        Dipinjam
+                                                    </span>
+                                                <% } %>
                                             </td>
                                             <td class="px-4 py-3 text-sm text-gray-900 border border-gray-300">
-                                                <% if (item.denda && item.denda> 0) { %>
-                                                    Rp<%= item.denda.toLocaleString('id-ID') %>
-                                                        <% } else { %>
-                                                            Rp0
-                                                            <% } %>
+                                                <% if (item.dendaDisplay && item.dendaDisplay > 0) { %>
+                                                    Rp<%= item.dendaDisplay.toLocaleString('id-ID') %>
+                                                    <% if (item.isTerlambat) { %>
+                                                        <br><span class="text-red-500 text-xs">(Belum dibayar)</span>
+                                                    <% } %>
+                                                <% } else { %>
+                                                    Rp0
+                                                <% } %>
                                             </td>
                                         </tr>
                                         <% }) %>
