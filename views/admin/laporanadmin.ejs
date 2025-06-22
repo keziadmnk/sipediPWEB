@@ -28,12 +28,12 @@
             <%- include('../partials/navAdmin') %>
 
             <main class="flex-1 p-8">
-                <!-- Header -->
+            ]]
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-2xl font-semibold">Laporan Peminjaman dan Pengembalian</h1>
                 </div>
 
-                <!-- Filter Section -->
+             
                 <form method="GET" action="/admin/laporanadmin" class="mb-6 no-print">
                     <div class="flex items-end space-x-4">
                         <div class="flex-1">
@@ -62,9 +62,9 @@
                     </div>
                 </form>
 
-                <!-- Print Section -->
+               
                 <div class="print-section">
-                    <!-- Header untuk cetak -->
+            
                     <div class="mb-6 print-only">
                         <h1 class="text-2xl font-bold text-center mb-2">LAPORAN PEMINJAMAN DAN PENGEMBALIAN BUKU</h1>
                         <p class="text-center text-gray-600 mb-4">Sistem Informasi Perpustakaan Digital (SIPEDI)</p>
@@ -83,7 +83,7 @@
                                 </p>
                     </div>
 
-                    <!-- Table Section -->
+                
                     <div class="overflow-x-auto">
                         <table class="w-full border-collapse border border-gray-300">
                             <thead class="bg-[#276749] text-white">
@@ -169,7 +169,7 @@
                         </table>
                     </div>
 
-                    <!-- Summary untuk cetak -->
+                 
                     <div class="mt-6 print-only">
                         <div class="grid grid-cols-3 gap-4 text-sm">
                             <div>
@@ -190,7 +190,7 @@
                     </div>
                 </div>
 
-                <!-- Footer with Print Button -->
+           
                 <div class="p-6 border-t bg-gray-50 flex justify-end no-print">
                     <button onclick="window.print()"
                         class="px-6 py-2 bg-[#276749] text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center space-x-2">
@@ -202,7 +202,7 @@
         </div>
     </div>
 
-    <!-- Print Styles -->
+
     <style>
         @media print {
             body * {
@@ -255,12 +255,11 @@
     </style>
 
     <script>
-        // Auto-submit form when date changes
         document.addEventListener('DOMContentLoaded', function () {
             const dateInputs = document.querySelectorAll('input[type="date"]');
             dateInputs.forEach(input => {
                 input.addEventListener('change', function () {
-                    // Auto-submit could be added here if needed
+                  
                 });
             });
         });

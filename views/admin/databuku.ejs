@@ -11,7 +11,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* Custom scrollbar for sidebar */
+        
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -118,7 +118,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Event listener for delete buttons using SweetAlert2
+          
             document.querySelectorAll('.btn-hapus').forEach(button => {
                 button.addEventListener('click', function() {
                     const isbnToDelete = this.getAttribute('data-isbn');
@@ -135,7 +135,6 @@
                         cancelButtonText: 'Batal'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            // Send delete request using fetch API
                             fetch(`/admin/buku/${isbnToDelete}`, {
                                 method: 'DELETE',
                                 headers: {
@@ -151,7 +150,7 @@
                                         'Buku telah berhasil dihapus.',
                                         'success'
                                     ).then(() => {
-                                        location.reload(); // Reload page on success
+                                        location.reload(); 
                                     });
                                 } else {
                                     Swal.fire(

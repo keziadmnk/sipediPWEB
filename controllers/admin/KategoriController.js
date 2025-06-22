@@ -19,7 +19,6 @@ const tambahKategori = async (req, res) => {
 
 const findAllKategori = async (req, res) => {
   try {
-    // Mengambil semua data kategori dari database
     const kategori = await Kategori.findAll();
     
     res.render('admin/kategoribuku', { kategori });
@@ -31,10 +30,8 @@ const findAllKategori = async (req, res) => {
 
 const showTambahBuku = async (req, res) => {
   try {
-    // Mengambil semua data kategori dari database
     const kategori = await Kategori.findAll();
     
-    // Render halaman tambah buku dengan data kategori
     res.render('admin/tambahbuku', { kategori });
   } catch (error) {
     console.error("Error fetching kategori:", error);
@@ -42,7 +39,7 @@ const showTambahBuku = async (req, res) => {
   }
 };
 
-// FUNGSI BARU: Menampilkan form edit kategori
+
 const showEditKategoriForm = async (req, res) => {
   try {
     const { id_kategori } = req.params;
@@ -52,14 +49,13 @@ const showEditKategoriForm = async (req, res) => {
       return res.status(404).send("Kategori tidak ditemukan.");
     }
 
-    res.render('admin/editkategori', { kategori }); // Render halaman editkategori.ejs
+    res.render('admin/editkategori', { kategori }); 
   } catch (error) {
     console.error("Error showing edit kategori form:", error);
     res.status(500).send("Internal Server Error: " + error.message);
   }
 };
 
-// FUNGSI BARU: Memproses update kategori
 const updateKategori = async (req, res) => {
   try {
     const { id_kategori } = req.params;
@@ -71,13 +67,12 @@ const updateKategori = async (req, res) => {
       return res.status(404).json({ success: false, message: "Kategori tidak ditemukan." });
     }
 
-    await kategori.update({ nama_kategori }); // Update nama kategori
-
+    await kategori.update({ nama_kategori }); 
     req.session.message = {
       type: 'success',
       text: 'Kategori berhasil diperbarui!'
     };
-    res.redirect('/admin/kategori'); // Redirect kembali ke halaman daftar kategori
+    res.redirect('/admin/kategori'); 
   } catch (error) {
     console.error("Error updating kategori:", error);
     req.session.message = {
@@ -102,7 +97,7 @@ const deleteKategori = async (req, res) => {
       return res.redirect('/admin/kategori');
     }
 
-    // Cek apakah ada buku yang masih menggunakan kategori ini
+
     const jumlahBukuTerkait = await Buku.count({
       where: { id_kategori: id_kategori }
     });
@@ -115,8 +110,7 @@ const deleteKategori = async (req, res) => {
       return res.redirect('/admin/kategori');
     }
 
-    await kategori.destroy(); // Hapus kategori
-
+    await kategori.destroy(); 
     req.session.message = {
       type: 'success',
       text: 'Kategori berhasil dihapus!'

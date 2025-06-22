@@ -13,13 +13,13 @@ const findAllBuku = async (req, res) => {
           model: Jenis,
           as: 'jenis',
           attributes: ["nama_jenis"],
-          required: false, // LEFT JOIN - tidak wajib ada jenis
+          required: false, 
         },
         {
           model: Kategori,
           as: 'kategori',
           attributes: ["nama_kategori"],
-          required: false, // LEFT JOIN - tidak wajib ada kategori
+          required: false, 
         },
       ],
       attributes: [
@@ -34,7 +34,7 @@ const findAllBuku = async (req, res) => {
         
     console.log("Data buku berhasil diambil:", databuku.length, "buku");
 
-     // Debug: Log data untuk melihat struktur
+     
     if (databuku.length > 0) {
       console.log("Sample data:", JSON.stringify(databuku[0], null, 2));
     }
@@ -63,19 +63,19 @@ const tambahBuku = async (req, res) => {
       jumlah_stok,
       deskripsi,
       kategori,
-      jenis_buku = [] // Default array kosong jika tidak ada checkbox dipilih
+      jenis_buku = [] 
     } = req.body;
 
-    // Cek jenis buku yang dipilih
+    
     const isEbook = jenis_buku.includes('E-Book');
     const isFisik = jenis_buku.includes('Buku Fisik');
     
-    // Jika tidak ada jenis yang dipilih, default ke buku fisik
+    
     if (!jenis_buku || jenis_buku.length === 0) {
       jenis_buku = ['Buku Fisik'];
     }
 
-    // Validasi data required berdasarkan jenis buku
+    
     if (!judul_buku || !isbn || !pengarang || !penerbit || !tahun_terbit || !jumlah_halaman) {
       return res.status(400).json({
         success: false,
@@ -83,7 +83,7 @@ const tambahBuku = async (req, res) => {
       });
     }
 
-    // Validasi khusus untuk buku fisik
+    
     if (isFisik) {
       if (!lokasi_penyimpanan || !jumlah_stok) {
         return res.status(400).json({
@@ -93,7 +93,7 @@ const tambahBuku = async (req, res) => {
       }
     }
 
-    // Validasi khusus untuk e-book
+    
     if (isEbook) {
       if (!req.files?.upload_pdf?.[0]?.filename) {
         return res.status(400).json({
@@ -103,7 +103,7 @@ const tambahBuku = async (req, res) => {
       }
     }
 
-    // Cek apakah ISBN sudah ada
+    
     const existingBuku = await Buku.findByPk(isbn);
     if (existingBuku) {
       return res.status(400).json({
@@ -112,7 +112,7 @@ const tambahBuku = async (req, res) => {
       });
     }
 
-    // Tentukan nilai untuk stok dan lokasi berdasarkan jenis buku
+    
     let finalStok = 0;
     let finalLokasi = 'Digital';
     let finalPdf = null;
@@ -122,17 +122,17 @@ const tambahBuku = async (req, res) => {
       finalLokasi = lokasi_penyimpanan;
     }
     
-    // Jika keduanya dipilih, gunakan nilai buku fisik untuk stok dan lokasi
+    
     if (isFisik && isEbook) {
       finalStok = parseInt(jumlah_stok);
       finalLokasi = lokasi_penyimpanan;
     }
     
-    // PDF hanya disimpan jika e-book dipilih
+    
     if (isEbook) {
       finalPdf = req.files?.upload_pdf?.[0]?.filename || null;
     } else {
-      finalPdf = null; // Tidak ada PDF untuk buku fisik
+      finalPdf = null; 
     }
 
     // Buat buku baru
@@ -151,15 +151,15 @@ const tambahBuku = async (req, res) => {
       upload_sampul: req.files?.upload_sampul?.[0]?.filename || null
     });
 
-    // Tambahkan relasi dengan jenis (many-to-many)
+    
     if (jenis_buku && jenis_buku.length > 0) {
-      // Konversi string jenis ke ID jenis
+      
       const jenisIds = [];
       
       for (const jenisNama of jenis_buku) {
         let jenis = await Jenis.findOne({ where: { nama_jenis: jenisNama } });
         
-        // Jika jenis belum ada, buat jenis baru
+        
         if (!jenis) {
           jenis = await Jenis.create({ nama_jenis: jenisNama });
         }
@@ -167,7 +167,7 @@ const tambahBuku = async (req, res) => {
         jenisIds.push(jenis.id_jenis);
       }
 
-      // Tambahkan ke tabel junction
+      
       for (const jenisId of jenisIds) {
         await BukuJenis.create({
           nomor_isbn: isbn,
@@ -178,7 +178,7 @@ const tambahBuku = async (req, res) => {
 
     console.log("Buku berhasil ditambahkan:", bukuBaru.nomor_isbn);
 
-    // Redirect ke halaman data buku dengan pesan sukses
+    
     req.session.message = {
       type: 'success',
       text: 'Buku berhasil ditambahkan!'
@@ -220,11 +220,11 @@ const showDetailBukuAdmin = async (req, res) => {
 
 const hapusBuku = async (req, res) => {
   try {
-    const { nomor_isbn } = req.params; // Ambil nomor ISBN dari parameter URL
+    const { nomor_isbn } = req.params; 
 
     console.log("Mencoba menghapus buku dengan ISBN:", nomor_isbn);
 
-    // Cari buku berdasarkan nomor ISBN
+
     const databuku = await Buku.findByPk(nomor_isbn);
 
     if (!databuku) {
@@ -235,11 +235,11 @@ const hapusBuku = async (req, res) => {
       });
     }
 
-    // Cek apakah buku sedang dipinjam (hanya status "Dipinjam")
+  
     const peminjamanAktif = await Peminjaman.findOne({
       where: { 
         nomor_isbn: nomor_isbn,
-        status_peminjaman: 'Dipinjam' // Hanya cek peminjaman yang belum dikembalikan
+        status_peminjaman: 'Dipinjam' 
       }
     });
 
@@ -251,17 +251,17 @@ const hapusBuku = async (req, res) => {
       });
     }
 
-    // Hapus relasi di tabel BukuJenis terlebih dahulu (many-to-many)
+   
     await BukuJenis.destroy({
       where: { nomor_isbn: nomor_isbn }
     });
 
-    // Hapus buku dari database
+    
     await databuku.destroy();
 
     console.log("Buku berhasil dihapus:", nomor_isbn);
 
-    // Jika request dari AJAX, kirim response JSON
+    
     if (req.xhr || req.headers.accept.indexOf('json') > -1) {
       return res.json({
         success: true,
@@ -269,7 +269,7 @@ const hapusBuku = async (req, res) => {
       });
     }
 
-    // Jika request biasa, redirect dengan pesan sukses
+    
     req.session.message = {
       type: 'success',
       text: 'Buku berhasil dihapus!'
@@ -280,7 +280,7 @@ const hapusBuku = async (req, res) => {
   } catch (error) {
     console.error("Error menghapus buku:", error);
     
-    // Jika request dari AJAX, kirim error JSON
+    
     if (req.xhr || req.headers.accept.indexOf('json') > -1) {
       return res.status(500).json({
         success: false,
@@ -288,7 +288,7 @@ const hapusBuku = async (req, res) => {
       });
     }
 
-    // Jika request biasa, redirect dengan pesan error
+    
     req.session.message = {
       type: 'error',
       text: 'Gagal menghapus buku: ' + error.message
@@ -298,12 +298,11 @@ const hapusBuku = async (req, res) => {
   }
 };
 
-// Tampilkan form edit buku
 const showEditBuku = async (req, res) => {
   try {
     const { nomor_isbn } = req.params;
     
-    // Ambil data buku beserta relasi
+    
     const databuku = await Buku.findByPk(nomor_isbn, {
       include: [
         { model: Kategori, as: "kategori" },
@@ -315,10 +314,8 @@ const showEditBuku = async (req, res) => {
       return res.status(404).send("Buku tidak ditemukan");
     }
     
-    // Ambil semua kategori untuk dropdown
     const kategori = await Kategori.findAll();
     
-    // Ambil semua jenis untuk checkbox
     const semuaJenis = await Jenis.findAll();
     
     res.render("admin/editbuku", { databuku, kategori, semuaJenis });
@@ -328,7 +325,7 @@ const showEditBuku = async (req, res) => {
   }
 };
 
-// Proses update buku
+
 const updateBuku = async (req, res) => {
   try {
     const { nomor_isbn } = req.params;
@@ -346,16 +343,15 @@ const updateBuku = async (req, res) => {
       jenis_buku = []
     } = req.body;
 
-    // Cek jenis buku yang dipilih
+   
     const isEbook = jenis_buku.includes('E-Book');
     const isFisik = jenis_buku.includes('Buku Fisik');
     
-    // Jika tidak ada jenis yang dipilih, default ke buku fisik
     if (!jenis_buku || jenis_buku.length === 0) {
       jenis_buku = ['Buku Fisik'];
     }
 
-    // Validasi data required berdasarkan jenis buku
+  
     if (!judul_buku || !isbn || !pengarang || !penerbit || !tahun_terbit || !jumlah_halaman) {
       req.session.message = {
         type: 'error',
@@ -364,7 +360,7 @@ const updateBuku = async (req, res) => {
       return res.redirect(`/admin/editbuku/${nomor_isbn}`);
     }
 
-    // Validasi khusus untuk buku fisik
+  
     if (isFisik) {
       if (!lokasi_penyimpanan || !jumlah_stok) {
         req.session.message = {
@@ -375,7 +371,7 @@ const updateBuku = async (req, res) => {
       }
     }
 
-    // Cari buku lama
+   
     const buku = await Buku.findByPk(nomor_isbn);
     if (!buku) {
       req.session.message = {
@@ -385,9 +381,9 @@ const updateBuku = async (req, res) => {
       return res.redirect('/admin/databuku');
     }
 
-    // Validasi khusus untuk e-book
+   
     if (isEbook) {
-      // Jika e-book dipilih, PDF wajib (baik file baru atau yang sudah ada)
+      
       if (!req.files?.upload_pdf?.[0]?.filename && !buku.upload_pdf) {
         req.session.message = {
           type: 'error',
@@ -397,7 +393,7 @@ const updateBuku = async (req, res) => {
       }
     }
 
-    // Tentukan nilai untuk stok dan lokasi berdasarkan jenis buku
+  
     let finalStok = 0;
     let finalLokasi = 'Digital';
     let finalPdf = null;
@@ -407,22 +403,22 @@ const updateBuku = async (req, res) => {
       finalLokasi = lokasi_penyimpanan;
     }
     
-    // Jika keduanya dipilih, gunakan nilai buku fisik untuk stok dan lokasi
+   
     if (isFisik && isEbook) {
       finalStok = parseInt(jumlah_stok);
       finalLokasi = lokasi_penyimpanan;
     }
     
-    // PDF hanya disimpan jika e-book dipilih
+   
     if (isEbook) {
       finalPdf = req.files?.upload_pdf?.[0]?.filename || buku.upload_pdf;
     } else {
-      finalPdf = null; // Hapus PDF jika bukan e-book
+      finalPdf = null; 
     }
 
     // Update data buku
     await buku.update({
-      nomor_isbn: isbn, // jika ingin bisa update ISBN
+      nomor_isbn: isbn, 
       judul_buku,
       pengarang,
       penerbit,
@@ -432,23 +428,21 @@ const updateBuku = async (req, res) => {
       deskripsi,
       lokasi_penyimpanan: finalLokasi,
       id_kategori: kategori ? parseInt(kategori) : null,
-      // File upload - gunakan file baru jika ada, jika tidak gunakan yang lama
       upload_pdf: finalPdf,
       upload_sampul: req.files?.upload_sampul?.[0]?.filename || buku.upload_sampul
     });
 
-    // Update relasi jenis (many-to-many)
-    // 1. Hapus semua relasi lama
+   
     await BukuJenis.destroy({ where: { nomor_isbn: nomor_isbn } });
     
-    // 2. Tambahkan relasi baru
+    
     if (jenis_buku && jenis_buku.length > 0) {
       const jenisIds = [];
       
       for (const jenisNama of Array.isArray(jenis_buku) ? jenis_buku : [jenis_buku]) {
         let jenis = await Jenis.findOne({ where: { nama_jenis: jenisNama } });
         
-        // Jika jenis belum ada, buat jenis baru
+        
         if (!jenis) {
           jenis = await Jenis.create({ nama_jenis: jenisNama });
         }
@@ -456,7 +450,7 @@ const updateBuku = async (req, res) => {
         jenisIds.push(jenis.id_jenis);
       }
 
-      // Tambahkan ke tabel junction
+      
       for (const jenisId of jenisIds) {
         await BukuJenis.create({
           nomor_isbn: isbn,

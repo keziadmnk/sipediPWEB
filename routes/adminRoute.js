@@ -21,18 +21,14 @@ const {
   updateBuku
 } = require("../controllers/admin/BukuController");
 
-// Import upload middleware
 const { uploadFields } = require("../middlewares/upload");
 const { findAllMahasiswa, showTambahMahasiswaForm, tambahMahasiswa, showEditMahasiswa, updateMahasiswa, hapusMahasiswa } = require("../controllers/admin/MahasiswaController");
 const { findAllPetugas, tambahPetugas, showEditPetugas, updatePetugas, hapusPetugas } = require("../controllers/admin/PetugasController");
 const { showDashboardAdmin, showProfilAdmin } = require("../controllers/admin/dashboardcontroller");
 const { showLaporanAdmin } = require("../controllers/admin/LaporanController");
 
-// const adminController = require('../controllers/admin/adminController');
-
 router.get("/dashboard", authenticate, showDashboardAdmin);
 
-// Route untuk profil admin
 router.get("/profil", authenticate, showProfilAdmin);
 
 router.get("/tambahkategori", function (req, res, next) {
@@ -67,8 +63,6 @@ router.get("/tambahbuku", showTambahBuku);
 router.delete('/buku/:nomor_isbn', authenticate, hapusBuku);
 
 router.post('/hapusbuku/:nomor_isbn', authenticate, hapusBuku);
-
-
 
 router.post(
   "/tambahbuku",

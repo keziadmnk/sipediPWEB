@@ -7,7 +7,7 @@ const showLaporanAdmin = async (req, res) => {
   try {
     const { dari_tanggal, sampai_tanggal } = req.query;
     
-    // Buat kondisi where untuk filter tanggal
+   
     let whereCondition = {};
     
     if (dari_tanggal && sampai_tanggal) {
@@ -30,7 +30,6 @@ const showLaporanAdmin = async (req, res) => {
       };
     }
 
-    // Ambil data peminjaman dengan relasi ke pengguna dan buku
     const dataPeminjaman = await Peminjaman.findAll({
       where: whereCondition,
       include: [
@@ -48,7 +47,7 @@ const showLaporanAdmin = async (req, res) => {
       order: [["tanggal_peminjaman", "DESC"]]
     });
 
-    // Update status peminjaman berdasarkan tanggal wajib pengembalian
+    
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -56,12 +55,12 @@ const showLaporanAdmin = async (req, res) => {
       const tanggalWajib = new Date(peminjaman.tanggal_wajib_pengembalian);
       tanggalWajib.setHours(0, 0, 0, 0);
 
-      // Jika status masih "Dipinjam" dan sudah melewati tanggal wajib pengembalian
+      
       if (peminjaman.status_peminjaman === "Dipinjam" && today > tanggalWajib) {
         const selisihHari = Math.ceil((today - tanggalWajib) / (5000 * 60 * 60 * 24));
         const denda = selisihHari * 5000;
 
-        // Update status dan denda di database
+      
         await Peminjaman.update(
           {
             status_peminjaman: "Terlambat",
@@ -72,13 +71,13 @@ const showLaporanAdmin = async (req, res) => {
           }
         );
 
-        // Update data di array untuk ditampilkan
+       
         peminjaman.status_peminjaman = "Terlambat";
         peminjaman.denda = denda;
       }
     }
 
-    // Render halaman dengan data
+    
     res.render("admin/laporanadmin", {
       dataPeminjaman: dataPeminjaman,
       filters: {

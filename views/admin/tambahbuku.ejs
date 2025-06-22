@@ -10,24 +10,21 @@
       rel="stylesheet"
     />
     <style>
-      /* Custom background color with 33% opacity */
       .bg-custom {
         background-color: #e9f1ed;
       }
     </style>
   </head>
   <body class="bg-green-50 flex ml-56">
-    <!-- Sidebar -->
     <%- include('../partials/asideAdmin') %>
 
-    <!-- Content -->
     <div class="flex-1 p-12">
-      <!-- Header -->
+    
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold">Tambah Buku</h1>
       </div>
 
-      <!-- Alert Messages -->
+    
       <% if (typeof message !== 'undefined' && message) { %>
       <div
         class="mb-4 p-4 rounded-md <%= message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>"
@@ -36,7 +33,7 @@
       </div>
       <% } %>
 
-      <!-- Form Tambah Buku -->
+     
       <div class="bg-white shadow-md rounded-lg p-10">
         <form
           action="/admin/tambahbuku"
@@ -44,7 +41,7 @@
           enctype="multipart/form-data"
         >
           <div class="grid grid-cols-2 gap-x-10 gap-y-6">
-            <!-- Baris 1 -->
+          
             <div class="col-span-2">
               <label
                 for="judul_buku"
@@ -60,7 +57,7 @@
               />
             </div>
 
-            <!-- Baris 2 -->
+         
             <div class="col-span-2">
               <label class="block text-sm font-medium text-gray-700 mb-1"
                 >Jenis Buku</label
@@ -86,7 +83,7 @@
               </div>
             </div>
 
-            <!-- Baris 3 -->
+           
             <div>
               <label
                 for="kategori"
@@ -122,7 +119,7 @@
               />
             </div>
 
-            <!-- Baris 4 -->
+            
             <div>
               <label
                 for="pengarang"
@@ -157,7 +154,7 @@
               </select>
             </div>
 
-            <!-- Baris 5 -->
+            
             <div>
               <label
                 for="penerbit"
@@ -188,7 +185,7 @@
               />
             </div>
 
-            <!-- Baris 6 -->
+     
             <div>
               <label
                 for="lokasi_penyimpanan"
@@ -236,7 +233,7 @@
               />
             </div>
 
-            <!-- Baris 7 -->
+          
             <div>
               <label
                 for="deskripsi"
@@ -286,7 +283,7 @@
             </div>
           </div>
 
-          <!-- Tombol -->
+
           <div class="flex justify-end gap-4 mt-6">
             <a
               href="/admin/kategori"
@@ -315,7 +312,7 @@
         const isFisik = checkboxFisik.checked;
         const isEbook = checkboxEbook.checked;
 
-        // Jika keduanya dipilih, enable semua field
+       
         if (isFisik && isEbook) {
           lokasi.disabled = false;
           jumlah_stok.disabled = false;
@@ -329,7 +326,7 @@
           jumlah_stok.setAttribute('required', 'required');
           uploadPdf.setAttribute('required', 'required');
         } else {
-          // Jika hanya satu yang dipilih
+       
           lokasi.disabled = !isFisik;
           jumlah_stok.disabled = !isFisik;
           uploadPdf.disabled = !isEbook;
@@ -338,7 +335,7 @@
           jumlah_stok.classList.toggle("bg-gray-100", !isFisik);
           uploadPdf.classList.toggle("bg-gray-100", !isEbook);
 
-          // Hapus required attribute untuk field yang di-disable
+        
           if (!isFisik) {
             lokasi.removeAttribute('required');
             jumlah_stok.removeAttribute('required');
@@ -358,12 +355,12 @@
       checkboxFisik.addEventListener("change", updateFormFields);
       checkboxEbook.addEventListener("change", updateFormFields);
 
-      // Form validation
+     
       document.querySelector("form").addEventListener("submit", function (e) {
         const isFisik = checkboxFisik.checked;
         const isEbook = checkboxEbook.checked;
         
-        // Jika tidak ada yang dipilih, default ke buku fisik
+     
         if (!isFisik && !isEbook) {
           checkboxFisik.checked = true;
         }
@@ -377,12 +374,11 @@
           "jumlah_halaman",
         ];
         
-        // Tambahkan field wajib berdasarkan jenis buku
+       
         if (isFisik || (isFisik && isEbook)) {
           requiredFields.push("lokasi_penyimpanan", "jumlah_stok");
         }
         
-        // Jika e-book dipilih, PDF wajib
         if (isEbook) {
           requiredFields.push("upload_pdf");
         }
@@ -391,7 +387,7 @@
 
         requiredFields.forEach((fieldName) => {
           const field = document.querySelector(`[name="${fieldName}"]`);
-          // Skip validation untuk field yang di-disable
+        
           if (field.disabled) {
             return;
           }
@@ -409,7 +405,7 @@
         }
       });
 
-      updateFormFields(); // Jalankan di awal
+      updateFormFields(); 
     </script>
   </body>
 </html>
