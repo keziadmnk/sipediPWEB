@@ -28,6 +28,7 @@ const findAllBuku = async (req, res) => {
         "pengarang",
         "lokasi_penyimpanan",
         "jumlah_stok",
+        "upload_sampul", // <--- Ditambahkan di sini!
       ],
     });
         
