@@ -23,6 +23,12 @@
     <%- include('../partials/navbarMahasiswa') %>
 
     <main class="max-w-6xl mx-auto p-6 bg-white mt-28 rounded-lg shadow-md">
+      <%# Tombol Kembali %>
+        <div class="mb-4">
+            <a href="javascript:void(0);" onclick="handleSmartBackButton()" class="text-2xl text-gray-600 hover:text-gray-900">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
       <div class="grid md:grid-cols-3 gap-8">
         <div>
           <img
@@ -38,10 +44,23 @@
           </h1>
           <p class="text-gray-600 mb-1"><%= buku.pengarang %></p>
 
-          <div class="flex items-center mb-3">
-            <div class="text-yellow-400 text-xl">★★★★☆</div>
-            <span class="ml-2 text-gray-700 font-semibold">4.0</span>
-          </div>
+           <div class="flex items-center mb-3">
+                    <% if (rating && rating.totalUlasan > 0) { %>
+                    <div class="text-yellow-400 text-xl">
+                        <% for(let i = 1; i <= 5; i++) { %>
+                            <% if(i <= Math.round(rating.rataRata)) { %>
+                                <i class="fas fa-star"></i>
+                            <% } else { %>
+                                <i class="far fa-star"></i>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <span class="ml-2 text-gray-700 font-semibold"><%= rating.rataRata.toFixed(1) %></span>
+                    <span class="ml-2 text-gray-500 text-sm">(<%= rating.totalUlasan %> ulasan)</span>
+                    <% } else { %>
+                    <span class="text-gray-500 text-sm">Belum ada ulasan</span>
+                    <% } %>
+                </div>
 
           <p class="text-gray-700 mb-4 text-sm leading-relaxed">
             <%= buku.deskripsi || "Tidak ada deskripsi untuk buku ini." %>
@@ -127,5 +146,36 @@
       </div>
       
     </main>
+    <script>
+            function handleSmartBackButton() {
+                const referrer = document.referrer;
+                const currentBookISBN = "<%= buku.nomor_isbn %>";
+                
+                // Mendefinisikan pola URL untuk halaman ulasan dan edit ulasan
+                const ulasanMainPageFullPath = window.location.origin + `/buku/${currentBookISBN}/ulasan`;
+                const editUlasanPagePathPrefix = window.location.origin + `/buku/${currentBookISBN}/ulasan/`;
+                
+                if (referrer) {
+                    // Cek apakah referrer adalah halaman edit ulasan (misal: http://localhost:3000/buku/ISBN/ulasan/ID/edit)
+                    if (referrer.startsWith(editUlasanPagePathPrefix) && referrer.endsWith('/edit')) {
+                        // Jika berasal dari halaman edit ulasan, langsung arahkan ke halaman koleksi buku.
+                        // Ini karena setelah edit, riwayat bisa kompleks. Redirect langsung lebih reliable.
+                        window.location.href = '/mahasiswa/koleksibuku'; // Atau '/mahasiswa/ebook' jika lebih sering dari sana
+                    } 
+                    // Cek apakah referrer adalah halaman ulasan utama (misal: http://localhost:3000/buku/ISBN/ulasan)
+                    else if (referrer === ulasanMainPageFullPath) {
+                        // Jika berasal dari halaman ulasan utama, juga langsung arahkan ke halaman koleksi buku.
+                        window.location.href = '/mahasiswa/koleksibuku'; // Atau '/mahasiswa/ebook'
+                    } 
+                    else {
+                        // Jika bukan dari halaman ulasan/edit ulasan, lakukan kembali normal
+                        window.history.back();
+                    }
+                } else {
+                    // Jika tidak ada referrer (misalnya, diakses langsung detail buku atau setelah refresh), kembali normal
+                    window.history.back();
+                }
+            }
+        </script>
   </body>
 </html>
