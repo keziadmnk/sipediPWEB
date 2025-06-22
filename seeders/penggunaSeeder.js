@@ -19,7 +19,7 @@ const penggunaData = [
         role_name: 'Admin'
     },
     {
-        id_pengguna: '1371118001234',
+        id_pengguna: '137111',
         username: 'petugas',
         password: 'petugas123',
         nama_lengkap: 'Dodo Baik',
