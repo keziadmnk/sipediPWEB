@@ -3,6 +3,9 @@ const { Jenis } = require("../../models/JenisModel");
 const { Kategori } = require("../../models/KategoriModel");
 const { Op } = require("sequelize");
 const { BukuJenis } = require("../../models/BukuJenisModel");
+const { Ulasan } = require("../../models/UlasanModel"); // Import Ulasan model
+const { Sequelize } = require("sequelize"); // Import Sequelize for aggregation
+
 
 const detailBuku = async (req, res) => {
   try {
@@ -19,7 +22,26 @@ const detailBuku = async (req, res) => {
       return res.status(404).send("Buku tidak ditemukan");
     }
 
-    res.render("mahasiswa/detailbuku", {buku});
+    // Fetch average rating and total reviews
+    const ulasanStats = await Ulasan.findOne({
+        attributes: [
+            [Sequelize.fn('AVG', Sequelize.col('rating')), 'averageRating'],
+            [Sequelize.fn('COUNT', Sequelize.col('id_ulasan')), 'totalReviews']
+        ],
+        where: { nomor_isbn: nomor_isbn },
+        raw: true // Return plain data
+    });
+
+    const averageRating = ulasanStats.averageRating ? parseFloat(ulasanStats.averageRating).toFixed(1) : '0.0';
+    const totalReviews = ulasanStats.totalReviews || 0;
+
+    res.render("mahasiswa/detailbuku", {
+        buku,
+        rating: { // Pass rating data to the view
+            rataRata: averageRating,
+            totalUlasan: totalReviews
+        }
+    });
   } catch (error) {
     console.error("Error fetching detail buku:", error);
     res.status(500).send("Internal Server Error");
