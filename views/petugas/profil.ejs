@@ -12,7 +12,7 @@
   <body class="bg-[#f5fef7] text-[#1f4d2a] min-h-screen flex">
     <%- include('../partials/asidePetugas') %>
 
-    <main class="flex-1">
+    <main class="flex-1 ml-56">
       <%- include('../partials/navpetugas') %>
 
       <section class="py-16 px-40">
@@ -25,16 +25,38 @@
           <div
             class="flex justify-center items-center md:justify-center md:flex-1"
           >
-            <div
-              class="rounded-full border-2 border-[#1f4d2a] p-1 w-50 h-50 flex items-center justify-center"
-            >
-              <img
-                alt="foto petugas"
-                class="rounded-full w-42 h-42 object-cover"
-                height="160"
-                src="/images/profilpetugas.jpg"
-                width="160"
-              />
+            <div class="flex flex-col items-center">
+              <div
+                class="rounded-full border-2 border-[#1f4d2a] p-1 w-50 h-50 flex items-center justify-center mb-4"
+              >
+                <% if (petugas.foto) { %>
+                  <img
+                    alt="foto petugas"
+                    class="rounded-full w-42 h-42 object-cover"
+                    height="160"
+                    src="<%= petugas.foto %>"
+                    width="160"
+                  />
+                <% } else { %>
+                  <div class="flex justify-center items-center w-42 h-42 rounded-full bg-gray-200">
+                    <i class="fas fa-user text-6xl text-gray-500"></i>
+                  </div>
+                <% } %>
+              </div>
+              
+              <!-- Tombol untuk upload foto -->
+              <button
+                id="ubahFotoBtn"
+                class="bg-[#1f4d2a] text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-[#163a21] transition mb-4"
+                type="button"
+              >
+                Ubah Foto
+              </button>
+
+              <!-- Form untuk upload foto (tersembunyi) -->
+              <form action="/petugas/profil/upload" method="POST" enctype="multipart/form-data" id="uploadForm" class="hidden">
+                <input type="file" name="foto" id="fotoInput" accept="image/*" required>
+              </form>
             </div>
           </div>
           <form class="flex-1 flex flex-col gap-4 max-w-md">
@@ -101,9 +123,40 @@
                 value="<%= petugas.alamat %>"
               />
             </div>
+            
+            <div class="flex space-x-3 justify-end mt-6">
+              <a href="/petugas/editbiodata">
+                <button
+                  class="bg-[#276749] text-white text-xs font-semibold px-4 py-2 rounded hover:bg-[#225a3d] transition"
+                  type="button"
+                >
+                  Edit Biodata
+                </button>
+              </a>
+            </div>
           </form>
         </section>
       </section>
     </main>
+
+    <script>
+      // Handle upload foto
+      document.getElementById('ubahFotoBtn').addEventListener('click', () => {
+        document.getElementById('fotoInput').click();
+      });
+
+      document.getElementById('fotoInput').addEventListener('change', () => {
+        const btn = document.getElementById('ubahFotoBtn');
+        const originalText = btn.textContent;
+        
+        // Show loading state
+        btn.disabled = true;
+        btn.textContent = 'Uploading...';
+        btn.classList.add('opacity-50');
+        
+        // Submit form
+        document.getElementById('uploadForm').submit();
+      });
+    </script>
   </body>
 </html>

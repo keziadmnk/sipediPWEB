@@ -33,12 +33,18 @@ const Peminjaman = sequelize.define('Peminjaman', {
     },
     denda: {
         type: DataTypes.DECIMAL(10, 2),
-        allowNull: true,}
+        allowNull: true,
+    }
 }, 
 {
     tableName: 'peminjaman',
     timestamps: false,
+    getterMethods: {
+        // Virtual field untuk format ID yang rapi
+        formattedId() {
+            return `PJ${this.id_peminjaman}`;
+        }
+    }
 });
-
 
 module.exports = { Peminjaman };

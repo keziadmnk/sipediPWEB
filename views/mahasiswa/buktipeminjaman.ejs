@@ -38,7 +38,7 @@
             Kode Peminjaman:
           </p>
           <p class="text-[#2f5a3f] font-extrabold text-3xl leading-none">
-            <%= peminjaman.id_peminjaman %>
+            <%= peminjaman.formattedId %>
           </p>
         </div>
       </section>
@@ -57,7 +57,7 @@
         >
           <div class="space-y-1">
             <p class="font-semibold text-[10px]">Kode Peminjaman:</p>
-            <p><%= peminjaman.id_peminjaman %></p>
+            <p><%= peminjaman.formattedId %></p>
             <p class="font-semibold text-[10px] mt-3">Nama Mahasiswa:</p>
             <p>
               <%= peminjaman.pengguna ? peminjaman.pengguna.nama_lengkap : '-'
