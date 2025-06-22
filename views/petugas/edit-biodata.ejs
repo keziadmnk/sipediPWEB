@@ -116,10 +116,25 @@
               
               <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
                 <p class="text-xs text-gray-600 mb-4">
-                  Kosongkan field password jika tidak ingin mengubah password
+                  Isi password saat ini jika ingin mengubah password
                 </p>
                 
                 <div class="space-y-4">
+                  <div>
+                    <label class="block text-xs font-semibold mb-2" for="old_password">
+                      Password Saat Ini <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      class="w-full rounded border border-[#1f4d2a] bg-white px-3 py-2 text-xs text-[#1f4d2a] focus:outline-none focus:ring-1 focus:ring-[#1f4d2a]"
+                      id="old_password"
+                      name="old_password"
+                      type="password"
+                      placeholder="Masukkan password saat ini"
+                      autocomplete="off"
+                      readonly
+                    />
+                    <p class="text-xs text-gray-500 mt-1">Kosongkan jika tidak ingin mengubah password</p>
+                  </div>
                   <div>
                     <label class="block text-xs font-semibold mb-2" for="password">
                       Password Baru
@@ -129,17 +144,23 @@
                       id="password"
                       name="password"
                       type="password"
+                      placeholder="Masukkan password baru"
+                      autocomplete="new-password"
+                      readonly
                     />
                   </div>
                   <div>
                     <label class="block text-xs font-semibold mb-2" for="confirm_password">
-                      Konfirmasi Password
+                      Konfirmasi Password Baru
                     </label>
                     <input
                       class="w-full rounded border border-[#1f4d2a] bg-white px-3 py-2 text-xs text-[#1f4d2a] focus:outline-none focus:ring-1 focus:ring-[#1f4d2a]"
                       id="confirm_password"
                       name="confirm_password"
                       type="password"
+                      placeholder="Konfirmasi password baru"
+                      autocomplete="new-password"
+                      readonly
                     />
                   </div>
                 </div>
@@ -171,12 +192,56 @@
     </main>
 
     <script>
+      // Pastikan field password kosong saat halaman dimuat
+      document.addEventListener('DOMContentLoaded', function() {
+        // Kosongkan semua field password
+        document.getElementById('old_password').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('confirm_password').value = '';
+        
+        // Hapus atribut readonly dari field password
+        const passwordFields = document.querySelectorAll('input[type="password"]');
+        passwordFields.forEach(field => {
+          field.removeAttribute('readonly');
+          field.addEventListener('focus', function() {
+            this.setAttribute('autocomplete', 'off');
+          });
+        });
+      });
+
       // Handle update biodata
       document.getElementById('biodataForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const btnSimpan = document.getElementById('btnSimpan');
         const alert = document.getElementById('alert');
+        const oldPassword = document.getElementById('old_password').value;
+        const newPassword = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+
+        // Validasi password di frontend
+        if (oldPassword || newPassword || confirmPassword) {
+          if (!oldPassword || !newPassword || !confirmPassword) {
+            alert.className = "mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded text-xs";
+            alert.textContent = "Untuk mengubah password, Anda harus mengisi Password Saat Ini, Password Baru, dan Konfirmasi Password Baru.";
+            alert.classList.remove("hidden");
+            return;
+          }
+
+          if (newPassword.length < 6) {
+            alert.className = "mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded text-xs";
+            alert.textContent = "Password baru minimal harus 6 karakter.";
+            alert.classList.remove("hidden");
+            return;
+          }
+
+          if (newPassword !== confirmPassword) {
+            alert.className = "mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded text-xs";
+            alert.textContent = "Password Baru dan Konfirmasi Password Baru tidak cocok.";
+            alert.classList.remove("hidden");
+            return;
+          }
+        }
 
         // Disable button to prevent double submission
         btnSimpan.disabled = true;

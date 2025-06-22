@@ -110,7 +110,7 @@ const updateFotoPetugas = async (req, res) => {
 const updateBiodataPetugas = async (req, res) => {
     try {
         const idLogin = req.user.userId;
-        const { nama_lengkap, email, nomor_hp, alamat, password, confirm_password } = req.body;
+        const { nama_lengkap, email, nomor_hp, alamat, old_password, password, confirm_password } = req.body;
 
         if (!idLogin) {
             return res.status(400).json({
@@ -151,19 +151,38 @@ const updateBiodataPetugas = async (req, res) => {
             });
         }
 
-        // Validasi password jika diisi
-        if (password || confirm_password) {
-            if (!password || !confirm_password) {
+        // Validasi password jika ada input password
+        if (old_password || password || confirm_password) {
+            // Pastikan semua field password diisi
+            if (!old_password || !password || !confirm_password) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Password dan Konfirmasi Password harus diisi keduanya jika ingin mengubah password.'
+                    message: 'Untuk mengubah password, Anda harus mengisi Password Saat Ini, Password Baru, dan Konfirmasi Password Baru.'
                 });
             }
 
+            // Validasi password lama
+            const isOldPasswordValid = await bcrypt.compare(old_password, petugas.password);
+            if (!isOldPasswordValid) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Password saat ini salah. Jika Anda lupa password, silakan hubungi admin.'
+                });
+            }
+
+            // Validasi password baru dan konfirmasi
             if (password !== confirm_password) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Password dan Konfirmasi Password tidak cocok.'
+                    message: 'Password Baru dan Konfirmasi Password Baru tidak cocok.'
+                });
+            }
+
+            // Validasi panjang password baru (minimal 6 karakter)
+            if (password.length < 6) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Password baru minimal harus 6 karakter.'
                 });
             }
         }
@@ -176,8 +195,8 @@ const updateBiodataPetugas = async (req, res) => {
             alamat: alamat || null
         };
 
-        // Hash password baru jika diisi
-        if (password) {
+        // Hash password baru jika validasi berhasil
+        if (old_password && password && confirm_password) {
             updateData.password = await bcrypt.hash(password, 10);
         }
 
