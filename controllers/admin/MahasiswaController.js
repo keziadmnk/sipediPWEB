@@ -184,14 +184,15 @@ const updateMahasiswa = async (req, res) => {
       }
     });
 
-    if (existingMahasiswa) {
-      req.session.message = {
-        type: 'error',
-        text: 'Email sudah digunakan oleh mahasiswa lain.'
-      };
-      return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
-    }
+    if (existingMahasiswa) {
+      req.session.message = {
+        type: 'error',
+        text: 'Email sudah digunakan oleh mahasiswa lain.'
+      };
+      return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
+    }
 
+    // 4. Validasi password jika diisi
     if (password || confirm_password) {
       if (!password || !confirm_password) {
         req.session.message = {
@@ -201,14 +202,14 @@ const updateMahasiswa = async (req, res) => {
         return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
       }
 
-      if (password !== confirm_password) {
-        req.session.message = {
-          type: 'error',
-          text: 'Password dan Konfirmasi Password tidak cocok.'
-        };
-        return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
-      }
-    }
+      if (password !== confirm_password) {
+        req.session.message = {
+          type: 'error',
+          text: 'Password dan Konfirmasi Password tidak cocok.'
+        };
+        return res.redirect(`/admin/editmahasiswa/${id_pengguna}`);
+      }
+    }
 
     const updateData = {
       nama_lengkap,
@@ -229,14 +230,14 @@ const updateMahasiswa = async (req, res) => {
     };
     res.redirect('/admin/datamahasiswa');
 
-  } catch (error) {
-    console.error("Error updateMahasiswa:", error);
-    req.session.message = {
-      type: 'error',
-      text: 'Gagal update mahasiswa: ' + error.message
-    };
-    res.redirect(`/admin/editmahasiswa/${req.params.id_pengguna}`);
-  }
+  } catch (error) {
+    console.error("Error updateMahasiswa:", error);
+    req.session.message = {
+      type: 'error',
+      text: 'Gagal update mahasiswa: ' + error.message
+    };
+    res.redirect(`/admin/editmahasiswa/${req.params.id_pengguna}`);
+  }
 };
 
 const hapusMahasiswa = async (req, res) => {
