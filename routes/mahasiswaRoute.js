@@ -3,7 +3,7 @@ const { authenticate } = require('../middlewares/authenticate'); // Middleware u
 const { showKatalogBuku} = require('../controllers/admin/KategoriController');
 const { showFormPeminjaman, prosesPeminjaman, showBuktiPeminjaman, downloadBuktiPeminjaman } = require('../controllers/mahasiswa/PeminjamanController');
 const { showRiwayatPeminjaman, getDetailPeminjaman } = require('../controllers/mahasiswa/RiwayatController');
-const { detailBuku, cariBuku } = require('../controllers/mahasiswa/tampilBukuController');
+const { detailBuku, cariBuku, findAllBuku, findAllEbook } = require('../controllers/mahasiswa/tampilBukuController');
 const { findAkun, updateFoto } = require('../controllers/mahasiswa/AkunController');
 const { uploadSingle } = require('../middlewares/upload');
 const { showDashboardMahasiswa } = require('../controllers/mahasiswa/DashboardController');
@@ -33,8 +33,10 @@ router.get('/buktipeminjaman', authenticate, showBuktiPeminjaman);
 // Route untuk download bukti peminjaman
 router.get('/download-bukti-peminjaman/:id_peminjaman', authenticate, downloadBuktiPeminjaman);
 
-router.get('/koleksibuku', authenticate, cariBuku);
+router.get('/koleksibuku', authenticate, findAllBuku);
 
+// Route untuk e-book
+router.get('/ebook', authenticate, findAllEbook);
 
 router.get('/formpeminjaman', authenticate, showFormPeminjaman);
 

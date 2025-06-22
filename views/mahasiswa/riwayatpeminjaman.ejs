@@ -35,12 +35,13 @@
           <thead class="bg-[#2f5d3f] text-[#FDFCDD] text-xs font-semibold">
             <tr>
               <th class="py-3 px-3 text-left rounded-tl-lg">No</th>
+              <th class="py-3 px-3 text-left">Kode Peminjaman</th>
               <th class="py-3 px-3 text-left">ISBN</th>
               <th class="py-3 px-3 text-left">Judul Buku</th>
               <th class="py-3 px-3 text-center">Tanggal Peminjaman</th>
               <th class="py-3 px-3 text-center">Tanggal Wajib Pengembalian</th>
               <th class="py-3 px-3 text-center">Tanggal Pengembalian</th>
-              <th class="py-3 px-3 text-center">Cetak</th>
+              <th class="py-3 px-3 text-center">Bukti</th>
               <th class="py-3 px-3 text-center rounded-tr-lg">Status</th>
             </tr>
           </thead>
@@ -48,6 +49,7 @@
             <% riwayatPeminjaman.forEach(function(item, index) { %>
             <tr class="border-b border-gray-200 hover:bg-gray-50">
               <td class="py-3 px-3"><%= item.no %></td>
+              <td class="py-3 px-3 font-semibold"><%= item.formattedId %></td>
               <td class="py-3 px-3"><%= item.nomor_isbn %></td>
               <td class="py-3 px-3 max-w-[180px]">
                 <div class="truncate" title="<%= item.judul_buku %>">
@@ -65,9 +67,12 @@
               </td>
 
               <td class="py-3 px-3 text-center">
-                <i
-                  class="fas fa-print text-gray-600 hover:text-green-700 cursor-pointer"
-                ></i>
+                <a href="/mahasiswa/buktipeminjaman?id_peminjaman=<%= item.id_peminjaman %>" class="inline-block">
+                  <i
+                    class="fas fa-info-circle text-gray-600 hover:text-green-700 cursor-pointer"
+                    title="Lihat Bukti Peminjaman"
+                  ></i>
+                </a>
               </td>
 
               <td class="py-3 px-3 text-center font-bold">

@@ -3,7 +3,6 @@ const { Buku } = require("../../models/BukuModel");
 const { Jenis } = require("../../models/JenisModel");
 const { Kategori } = require("../../models/KategoriModel");
 const { Peminjaman } = require("../../models/PeminjamanModel");
-
 const findAllBuku = async (req, res) => {
   try {
     console.log("Mencoba mengambil data buku...");
@@ -66,12 +65,41 @@ const tambahBuku = async (req, res) => {
       jenis_buku = [] // Default array kosong jika tidak ada checkbox dipilih
     } = req.body;
 
-    // Validasi data required
-    if (!judul_buku || !isbn || !pengarang || !penerbit || !tahun_terbit || !jumlah_halaman || !jumlah_stok) {
+    // Cek jenis buku yang dipilih
+    const isEbook = jenis_buku.includes('E-Book');
+    const isFisik = jenis_buku.includes('Buku Fisik');
+    
+    // Jika tidak ada jenis yang dipilih, default ke buku fisik
+    if (!jenis_buku || jenis_buku.length === 0) {
+      jenis_buku = ['Buku Fisik'];
+    }
+
+    // Validasi data required berdasarkan jenis buku
+    if (!judul_buku || !isbn || !pengarang || !penerbit || !tahun_terbit || !jumlah_halaman) {
       return res.status(400).json({
         success: false,
-        message: "Semua field wajib harus diisi"
+        message: "Judul, ISBN, Pengarang, Penerbit, Tahun Terbit, dan Jumlah Halaman adalah field wajib"
       });
+    }
+
+    // Validasi khusus untuk buku fisik
+    if (isFisik) {
+      if (!lokasi_penyimpanan || !jumlah_stok) {
+        return res.status(400).json({
+          success: false,
+          message: "Lokasi penyimpanan dan jumlah stok wajib diisi untuk buku fisik"
+        });
+      }
+    }
+
+    // Validasi khusus untuk e-book
+    if (isEbook) {
+      if (!req.files?.upload_pdf?.[0]?.filename) {
+        return res.status(400).json({
+          success: false,
+          message: "File PDF wajib diupload untuk e-book"
+        });
+      }
     }
 
     // Cek apakah ISBN sudah ada
@@ -83,6 +111,29 @@ const tambahBuku = async (req, res) => {
       });
     }
 
+    // Tentukan nilai untuk stok dan lokasi berdasarkan jenis buku
+    let finalStok = 0;
+    let finalLokasi = 'Digital';
+    let finalPdf = null;
+    
+    if (isFisik) {
+      finalStok = parseInt(jumlah_stok);
+      finalLokasi = lokasi_penyimpanan;
+    }
+    
+    // Jika keduanya dipilih, gunakan nilai buku fisik untuk stok dan lokasi
+    if (isFisik && isEbook) {
+      finalStok = parseInt(jumlah_stok);
+      finalLokasi = lokasi_penyimpanan;
+    }
+    
+    // PDF hanya disimpan jika e-book dipilih
+    if (isEbook) {
+      finalPdf = req.files?.upload_pdf?.[0]?.filename || null;
+    } else {
+      finalPdf = null; // Tidak ada PDF untuk buku fisik
+    }
+
     // Buat buku baru
     const bukuBaru = await Buku.create({
       nomor_isbn: isbn,
@@ -91,11 +142,11 @@ const tambahBuku = async (req, res) => {
       penerbit,
       tahun_terbit: parseInt(tahun_terbit),
       jumlah_halaman: parseInt(jumlah_halaman),
-      jumlah_stok: parseInt(jumlah_stok),
+      jumlah_stok: finalStok,
       deskripsi,
-      lokasi_penyimpanan,
+      lokasi_penyimpanan: finalLokasi,
       id_kategori: kategori ? parseInt(kategori) : null,
-      upload_pdf: req.files?.upload_pdf?.[0]?.filename || null,
+      upload_pdf: finalPdf,
       upload_sampul: req.files?.upload_sampul?.[0]?.filename || null
     });
 
@@ -183,13 +234,11 @@ const hapusBuku = async (req, res) => {
       });
     }
 
-    // Cek apakah buku sedang dipinjam
+    // Cek apakah buku sedang dipinjam (hanya status "Dipinjam")
     const peminjamanAktif = await Peminjaman.findOne({
       where: { 
         nomor_isbn: nomor_isbn,
-        // Tambahkan kondisi untuk peminjaman yang belum dikembalikan
-        // Sesuaikan dengan struktur tabel peminjaman Anda
-        // status_peminjaman: 'dipinjam' // Contoh jika ada kolom status
+        status_peminjaman: 'Dipinjam' // Hanya cek peminjaman yang belum dikembalikan
       }
     });
 
@@ -296,13 +345,33 @@ const updateBuku = async (req, res) => {
       jenis_buku = []
     } = req.body;
 
-    // Validasi data required
-    if (!judul_buku || !isbn || !pengarang || !penerbit || !tahun_terbit || !jumlah_halaman || !jumlah_stok) {
+    // Cek jenis buku yang dipilih
+    const isEbook = jenis_buku.includes('E-Book');
+    const isFisik = jenis_buku.includes('Buku Fisik');
+    
+    // Jika tidak ada jenis yang dipilih, default ke buku fisik
+    if (!jenis_buku || jenis_buku.length === 0) {
+      jenis_buku = ['Buku Fisik'];
+    }
+
+    // Validasi data required berdasarkan jenis buku
+    if (!judul_buku || !isbn || !pengarang || !penerbit || !tahun_terbit || !jumlah_halaman) {
       req.session.message = {
         type: 'error',
-        text: 'Semua field wajib harus diisi'
+        text: 'Judul, ISBN, Pengarang, Penerbit, Tahun Terbit, dan Jumlah Halaman adalah field wajib'
       };
       return res.redirect(`/admin/editbuku/${nomor_isbn}`);
+    }
+
+    // Validasi khusus untuk buku fisik
+    if (isFisik) {
+      if (!lokasi_penyimpanan || !jumlah_stok) {
+        req.session.message = {
+          type: 'error',
+          text: 'Lokasi penyimpanan dan jumlah stok wajib diisi untuk buku fisik'
+        };
+        return res.redirect(`/admin/editbuku/${nomor_isbn}`);
+      }
     }
 
     // Cari buku lama
@@ -315,6 +384,41 @@ const updateBuku = async (req, res) => {
       return res.redirect('/admin/databuku');
     }
 
+    // Validasi khusus untuk e-book
+    if (isEbook) {
+      // Jika e-book dipilih, PDF wajib (baik file baru atau yang sudah ada)
+      if (!req.files?.upload_pdf?.[0]?.filename && !buku.upload_pdf) {
+        req.session.message = {
+          type: 'error',
+          text: 'File PDF wajib diupload untuk e-book'
+        };
+        return res.redirect(`/admin/editbuku/${nomor_isbn}`);
+      }
+    }
+
+    // Tentukan nilai untuk stok dan lokasi berdasarkan jenis buku
+    let finalStok = 0;
+    let finalLokasi = 'Digital';
+    let finalPdf = null;
+    
+    if (isFisik) {
+      finalStok = parseInt(jumlah_stok);
+      finalLokasi = lokasi_penyimpanan;
+    }
+    
+    // Jika keduanya dipilih, gunakan nilai buku fisik untuk stok dan lokasi
+    if (isFisik && isEbook) {
+      finalStok = parseInt(jumlah_stok);
+      finalLokasi = lokasi_penyimpanan;
+    }
+    
+    // PDF hanya disimpan jika e-book dipilih
+    if (isEbook) {
+      finalPdf = req.files?.upload_pdf?.[0]?.filename || buku.upload_pdf;
+    } else {
+      finalPdf = null; // Hapus PDF jika bukan e-book
+    }
+
     // Update data buku
     await buku.update({
       nomor_isbn: isbn, // jika ingin bisa update ISBN
@@ -323,12 +427,12 @@ const updateBuku = async (req, res) => {
       penerbit,
       tahun_terbit: parseInt(tahun_terbit),
       jumlah_halaman: parseInt(jumlah_halaman),
-      jumlah_stok: parseInt(jumlah_stok),
+      jumlah_stok: finalStok,
       deskripsi,
-      lokasi_penyimpanan,
+      lokasi_penyimpanan: finalLokasi,
       id_kategori: kategori ? parseInt(kategori) : null,
       // File upload - gunakan file baru jika ada, jika tidak gunakan yang lama
-      upload_pdf: req.files?.upload_pdf?.[0]?.filename || buku.upload_pdf,
+      upload_pdf: finalPdf,
       upload_sampul: req.files?.upload_sampul?.[0]?.filename || buku.upload_sampul
     });
 

@@ -197,10 +197,28 @@
     </main>
 
     <script>
-      // Set minimum date to today
+      // Set minimum date to today using local timezone
       document.addEventListener("DOMContentLoaded", function () {
-        const today = new Date().toISOString().split("T")[0];
-        document.getElementById("tanggal").setAttribute("min", today);
+        const today = new Date();
+        const todayString = today.getFullYear() + '-' + 
+                           String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                           String(today.getDate()).padStart(2, '0');
+        document.getElementById("tanggal").setAttribute("min", todayString);
+        
+        // Tambahkan validasi real-time untuk tanggal
+        const tanggalInput = document.getElementById("tanggal");
+        tanggalInput.addEventListener("change", function() {
+          const selectedDate = this.value;
+          const today = new Date();
+          const todayString = today.getFullYear() + '-' + 
+                             String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                             String(today.getDate()).padStart(2, '0');
+          
+          if (selectedDate < todayString) {
+            alert("Tanggal peminjaman tidak boleh sebelum hari ini!");
+            this.value = todayString; // Reset ke hari ini
+          }
+        });
       });
 
       // Handle form submission

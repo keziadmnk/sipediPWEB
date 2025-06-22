@@ -25,12 +25,15 @@ const {
 const { uploadFields } = require("../middlewares/upload");
 const { findAllMahasiswa, showTambahMahasiswaForm, tambahMahasiswa, showEditMahasiswa, updateMahasiswa, hapusMahasiswa } = require("../controllers/admin/MahasiswaController");
 const { findAllPetugas, tambahPetugas, showEditPetugas, updatePetugas, hapusPetugas } = require("../controllers/admin/PetugasController");
+const { showDashboardAdmin, showProfilAdmin } = require("../controllers/admin/dashboardcontroller");
+const { showLaporanAdmin } = require("../controllers/admin/LaporanController");
 
 // const adminController = require('../controllers/admin/adminController');
 
-router.get("/dashboard", authenticate, (req, res) => {
-  res.render("admin/dashboard");
-});
+router.get("/dashboard", authenticate, showDashboardAdmin);
+
+// Route untuk profil admin
+router.get("/profil", authenticate, showProfilAdmin);
 
 router.get("/tambahkategori", function (req, res, next) {
   res.render("admin/tambahkategori");
@@ -105,5 +108,8 @@ router.post('/editmahasiswa/:id_pengguna', authenticate, updateMahasiswa);
 router.post('/hapuspetugas/:id_pengguna', authenticate, hapusPetugas);
 
 router.post('/hapusmahasiswa/:id_pengguna', authenticate, hapusMahasiswa);
+
+// Route untuk laporan admin
+router.get("/laporanadmin", authenticate, showLaporanAdmin);
 
 module.exports = router;

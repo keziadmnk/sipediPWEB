@@ -93,14 +93,20 @@ const prosesPeminjaman = async (req, res) => {
     }
 
     // Validasi tanggal peminjaman tidak boleh sebelum hari ini
+    // Gunakan metode yang lebih akurat untuk mendapatkan tanggal hari ini dalam timezone lokal
     const today = new Date();
-    const pinjamDate = new Date(tanggal_peminjaman);
+    const todayString = today.getFullYear() + '-' + 
+                       String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                       String(today.getDate()).padStart(2, '0');
+    const todayDate = new Date(todayString + 'T00:00:00');
+    
+    const pinjamDate = new Date(tanggal_peminjaman + 'T00:00:00');
 
-    // Reset time untuk perbandingan tanggal saja
-    today.setHours(0, 0, 0, 0);
-    pinjamDate.setHours(0, 0, 0, 0);
+    console.log('Today (local):', todayString);
+    console.log('Today (normalized):', todayDate.toISOString());
+    console.log('Pinjam date (normalized):', pinjamDate.toISOString());
 
-    if (pinjamDate < today) {
+    if (pinjamDate < todayDate) {
       return res.status(400).json({
         success: false,
         message: "Tanggal peminjaman tidak boleh sebelum hari ini",
@@ -146,11 +152,11 @@ const prosesPeminjaman = async (req, res) => {
     const tanggalWajibPengembalian = new Date(pinjamDate);
     tanggalWajibPengembalian.setDate(tanggalWajibPengembalian.getDate() + 3);
 
-    // Buat record peminjaman baru
+    // Buat record peminjaman baru dengan tanggal yang sudah dinormalisasi
     const peminjaman = await Peminjaman.create({
       id_pengguna: id_pengguna,
       nomor_isbn: nomor_isbn,
-      tanggal_peminjaman: pinjamDate,
+      tanggal_peminjaman: pinjamDate, // Sudah dinormalisasi ke 00:00:00
       tanggal_wajib_pengembalian: tanggalWajibPengembalian,
       status_peminjaman: "Dipinjam",
       denda: null,
@@ -244,6 +250,8 @@ const showBuktiPeminjaman = async (req, res) => {
       // Jika tidak ada lokasi_penyimpanan di peminjaman, ambil dari buku
       lokasi_penyimpanan:
         peminjaman.lokasi_penyimpanan || peminjaman.Buku.lokasi_penyimpanan,
+      // Tambahkan formattedId dari virtual field
+      formattedId: peminjaman.formattedId,
     };
 
     console.log("Peminjaman data:", peminjamanData); // Debug log
@@ -290,7 +298,7 @@ const downloadBuktiPeminjaman = async (req, res) => {
     const boxY = doc.y;
     doc
       .fontSize(14).font('Helvetica-Bold').text('Kode Peminjaman Anda:', 70, boxY + 22, { align: 'left'})
-      .fontSize(20).font('Helvetica-Bold').text(String(peminjamanData.id_peminjaman), 70, boxY + 20, { align: 'right', width: 452 });
+      .fontSize(20).font('Helvetica-Bold').text(peminjamanData.formattedId || `PJ${peminjamanData.id_peminjaman}`, 70, boxY + 20, { align: 'right', width: 452 });
     
     doc.rect(50, boxY, 512, 60).stroke();
     doc.moveDown(4);
@@ -319,6 +327,7 @@ const downloadBuktiPeminjaman = async (req, res) => {
 
     // Informasi Peminjam
     drawSection('Informasi Peminjam', {
+      'Kode Peminjaman': peminjamanData.formattedId || `PJ${peminjamanData.id_peminjaman}`,
       'Nama Lengkap': peminjamanData.Pengguna.nama_lengkap,
       'NIM': peminjamanData.id_pengguna,
       'Email': peminjamanData.Pengguna.email

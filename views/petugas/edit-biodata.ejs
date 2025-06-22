@@ -1,0 +1,301 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Edit Biodata Petugas</title>
+    <link rel="stylesheet" href="/stylesheets/output.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-[#f5fef7] text-[#1f4d2a] min-h-screen flex">
+    <%- include('../partials/asidePetugas') %>
+
+    <main class="flex-1 ml-56">
+      <%- include('../partials/navpetugas') %>
+
+      <section class="py-16 px-40">
+        <div class="flex items-center mb-6">
+          <a href="/petugas/profil" class="text-[#1f4d2a] hover:text-[#163a21] mr-4">
+            <i class="fas fa-arrow-left text-xl"></i>
+          </a>
+          <h2 class="text-[#1f4d2a] font-semibold text-2xl">
+            Edit Biodata Petugas
+          </h2>
+        </div>
+        
+        <section class="bg-white rounded-lg shadow-md p-8 max-w-6xl">
+          <!-- Alert untuk pesan -->
+          <div id="alert" class="mb-6 hidden"></div>
+          
+          <form id="biodataForm" class="flex gap-8">
+            <!-- Kolom Kiri - Biodata -->
+            <div class="flex-1 space-y-6">
+              <h3 class="text-lg font-semibold text-[#1f4d2a] mb-4">Biodata Petugas</h3>
+              
+              <div>
+                <label class="block text-xs font-semibold mb-2" for="namaLengkap">
+                  Nama Lengkap <span class="text-red-500">*</span>
+                </label>
+                <input
+                  class="w-full rounded border border-[#1f4d2a] bg-white px-3 py-2 text-xs text-[#1f4d2a] focus:outline-none focus:ring-1 focus:ring-[#1f4d2a]"
+                  id="namaLengkap"
+                  name="nama_lengkap"
+                  type="text"
+                  value="<%= petugas.nama_lengkap %>"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label class="block text-xs font-semibold mb-2" for="nomorIndukPegawai">
+                  Nomor Induk Pegawai
+                </label>
+                <input
+                  class="w-full rounded border border-[#1f4d2a] bg-[#eaf7f0] px-3 py-2 text-xs text-[#1f4d2a]"
+                  id="nomorIndukPegawai"
+                  type="text"
+                  value="<%= petugas.id_pengguna %>"
+                  readonly
+                />
+              </div>
+              
+              <div>
+                <label class="block text-xs font-semibold mb-2" for="email">
+                  Email <span class="text-red-500">*</span>
+                </label>
+                <input
+                  class="w-full rounded border border-[#1f4d2a] bg-white px-3 py-2 text-xs text-[#1f4d2a] focus:outline-none focus:ring-1 focus:ring-[#1f4d2a]"
+                  id="email"
+                  name="email"
+                  type="email"
+                  value="<%= petugas.email %>"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label class="block text-xs font-semibold mb-2" for="nomorHP">
+                  Nomor HP
+                </label>
+                <input
+                  class="w-full rounded border border-[#1f4d2a] bg-white px-3 py-2 text-xs text-[#1f4d2a] focus:outline-none focus:ring-1 focus:ring-[#1f4d2a]"
+                  id="nomorHP"
+                  name="nomor_hp"
+                  type="text"
+                  value="<%= petugas.nomor_hp || '' %>"
+                />
+              </div>
+              
+              <div>
+                <label class="block text-xs font-semibold mb-2" for="alamat">
+                  Alamat
+                </label>
+                <textarea
+                  class="w-full rounded border border-[#1f4d2a] bg-white px-3 py-2 text-xs text-[#1f4d2a] focus:outline-none focus:ring-1 focus:ring-[#1f4d2a] resize-none"
+                  id="alamat"
+                  name="alamat"
+                  rows="3"
+                ><%= petugas.alamat || '' %></textarea>
+              </div>
+            </div>
+            
+            <!-- Kolom Kanan - Ubah Password -->
+            <div class="flex-1 space-y-6">
+              <h3 class="text-lg font-semibold text-[#1f4d2a] mb-4">Ubah Password</h3>
+              
+              <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                <p class="text-xs text-gray-600 mb-4">
+                  Isi password saat ini jika ingin mengubah password
+                </p>
+                
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-xs font-semibold mb-2" for="old_password">
+                      Password Saat Ini <span class="text-red-500">*</span>
+                    </label>
+                    <input
+                      class="w-full rounded border border-[#1f4d2a] bg-white px-3 py-2 text-xs text-[#1f4d2a] focus:outline-none focus:ring-1 focus:ring-[#1f4d2a]"
+                      id="old_password"
+                      name="old_password"
+                      type="password"
+                      placeholder="Masukkan password saat ini"
+                      autocomplete="off"
+                      readonly
+                    />
+                    <p class="text-xs text-gray-500 mt-1">Kosongkan jika tidak ingin mengubah password</p>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold mb-2" for="password">
+                      Password Baru
+                    </label>
+                    <input
+                      class="w-full rounded border border-[#1f4d2a] bg-white px-3 py-2 text-xs text-[#1f4d2a] focus:outline-none focus:ring-1 focus:ring-[#1f4d2a]"
+                      id="password"
+                      name="password"
+                      type="password"
+                      placeholder="Masukkan password baru"
+                      autocomplete="new-password"
+                      readonly
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold mb-2" for="confirm_password">
+                      Konfirmasi Password Baru
+                    </label>
+                    <input
+                      class="w-full rounded border border-[#1f4d2a] bg-white px-3 py-2 text-xs text-[#1f4d2a] focus:outline-none focus:ring-1 focus:ring-[#1f4d2a]"
+                      id="confirm_password"
+                      name="confirm_password"
+                      type="password"
+                      placeholder="Konfirmasi password baru"
+                      autocomplete="new-password"
+                      readonly
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          
+          <!-- Tombol Aksi di bawah -->
+          <div class="flex space-x-3 justify-end pt-6 mt-6 border-t border-gray-200">
+            <a href="/petugas/profil">
+              <button
+                class="bg-[#276749] text-white text-xs font-semibold px-4 py-2 rounded hover:bg-[#225a3d] transition"
+                type="button"
+              >
+                Batal
+              </button>
+            </a>
+            <button
+              id="btnSimpan"
+              class="bg-[#1f4d2a] text-white text-xs font-semibold px-4 py-2 rounded hover:bg-[#163a21] transition"
+              type="submit"
+              form="biodataForm"
+            >
+              Perbarui Biodata
+            </button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      // Pastikan field password kosong saat halaman dimuat
+      document.addEventListener('DOMContentLoaded', function() {
+        // Kosongkan semua field password
+        document.getElementById('old_password').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('confirm_password').value = '';
+        
+        // Hapus atribut readonly dari field password
+        const passwordFields = document.querySelectorAll('input[type="password"]');
+        passwordFields.forEach(field => {
+          field.removeAttribute('readonly');
+          field.addEventListener('focus', function() {
+            this.setAttribute('autocomplete', 'off');
+          });
+        });
+      });
+
+      // Handle update biodata
+      document.getElementById('biodataForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const btnSimpan = document.getElementById('btnSimpan');
+        const alert = document.getElementById('alert');
+        const oldPassword = document.getElementById('old_password').value;
+        const newPassword = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+
+        // Validasi password di frontend
+        if (oldPassword || newPassword || confirmPassword) {
+          if (!oldPassword || !newPassword || !confirmPassword) {
+            alert.className = "mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded text-xs";
+            alert.textContent = "Untuk mengubah password, Anda harus mengisi Password Saat Ini, Password Baru, dan Konfirmasi Password Baru.";
+            alert.classList.remove("hidden");
+            return;
+          }
+
+          if (newPassword.length < 6) {
+            alert.className = "mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded text-xs";
+            alert.textContent = "Password baru minimal harus 6 karakter.";
+            alert.classList.remove("hidden");
+            return;
+          }
+
+          if (newPassword !== confirmPassword) {
+            alert.className = "mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded text-xs";
+            alert.textContent = "Password Baru dan Konfirmasi Password Baru tidak cocok.";
+            alert.classList.remove("hidden");
+            return;
+          }
+        }
+
+        // Disable button to prevent double submission
+        btnSimpan.disabled = true;
+        btnSimpan.textContent = "Menyimpan...";
+
+        // Ambil data dari form
+        const formData = new FormData(this);
+
+        try {
+          const response = await fetch("/petugas/profil/update-biodata", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams(formData),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            // Show success message
+            alert.className = "mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded text-xs";
+            alert.textContent = result.message;
+            alert.classList.remove("hidden");
+
+            // Redirect to profil page after 2 seconds
+            setTimeout(() => {
+              window.location.href = '/petugas/profil';
+            }, 2000);
+
+            // Re-enable button
+            btnSimpan.disabled = false;
+            btnSimpan.textContent = "Perbarui Biodata";
+          } else {
+            // Show error message
+            alert.className = "mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded text-xs";
+            alert.textContent = result.message;
+            alert.classList.remove("hidden");
+
+            // Re-enable button
+            btnSimpan.disabled = false;
+            btnSimpan.textContent = "Perbarui Biodata";
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert.className = "mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded text-xs";
+          alert.textContent = "Terjadi kesalahan sistem. Silakan coba lagi.";
+          alert.classList.remove("hidden");
+
+          // Re-enable button
+          btnSimpan.disabled = false;
+          btnSimpan.textContent = "Perbarui Biodata";
+        }
+      });
+    </script>
+  </body>
+</html> 

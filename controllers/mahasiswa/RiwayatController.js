@@ -56,6 +56,7 @@ const showRiwayatPeminjaman = async (req, res) => {
       return {
         no: index + 1,
         id_peminjaman: peminjaman.id_peminjaman,
+        formattedId: peminjaman.formattedId,
         nomor_isbn: peminjaman.nomor_isbn,
         judul_buku: peminjaman.Buku ? peminjaman.Buku.judul_buku : "Buku tidak ditemukan",
         tanggal_peminjaman: formatTanggal(peminjaman.tanggal_peminjaman),

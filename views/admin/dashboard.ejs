@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Mahasiswa</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/stylesheets/output.css" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
@@ -16,10 +16,8 @@
       <%- include('../partials/asideAdmin') %>
     <div class="flex-1 flex flex-col">
 
-    
-
       <main class="flex-1 flex flex-col">
-      <%- include('../partials/navpetugas') %>
+      <%- include('../partials/navAdmin') %>
 
       <section class="p-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- card 1 -->
@@ -37,8 +35,7 @@
           </div>
           <div>
             <p class="text-xs text-[#2f6f4e] mb-1">Data Petugas</p>
-            <p class="text-[#2f6f4e] font-semibold text-lg">3
-            </p>
+            <p class="text-[#2f6f4e] font-semibold text-lg"><%= jumlahPetugas || 0 %></p>
           </div>
         </div>
         <!-- Card 2 -->
@@ -56,8 +53,7 @@
           </div>
           <div>
             <p class="text-xs text-[#2f6f4e] mb-1">Data Mahasiswa</p>
-            <p class="text-[#2f6f4e] font-semibold text-lg">3
-            </p>
+            <p class="text-[#2f6f4e] font-semibold text-lg"><%= jumlahMahasiswa || 0 %></p>
           </div>
         </div>
         <!-- Card 3 -->
@@ -75,8 +71,7 @@
           </div>
           <div>
             <p class="text-xs text-[#2f6f4e] mb-1">Data Buku</p>
-            <p class="text-[#2f6f4e] font-semibold text-lg">3
-            </p>
+            <p class="text-[#2f6f4e] font-semibold text-lg"><%= jumlahBuku || 0 %></p>
           </div>
         </div>
         <!-- Card 4 -->
@@ -94,8 +89,7 @@
           </div>
           <div>
             <p class="text-xs text-[#2f6f4e] mb-1">Kategori Buku</p>
-            <p class="text-[#2f6f4e] font-semibold text-lg">3
-            </p>
+            <p class="text-[#2f6f4e] font-semibold text-lg"><%= jumlahKategori || 0 %></p>
           </div>
         </div>
       </section>
