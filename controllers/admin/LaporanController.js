@@ -58,9 +58,8 @@ const showLaporanAdmin = async (req, res) => {
 
       // Jika status masih "Dipinjam" dan sudah melewati tanggal wajib pengembalian
       if (peminjaman.status_peminjaman === "Dipinjam" && today > tanggalWajib) {
-        // Hitung denda (Rp 1.000 per hari)
-        const selisihHari = Math.ceil((today - tanggalWajib) / (1000 * 60 * 60 * 24));
-        const denda = selisihHari * 1000;
+        const selisihHari = Math.ceil((today - tanggalWajib) / (5000 * 60 * 60 * 24));
+        const denda = selisihHari * 5000;
 
         // Update status dan denda di database
         await Peminjaman.update(

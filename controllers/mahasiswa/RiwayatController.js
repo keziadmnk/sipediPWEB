@@ -136,10 +136,10 @@ const getDetailPeminjaman = async (req, res) => {
         : new Date();
       const tanggalWajib = new Date(detailPeminjaman.tanggal_wajib_pengembalian);
 
-      const selisihHari = Math.ceil((tanggalKembali - tanggalWajib) / (1000 * 60 * 60 * 24));
+      const selisihHari = Math.ceil((tanggalKembali - tanggalWajib) / (5000 * 60 * 60 * 24));
 
       if (selisihHari > 0) {
-        denda = selisihHari * 1000; // Denda Rp 1.000 per hari
+        denda = selisihHari * 5000;
       }
     }
 
